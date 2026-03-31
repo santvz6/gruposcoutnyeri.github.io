@@ -24,3 +24,7 @@ Thumbs.db
 # sea idéntico al de despliegue si se usa un servidor propio,
 # aunque GitHub Pages lo ignora al construir en sus servidores.
 # Gemfile.lock
+
+# Desasrrollo
+CLAUDE.md
+GUIA_DESARROLLO.md

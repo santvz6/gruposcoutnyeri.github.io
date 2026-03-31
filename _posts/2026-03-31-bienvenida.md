@@ -23,7 +23,7 @@ Aquí publicaremos:
 
 * **Crónicas de campamentos** — Los mejores momentos del verano y los fines de semana en el monte.
 * **Noticias del grupo** — Novedades sobre actividades, eventos y convocatorias.
-* **Reflexiones y valores** — Artículos sobre el escultismo, la naturaleza y el crecimiento personal.
+* **Reflexiones y valores** — Artículos sobre nuestro programa educativo, la naturaleza y la educación en valores.
 * **Fotos y recuerdos** — Siempre respetando la privacidad de nuestros educandos.
 
 ## Nuestra historia en Alicante
@@ -33,8 +33,8 @@ espíritu que el movimiento scout tiene en todo el mundo: aprender haciendo, cre
 comprometerse con la sociedad.
 
 Nuestro nombre rinde homenaje a la ciudad africana de **Nyeri (Kenia)**, donde Baden-Powell,
-fundador del escultismo mundial, vivió sus últimos años. Un nombre que nos recuerda que la aventura
-no tiene fronteras y que el servicio es el corazón del movimiento scout.
+fundador del escultismo mundial, decidió vivir sus últimos años por su paz y naturaleza. Un nombre que nos recuerda que la aventura
+no tiene fronteras y que la exploración activa es el motor de nuestro grupo.
 
 > *"Más cerca de Nyeri, más cerca del cielo."*
 > — Lema del Grupo Scout Nyeri
