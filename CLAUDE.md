@@ -25,9 +25,9 @@ Debes implementar las siguientes secciones de forma clara y accesible:
 ### B. Secciones Educativas (Las Unidades)
 Páginas individuales o secciones con colores distintivos:
 * **Manada:** (7-11 años)
-* **Sección Scout/Tropa:** (11-14 años)
-* **Unidad Esculta/Pioneros:** (14-17 años)
-* **Clan de Rovers:** (17-20 años)
+* **Sección Tropa:** (11-14 años)
+* **Unidad Pioneros:** (14-17 años)
+* **Rovers:** (17-20 años)
 
 ### C. Funcionalidades Extra (Indispensables)
 * **Zona de Descargas:** Repositorio de documentos (Autorizaciones, Ficha Médica, Listado de Material).

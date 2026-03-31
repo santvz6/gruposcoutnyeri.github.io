@@ -62,7 +62,7 @@ description: "Contacta con el Grupo Scout Nyeri de Alicante. Formulario de conta
       <!-- Mapa OpenStreetMap — sustituir coordenadas por la ubicación real del local -->
       <div class="contact-map">
         <iframe
-          src="https://www.openstreetmap.org/export/embed.html?bbox=-0.5000%2C38.3300%2C-0.4700%2C38.3600&layer=mapnik&marker=38.3452%2C-0.4815"
+          src="https://www.openstreetmap.org/export/embed.html?bbox=-0.5280,38.3920,-0.5180,38.4000&layer=mapnik&marker=38.39612,-0.52290"
           title="Ubicación del local del Grupo Scout Nyeri en Alicante"
           loading="lazy"
           allowfullscreen
@@ -97,7 +97,7 @@ description: "Contacta con el Grupo Scout Nyeri de Alicante. Formulario de conta
         <!-- Campo honeypot anti-spam (oculto) -->
         <input type="text" name="_gotcha" style="display:none">
         <!-- Redirect al mismo sitio con parámetro de éxito -->
-        <input type="hidden" name="_next" value="{{ site.url }}{{ '/contacto.html' | relative_url }}?submitted=true">
+        <input type="hidden" name="_next" value="{{ site.url }}{{ '/contacto/' | relative_url }}?submitted=true">
 
         <div class="form-row">
           <div class="form-group">
@@ -161,8 +161,8 @@ description: "Contacta con el Grupo Scout Nyeri de Alicante. Formulario de conta
             <option value="">-- Selecciona una opción --</option>
             <option value="manada">🐺 Manada (7-11 años)</option>
             <option value="tropa">🌲 Scout / Tropa (11-14 años)</option>
-            <option value="esculta">🔥 Esculta / Pioneros (14-17 años)</option>
-            <option value="rovers">⚜️ Clan Rovers (17-20 años)</option>
+            <option value="pioneros">🔥 Pioneros (14-17 años)</option>
+            <option value="rovers">⚜️ Rovers (17-20 años)</option>
             <option value="colaborar">Quiero colaborar como monitor/a</option>
             <option value="otro">Otra consulta</option>
           </select>

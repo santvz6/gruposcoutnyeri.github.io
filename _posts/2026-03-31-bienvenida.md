@@ -43,6 +43,6 @@ no tiene fronteras y que la exploración activa es el motor de nuestro grupo.
 
 Mantente al día siguiéndonos en nuestras redes sociales y consultando este blog regularmente.
 Si eres padre, madre o tienes curiosidad por el mundo scout, no dudes en
-[contactar con nosotros]({{ '/contacto.html' | relative_url }}) — estaremos encantados de contarte todo.
+[contactar con nosotros]({{ '/contacto/' | relative_url }}) — estaremos encantados de contarte todo.
 
 ¡Hasta la próxima aventura! ⚜️

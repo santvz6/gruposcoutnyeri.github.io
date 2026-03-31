@@ -1,25 +1,25 @@
 ---
-# Página de la Unidad Esculta / Pioneros — 14-17 años
+# Página de la Unidad de Pioneros — 14-17 años
 layout: page
-title: "Esculta / Pioneros"
+title: "Pioneros"
 subtitle: "Proyectos, autonomía y servicio — 14 a 17 años"
 icon: "🔥"
-unit_color: "esculta"
-hero_color: "linear-gradient(135deg, #BF360C 0%, #E55B00 100%)"
-hero_image: "/assets/img/esculta-demo.jpg"
-description: "Unidad Esculta / Pioneros del Grupo Scout Nyeri: autonomía, rutas y compromiso social para jóvenes de 14 a 17 años en Alicante."
+unit_color: "pioneros"
+hero_color: "linear-gradient(135deg, #C62828 0%, #D32F2F 100%)"
+hero_image: "/assets/img/pioneros-demo.jpg"
+description: "Unidad de Pioneros del Grupo Scout Nyeri: autonomía, rutas y compromiso social para jóvenes de 14 a 17 años en Alicante."
 ---
 
 <!-- Presentación de la unidad -->
 <div class="unit-intro fade-in">
   <div>
-    <h2 class="unit-intro__title" style="color: #BF360C;">¿Qué es la Esculta?</h2>
+    <h2 class="unit-intro__title" style="color: var(--color-pioneros);">¿Qué son los Pioneros?</h2>
     <p class="unit-intro__text">
-      En la Unidad Esculta (o Pioneros), los jóvenes de 14 a 17 años toman las riendas de su propia
+      En la Unidad de Pioneros (o Pioneros), los jóvenes de 14 a 17 años toman las riendas de su propia
       educación, diseñando y ejecutando sus propios proyectos o "Empresas".
     </p>
     <p class="unit-intro__text">
-      Es una edad crucial para el desarrollo de la autonomía y la identidad. Los escultas trabajan asambleariamente,
+      Es una edad crucial para el desarrollo de la autonomía y la identidad. Los pioneros trabajan asambleariamente,
       convierten sus ideas en acción social y asumen grandes retos físicos y mentales (supervivencia, rutas largas, 
       servicios a la comunidad). En esta etapa forjan compañerismo y amistades para toda la vida 
       bajo el lema: **"Siempre Listos para Servir"**.
@@ -28,13 +28,13 @@ description: "Unidad Esculta / Pioneros del Grupo Scout Nyeri: autonomía, rutas
       Es una etapa apasionante donde los retos físicos e intelectuales conviven con el descubrimiento
       de la propia identidad. El fuego de la aventura, la llama del compromiso.
     </p>
-    <a href="{{ '/contacto.html' | relative_url }}" class="btn btn--primary" style="background: var(--color-esculta); border-color: var(--color-esculta); margin-top: 1rem;">
-      ¿Quieres unirte a la Esculta? →
+    <a href="{{ '/contacto/' | relative_url }}" class="btn btn--primary" style="background: var(--color-pioneros); border-color: var(--color-pioneros); margin-top: 1rem;">
+      ¿Quieres unirte a los Pioneros? →
     </a>
   </div>
-  <div style="background: var(--color-esculta-bg); border-radius: var(--radius-xl); padding: 2rem; text-align: center;">
+  <div style="background: var(--color-pioneros-bg); border-radius: var(--radius-xl); padding: 2rem; text-align: center;">
     <p style="font-size: 5rem; margin-bottom: 1rem;" aria-hidden="true">🔥</p>
-    <h3 style="font-size: 1.5rem; color: #BF360C; margin-bottom: 0.5rem;">Datos de la Unidad</h3>
+    <h3 style="font-size: 1.5rem; color: var(--color-pioneros); margin-bottom: 0.5rem;">Datos de la Unidad</h3>
     <ul style="list-style: none; color: var(--color-text-light); line-height: 2.2; font-size: 0.95rem;">
       <li>📅 <strong>Edad:</strong> 14 — 17 años</li>
       <li>📆 <strong>Reuniones:</strong> Sábados (tarde)</li>
@@ -49,10 +49,10 @@ description: "Unidad Esculta / Pioneros del Grupo Scout Nyeri: autonomía, rutas
 <section style="margin-bottom: var(--space-16);">
   <h2 class="section-title fade-in" style="margin-bottom: var(--space-8);">Proyectos y aventuras</h2>
   <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem;">
-    {% assign esculta_activities = "🏔️ Rutas de alta montaña|🌍 Proyectos de voluntariado|🛶 Aventura náutica y remo|🧗 Escalada y rappel|💡 Liderazgo y gestión de proyectos|🔭 Reflexión y crecimiento personal" | split: "|" %}
-    {% for activity in esculta_activities %}
-    <div class="fade-in" style="background: var(--color-esculta-bg); border-radius: var(--radius-lg); padding: 1.5rem; text-align: center; border-left: 4px solid var(--color-esculta);">
-      <p style="font-size: 0.95rem; color: #BF360C; font-weight: 600;">{{ activity }}</p>
+    {% assign pioneros_activities = "🏔️ Rutas de alta montaña|🌍 Proyectos de servicio|🛶 Aventura náutica y remo|🧗 Escalada y rappel|💡 Liderazgo y gestión de proyectos|🔭 Reflexión y crecimiento personal" | split: "|" %}
+    {% for activity in pioneros_activities %}
+    <div class="fade-in" style="background: var(--color-pioneros-bg); border-radius: var(--radius-lg); padding: 1.5rem; text-align: center; border-left: 4px solid var(--color-pioneros);">
+      <p style="font-size: 0.95rem; color: var(--color-pioneros); font-weight: 600;">{{ activity }}</p>
     </div>
     {% endfor %}
   </div>
@@ -60,7 +60,7 @@ description: "Unidad Esculta / Pioneros del Grupo Scout Nyeri: autonomía, rutas
 
 <!-- Galería de fotos (placeholder) -->
 <section class="unit-gallery fade-in">
-  <h2 class="unit-gallery__title">Momentos de la Esculta</h2>
+  <h2 class="unit-gallery__title">Momentos de la Pioneros</h2>
   <div class="unit-gallery__grid">
     <div class="unit-gallery__item">
       <span class="unit-gallery__item-icon">🏔️</span>

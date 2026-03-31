@@ -13,7 +13,7 @@ description: "La Manada del Grupo Scout Nyeri: un mundo de aventura, imaginació
 <!-- Presentación de la unidad -->
 <div class="unit-intro fade-in">
   <div>
-    <h2 class="unit-intro__title" style="color: #7A5800;">¿Qué es la Manada?</h2>
+    <h2 class="unit-intro__title" style="color: var(--color-manada);">¿Qué es la Manada?</h2>
     <p class="unit-intro__text">
       En la Manada, los niños y niñas de 7 a 11 años empiezan su gran viaje scout a través del 
       juego, la imaginación y el mundo de "El Libro de las Tierras Vírgenes".
@@ -27,13 +27,13 @@ description: "La Manada del Grupo Scout Nyeri: un mundo de aventura, imaginació
       Cada semana se reúnen para jugar, cantar, explorar y aprender técnicas básicas de scout adaptadas a su desarrollo,
       siempre con el acompañamiento de un equipo de monitores formado y comprometido.
     </p>
-    <a href="{{ '/contacto.html' | relative_url }}" class="btn btn--primary" style="margin-top: 1rem;">
+    <a href="{{ '/contacto/' | relative_url }}" class="btn btn--primary" style="margin-top: 1rem;">
       ¿Quieres que tu hijo/a se una? →
     </a>
   </div>
   <div style="background: var(--color-manada-bg); border-radius: var(--radius-xl); padding: 2rem; text-align: center;">
     <p style="font-size: 5rem; margin-bottom: 1rem;" aria-hidden="true">🐺</p>
-    <h3 style="font-size: 1.5rem; color: #7A5800; margin-bottom: 0.5rem;">Datos de la Unidad</h3>
+    <h3 style="font-size: 1.5rem; color: var(--color-manada); margin-bottom: 0.5rem;">Datos de la Unidad</h3>
     <ul style="list-style: none; color: var(--color-text-light); line-height: 2.2; font-size: 0.95rem;">
       <li>📅 <strong>Edad:</strong> 7 — 11 años</li>
       <li>📆 <strong>Reuniones:</strong> Sábados por la mañana</li>
@@ -51,7 +51,7 @@ description: "La Manada del Grupo Scout Nyeri: un mundo de aventura, imaginació
     {% assign manada_activities = "🎮 Juegos cooperativos|🌿 Exploración de la naturaleza|🎨 Manualidades y creatividad|🎵 Canciones y danzas scouts|🏕️ Primeras excursiones|🤝 Valores y trabajo en equipo" | split: "|" %}
     {% for activity in manada_activities %}
     <div class="fade-in" style="background: var(--color-manada-bg); border-radius: var(--radius-lg); padding: 1.5rem; text-align: center; border-left: 4px solid var(--color-manada);">
-      <p style="font-size: 0.95rem; color: #7A5800; font-weight: 600;">{{ activity }}</p>
+      <p style="font-size: 0.95rem; color: var(--color-manada); font-weight: 600;">{{ activity }}</p>
     </div>
     {% endfor %}
   </div>

@@ -27,12 +27,12 @@
   /* Colores por unidad */
   --color-manada:     #F9A825;   /* Amarillo — Manada */
   --color-manada-bg:  #FFF8E1;
-  --color-tropa:      #2E7D32;   /* Verde — Scout/Tropa */
-  --color-tropa-bg:   #E8F5E9;
-  --color-esculta:    #E55B00;   /* Naranja — Esculta/Pioneros */
-  --color-esculta-bg: #FBE9E7;
-  --color-rovers:     #C2399B;   /* Malva — Clan Rovers */
-  --color-rovers-bg:  #FCE4F6;
+  --color-tropa:      #1976D2;   /* Azul — Tropa */
+  --color-tropa-bg:   #E3F2FD;
+  --color-pioneros:   #D32F2F;   /* Rojo — Pioneros */
+  --color-pioneros-bg: #FFEBEE;
+  --color-rovers:     #2E7D32;   /* Verde — Rovers */
+  --color-rovers-bg:  #E8F5E9;
 
   /* Tipografía */
   --font-body:     'Nunito', sans-serif;
@@ -416,9 +416,9 @@ h1, h2, h3, h4, h5, h6 {
 
 .navbar__sublink:hover { color: var(--color-dark); background: var(--color-light); }
 .navbar__sublink--manada:hover  { border-color: var(--color-manada); background: var(--color-manada-bg); color: #7A5800; }
-.navbar__sublink--tropa:hover   { border-color: var(--color-tropa); background: var(--color-tropa-bg); color: var(--color-secondary-dark); }
-.navbar__sublink--esculta:hover { border-color: var(--color-esculta); background: var(--color-esculta-bg); color: #BF360C; }
-.navbar__sublink--rovers:hover  { border-color: var(--color-rovers); background: var(--color-rovers-bg); color: var(--color-primary-dark); }
+.navbar__sublink--tropa:hover   { border-color: var(--color-tropa); background: var(--color-tropa-bg); color: #0D47A1; }
+.navbar__sublink--pioneros:hover { border-color: var(--color-pioneros); background: var(--color-pioneros-bg); color: #B71C1C; }
+.navbar__sublink--rovers:hover  { border-color: var(--color-rovers); background: var(--color-rovers-bg); color: #1B5E20; }
 
 /* Botón hamburguesa (móvil) */
 .navbar__hamburger {
@@ -719,9 +719,9 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Colores específicos por unidad */
 .unit-card--manada  .unit-card__header { background: linear-gradient(135deg, var(--color-manada), #F9C342); }
-.unit-card--tropa   .unit-card__header { background: linear-gradient(135deg, var(--color-tropa), #43A047); }
-.unit-card--esculta .unit-card__header { background: linear-gradient(135deg, var(--color-esculta), #FF8A50); }
-.unit-card--rovers  .unit-card__header { background: linear-gradient(135deg, var(--color-rovers), #E060B8); }
+.unit-card--tropa   .unit-card__header { background: linear-gradient(135deg, var(--color-tropa), #42A5F5); }
+.unit-card--pioneros .unit-card__header { background: linear-gradient(135deg, var(--color-pioneros), #EF5350); }
+.unit-card--rovers  .unit-card__header { background: linear-gradient(135deg, var(--color-rovers), #43A047); }
 
 .unit-card__icon {
   font-size: 3rem;
@@ -767,9 +767,9 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .unit-card--manada  .unit-card__cta { color: #9A6700; }
-.unit-card--tropa   .unit-card__cta { color: var(--color-secondary-dark); }
-.unit-card--esculta .unit-card__cta { color: #BF360C; }
-.unit-card--rovers  .unit-card__cta { color: var(--color-primary-dark); }
+.unit-card--tropa   .unit-card__cta { color: #0D47A1; }
+.unit-card--pioneros .unit-card__cta { color: #B71C1C; }
+.unit-card--rovers  .unit-card__cta { color: #1B5E20; }
 
 .unit-card:hover .unit-card__cta {
   gap: var(--space-4);
@@ -999,7 +999,7 @@ h1, h2, h3, h4, h5, h6 {
 /* Variantes de color por unidad */
 .page-hero--manada  { background: linear-gradient(135deg, #7A5800 0%, var(--color-manada) 100%); }
 .page-hero--tropa   { background: linear-gradient(135deg, var(--color-secondary-dark) 0%, var(--color-tropa) 100%); }
-.page-hero--esculta { background: linear-gradient(135deg, #BF360C 0%, var(--color-esculta) 100%); }
+.page-hero--pioneros { background: linear-gradient(135deg, #BF360C 0%, var(--color-pioneros) 100%); }
 .page-hero--rovers  { background: linear-gradient(135deg, var(--color-primary-dark) 0%, var(--color-rovers) 100%); }
 
 /* ============================================================
