@@ -1,0 +1,91 @@
+<!-- ============================================================
+     _includes/header.html — Navegación principal con sticky header
+     Grupo Scout Nyeri (Alicante)
+     ============================================================ -->
+<header class="site-header" id="site-header">
+  <nav class="navbar" role="navigation" aria-label="Navegación principal">
+    <div class="container navbar__inner">
+
+      <!-- Logo y nombre del grupo -->
+      <a href="{{ '/' | relative_url }}" class="navbar__brand" aria-label="Inicio Grupo Scout Nyeri">
+        <img
+          src="{{ '/assets/img/logo-transparente.png' | relative_url }}"
+          alt="Logo Grupo Scout Nyeri"
+          class="navbar__logo"
+          width="50"
+          height="50"
+          loading="lazy"
+        >
+        <span class="navbar__name">Grupo Scout <strong>Nyeri</strong></span>
+      </a>
+
+      <!-- Menú principal (escritorio) -->
+      <ul class="navbar__menu" id="navbar-menu" role="list">
+        <li>
+          <a href="{{ '/' | relative_url }}" class="navbar__link {% if page.url == '/' %}navbar__link--active{% endif %}">
+            Inicio
+          </a>
+        </li>
+
+        <!-- Dropdown Unidades -->
+        <li class="navbar__dropdown">
+          <button class="navbar__link navbar__dropdown-toggle" aria-expanded="false" aria-haspopup="true">
+            Unidades <span class="navbar__arrow" aria-hidden="true">▾</span>
+          </button>
+          <ul class="navbar__submenu" role="list">
+            <li>
+              <a href="{{ '/manada.html' | relative_url }}" class="navbar__sublink navbar__sublink--manada">
+                🐺 Manada <span class="age-badge">(7-11 años)</span>
+              </a>
+            </li>
+            <li>
+              <a href="{{ '/tropa.html' | relative_url }}" class="navbar__sublink navbar__sublink--tropa">
+                🌲 Scout/Tropa <span class="age-badge">(11-14 años)</span>
+              </a>
+            </li>
+            <li>
+              <a href="{{ '/esculta.html' | relative_url }}" class="navbar__sublink navbar__sublink--esculta">
+                🔥 Esculta/Pioneros <span class="age-badge">(14-17 años)</span>
+              </a>
+            </li>
+            <li>
+              <a href="{{ '/rovers.html' | relative_url }}" class="navbar__sublink navbar__sublink--rovers">
+                ⚜️ Clan Rovers <span class="age-badge">(17-20 años)</span>
+              </a>
+            </li>
+          </ul>
+        </li>
+
+        <li>
+          <a href="{{ '/blog/' | relative_url }}" class="navbar__link {% if page.url contains '/blog' %}navbar__link--active{% endif %}">
+            Blog
+          </a>
+        </li>
+        <li>
+          <a href="{{ '/descargas.html' | relative_url }}" class="navbar__link {% if page.url == '/descargas.html' %}navbar__link--active{% endif %}">
+            Descargas
+          </a>
+        </li>
+        <li>
+          <a href="{{ '/contacto.html' | relative_url }}" class="navbar__link navbar__link--cta {% if page.url == '/contacto.html' %}navbar__link--active{% endif %}">
+            ¡Únete!
+          </a>
+        </li>
+      </ul>
+
+      <!-- Botón hamburguesa (móvil) -->
+      <button
+        class="navbar__hamburger"
+        id="hamburger-btn"
+        aria-label="Abrir menú"
+        aria-expanded="false"
+        aria-controls="navbar-menu"
+      >
+        <span class="hamburger__line"></span>
+        <span class="hamburger__line"></span>
+        <span class="hamburger__line"></span>
+      </button>
+
+    </div>
+  </nav>
+</header>

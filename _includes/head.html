@@ -1,0 +1,39 @@
+<!-- ============================================================
+     _includes/head.html — Cabecera HTML, meta tags y recursos
+     Grupo Scout Nyeri (Alicante)
+     ============================================================ -->
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <!-- SEO: Título dinámico -->
+  <title>
+    {% if page.title %}{{ page.title }} | {{ site.title }}{% else %}{{ site.title }} — {{ site.grupo.lema }}{% endif %}
+  </title>
+
+  <!-- SEO: Descripción dinámica -->
+  <meta name="description" content="{% if page.description %}{{ page.description }}{% else %}{{ site.description }}{% endif %}">
+
+  <!-- Open Graph para compartir en redes sociales -->
+  <meta property="og:title" content="{% if page.title %}{{ page.title }} | {{ site.title }}{% else %}{{ site.title }}{% endif %}">
+  <meta property="og:description" content="{% if page.description %}{{ page.description }}{% else %}{{ site.description }}{% endif %}">
+  <meta property="og:image" content="{{ '/assets/img/og-image.jpg' | relative_url }}">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="es_ES">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="{{ '/assets/img/logo-transparente.png' | relative_url }}">
+
+  <!-- Tipografía: Nunito desde Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;900&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+
+  <!-- Hoja de estilos principal -->
+  <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
+
+  <!-- Plugin SEO de Jekyll -->
+  {% seo %}
+  {% feed_meta %}
+</head>

@@ -1,0 +1,72 @@
+---
+# Página de listado del Blog de Aventuras
+layout: default
+title: "Blog de Aventuras"
+description: "Crónicas, campamentos y aventuras del Grupo Scout Nyeri de Alicante. Nuestras historias contadas desde dentro."
+permalink: /blog/
+---
+
+<!-- Hero de la página Blog -->
+<section class="page-hero" aria-labelledby="blog-page-title">
+  <div class="container page-hero__inner">
+    <span class="page-hero__icon" aria-hidden="true">📰</span>
+    <h1 class="page-hero__title" id="blog-page-title">Blog de Aventuras</h1>
+    <p class="page-hero__subtitle">Crónicas, campamentos y historias del Grupo Scout Nyeri</p>
+  </div>
+</section>
+
+<!-- Listado de artículos -->
+<section class="blog-page">
+  <div class="container">
+
+    {% if site.posts.size > 0 %}
+    <div class="blog-page__grid">
+      {% for post in site.posts %}
+      <a href="{{ post.url | relative_url }}" class="post-card fade-in" aria-label="{{ post.title }}">
+        <div class="post-card__image-wrapper">
+          {% if post.image %}
+          <img
+            src="{{ post.image | relative_url }}"
+            alt="{{ post.image_alt | default: post.title }}"
+            class="post-card__image"
+            loading="lazy"
+          >
+          {% else %}
+          <div class="post-card__placeholder">
+            <span class="post-card__placeholder-icon">🏕️</span>
+            <span style="font-size: 0.8rem;">Crónica Scout</span>
+          </div>
+          {% endif %}
+        </div>
+        <div class="post-card__body">
+          <div class="post-card__meta">
+            {% if post.categories[0] %}
+            <span class="post-card__category">{{ post.categories[0] }}</span>
+            {% endif %}
+            <time class="post-card__date" datetime="{{ post.date | date_to_xmlschema }}">
+              {{ post.date | date: "%d de %B, %Y" }}
+            </time>
+          </div>
+          <h2 class="post-card__title">{{ post.title }}</h2>
+          <p class="post-card__excerpt">{{ post.excerpt | strip_html | truncate: 130 }}</p>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+
+    {% else %}
+    <!-- Estado vacío: aún no hay posts -->
+    <div class="fade-in" style="text-align: center; padding: 5rem 0;">
+      <p style="font-size: 5rem; margin-bottom: 1.5rem;" aria-hidden="true">🏕️</p>
+      <h2 style="font-size: 2rem; font-weight: 700; color: var(--color-dark); margin-bottom: 1rem;">
+        ¡Las aventuras llegan pronto!
+      </h2>
+      <p style="color: var(--color-text-light); font-size: 1.1rem; max-width: 500px; margin: 0 auto 2rem;">
+        Aquí publicaremos las crónicas de nuestros campamentos, salidas y actividades especiales.
+      </p>
+      <a href="{{ '/' | relative_url }}" class="btn btn--primary">Volver al inicio →</a>
+    </div>
+    {% endif %}
+
+  </div>
+</section>

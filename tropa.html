@@ -1,0 +1,79 @@
+---
+# Página de la Sección Scout / Tropa — Unidad 11-14 años
+layout: page
+title: "Sección Scout / Tropa"
+subtitle: "Exploración, patrullas y aventura — 11 a 14 años"
+icon: "🌲"
+unit_color: "tropa"
+hero_color: "linear-gradient(135deg, #1B5E20 0%, #43A047 100%)"
+description: "La Sección Scout-Tropa del Grupo Scout Nyeri: técnicas de exploración, campamentos y trabajo en patrullas para jóvenes de 11 a 14 años en Alicante."
+---
+
+<!-- Presentación de la unidad -->
+<div class="unit-intro fade-in">
+  <div>
+    <h2 class="unit-intro__title" style="color: var(--color-secondary-dark);">¿Qué es la Sección Scout?</h2>
+    <p class="unit-intro__text">
+      La <strong>Sección Scout o Tropa</strong> es el corazón del escultismo. Aquí los jóvenes viven la esencia
+      del movimiento: la <em>patrulla</em>. Cada patrulla es un pequeño equipo que aprende a organizarse,
+      tomar decisiones y superar retos juntos.
+    </p>
+    <p class="unit-intro__text">
+      Los <em>scouts</em> desarrollan habilidades técnicas como orientación, primeros auxilios, nudos y vida en
+      el monte, pero también habilidades sociales fundamentales: liderazgo, responsabilidad y respeto.
+    </p>
+    <p class="unit-intro__text">
+      Los campamentos de verano y los fines de semana en la montaña son el escenario donde todo
+      lo aprendido cobra vida. Una etapa única e irrepetible.
+    </p>
+    <a href="{{ '/contacto.html' | relative_url }}" class="btn btn--secondary" style="margin-top: 1rem;">
+      ¿Quieres unirte a la Tropa? →
+    </a>
+  </div>
+  <div style="background: var(--color-tropa-bg); border-radius: var(--radius-xl); padding: 2rem; text-align: center;">
+    <p style="font-size: 5rem; margin-bottom: 1rem;" aria-hidden="true">🌲</p>
+    <h3 style="font-size: 1.5rem; color: var(--color-secondary-dark); margin-bottom: 0.5rem;">Datos de la Unidad</h3>
+    <ul style="list-style: none; color: var(--color-text-light); line-height: 2.2; font-size: 0.95rem;">
+      <li>📅 <strong>Edad:</strong> 11 — 14 años</li>
+      <li>📆 <strong>Reuniones:</strong> Sábados por la tarde</li>
+      <li>🏕️ <strong>Campamentos:</strong> Fines de semana y verano</li>
+      <li>👥 <strong>Grupo:</strong> Patrullas de 6-8 scouts</li>
+      <li>📍 <strong>Local:</strong> Alicante (ver Contacto)</li>
+    </ul>
+  </div>
+</div>
+
+<!-- Qué aprenden -->
+<section style="margin-bottom: var(--space-16);">
+  <h2 class="section-title fade-in" style="margin-bottom: var(--space-8);">Técnicas y habilidades scouts</h2>
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem;">
+    {% assign tropa_activities = "🧭 Orientación y cartografía|🪢 Nudos y pionerismo|🩹 Primeros auxilios básicos|🔥 Vida en el monte y acampada|⛵ Actividades náuticas|🤝 Liderazgo y patrulla" | split: "|" %}
+    {% for activity in tropa_activities %}
+    <div class="fade-in" style="background: var(--color-tropa-bg); border-radius: var(--radius-lg); padding: 1.5rem; text-align: center; border-left: 4px solid var(--color-tropa);">
+      <p style="font-size: 0.95rem; color: var(--color-secondary-dark); font-weight: 600;">{{ activity }}</p>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+<!-- Galería de fotos (placeholder por privacidad) -->
+<section class="unit-gallery fade-in">
+  <h2 class="unit-gallery__title">Momentos de la Tropa</h2>
+  <div class="unit-gallery__grid">
+    <div class="unit-gallery__item">
+      <span class="unit-gallery__item-icon">🧭</span>
+      <span>Ruta de orientación</span>
+    </div>
+    <div class="unit-gallery__item">
+      <span class="unit-gallery__item-icon">🏕️</span>
+      <span>Campamento de verano</span>
+    </div>
+    <div class="unit-gallery__item">
+      <span class="unit-gallery__item-icon">🪢</span>
+      <span>Taller de nudos</span>
+    </div>
+  </div>
+  <p class="unit-gallery__privacy">
+    🔒 Las fotos reales de los jóvenes serán publicadas solo con el consentimiento expreso de sus familias.
+  </p>
+</section>

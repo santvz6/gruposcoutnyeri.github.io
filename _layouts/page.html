@@ -1,0 +1,20 @@
+---
+# Layout para páginas estáticas con hero reducido
+layout: default
+---
+
+<!-- Hero reducido de página interior -->
+<section class="page-hero {% if page.unit_color %}page-hero--{{ page.unit_color }}{% endif %}" style="{% if page.hero_color %}background: {{ page.hero_color }};{% endif %}">
+  <div class="container page-hero__inner">
+    {% if page.icon %}<span class="page-hero__icon" aria-hidden="true">{{ page.icon }}</span>{% endif %}
+    <h1 class="page-hero__title">{{ page.title }}</h1>
+    {% if page.subtitle %}<p class="page-hero__subtitle">{{ page.subtitle }}</p>{% endif %}
+  </div>
+</section>
+
+<!-- Contenido de la página -->
+<article class="page-content">
+  <div class="container">
+    {{ content }}
+  </div>
+</article>

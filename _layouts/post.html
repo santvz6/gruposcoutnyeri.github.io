@@ -1,0 +1,60 @@
+---
+# Layout para entradas del blog de aventuras
+layout: default
+---
+
+<!-- Cabecera del artículo -->
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <!-- Hero del post con imagen destacada -->
+  <header class="post-hero">
+    {% if page.image %}
+    <div class="post-hero__image-wrapper">
+      <img
+        src="{{ page.image | relative_url }}"
+        alt="{{ page.image_alt | default: page.title }}"
+        class="post-hero__image"
+        loading="lazy"
+        itemprop="image"
+      >
+      <div class="post-hero__overlay"></div>
+    </div>
+    {% endif %}
+    <div class="container post-hero__content">
+      <!-- Categoría y fecha -->
+      <div class="post-meta">
+        {% if page.categories %}
+        <span class="post-meta__category">
+          {% for cat in page.categories %}{{ cat }}{% unless forloop.last %}, {% endunless %}{% endfor %}
+        </span>
+        {% endif %}
+        <time class="post-meta__date" datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">
+          {{ page.date | date: "%d de %B de %Y" }}
+        </time>
+      </div>
+      <h1 class="post-hero__title" itemprop="name headline">{{ page.title }}</h1>
+      {% if page.excerpt_separator %}
+      {% else %}
+      {% if page.description %}
+      <p class="post-hero__excerpt">{{ page.description }}</p>
+      {% endif %}
+      {% endif %}
+    </div>
+  </header>
+
+  <!-- Cuerpo del artículo -->
+  <section class="post-body" itemprop="articleBody">
+    <div class="container post-body__inner">
+      {{ content }}
+
+      <!-- Footer del post: autor y compartir -->
+      <footer class="post-footer">
+        <p class="post-footer__author">
+          ⚜️ Escrito por <strong itemprop="author">{{ page.author | default: site.grupo.nombre }}</strong>
+        </p>
+        <a href="{{ '/blog/' | relative_url }}" class="btn btn--outline">← Volver al Blog</a>
+      </footer>
+    </div>
+  </section>
+
+</article>

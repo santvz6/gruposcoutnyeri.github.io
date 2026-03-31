@@ -1,0 +1,328 @@
+---
+# Página principal — Home / Landing Page
+layout: default
+title: "Inicio"
+description: "Grupo Scout Nyeri de Alicante. Formando jóvenes con valores de hermandad, servicio y aventura en la naturaleza. ¡Únete a nosotros!"
+---
+
+<!-- ============================================================
+     SECCIÓN HERO — Portada principal con imagen impactante
+     ============================================================ -->
+<section class="hero" aria-labelledby="hero-title">
+
+  <!-- Imagen de fondo del hero (placeholder hasta que se suba foto real) -->
+  <img
+    src="{{ '/assets/img/hero-bg.jpg' | relative_url }}"
+    alt="Jóvenes del Grupo Scout Nyeri en la naturaleza"
+    class="hero__bg"
+    loading="eager"
+    onerror="this.style.display='none'"
+  >
+
+  <!-- Overlay de color -->
+  <div class="hero__overlay" aria-hidden="true"></div>
+
+  <!-- Elemento decorativo -->
+  <div class="hero__decoration" aria-hidden="true"></div>
+
+  <!-- Contenido del hero -->
+  <div class="container">
+    <div class="hero__content fade-in">
+
+      <!-- Insignia superior -->
+      <div class="hero__badge">
+        ⚜️ &nbsp; Scouts MSC · Alicante, España
+      </div>
+
+      <!-- Título principal -->
+      <h1 class="hero__title" id="hero-title">
+        Grupo Scout<br>
+        <span>Nyeri</span>
+      </h1>
+
+      <!-- Descripción breve -->
+      <p class="hero__subtitle">
+        Formamos jóvenes en valores de <strong>hermandad, servicio y naturaleza</strong>.
+        Aventura, amistad y crecimiento personal en la ciudad de Alicante.
+      </p>
+
+      <!-- Llamadas a la acción -->
+      <div class="hero__cta">
+        <a href="{{ '/contacto.html' | relative_url }}" class="btn btn--primary btn--lg">
+          ¡Únete a nosotros! →
+        </a>
+        <a href="#quienes-somos" class="btn btn--white btn--lg">
+          Descubre más ↓
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Lema del grupo en la esquina -->
+  <p class="hero__lema" aria-hidden="true">"Más cerca de Nyeri, más cerca del cielo"</p>
+
+</section>
+
+
+<!-- ============================================================
+     SECCIÓN QUIÉNES SOMOS
+     ============================================================ -->
+<section class="about" id="quienes-somos" aria-labelledby="about-title">
+  <div class="container">
+    <div class="about__grid">
+
+      <!-- Texto -->
+      <div class="about__text-col fade-in">
+        <div class="about__badge">⚜️ &nbsp; Quiénes somos</div>
+        <h2 class="about__title" id="about-title">
+          Unidos por la aventura,<br>la naturaleza y los valores
+        </h2>
+        <p class="about__text">
+          El <strong>Grupo Scout Nyeri</strong> es una asociación juvenil de Alicante integrada en el movimiento Scout
+          mundial. Nacimos con la vocación de formar personas íntegras, solidarias y comprometidas con su entorno
+          a través de la metodología scout: aprender haciendo en plena naturaleza.
+        </p>
+        <p class="about__text">
+          Nuestro nombre rinde homenaje a <strong>Nyeri (Kenia)</strong>, la ciudad donde Baden-Powell, fundador del
+          Escultismo, vivió sus últimos años. Ese mismo espíritu explorador y de servicio guía cada actividad,
+          campamento y proyecto que desarrollamos en Alicante.
+        </p>
+
+        <!-- Valores del grupo -->
+        <div class="about__values">
+          <div class="about__value fade-in">
+            <span class="about__value-icon">🤝</span>
+            <div class="about__value-text">
+              <h4>Hermandad</h4>
+              <p>Fraternidad y apoyo mutuo entre todos los miembros</p>
+            </div>
+          </div>
+          <div class="about__value fade-in">
+            <span class="about__value-icon">🌿</span>
+            <div class="about__value-text">
+              <h4>Naturaleza</h4>
+              <p>Respeto y amor por el medio ambiente</p>
+            </div>
+          </div>
+          <div class="about__value fade-in">
+            <span class="about__value-icon">🧭</span>
+            <div class="about__value-text">
+              <h4>Aventura</h4>
+              <p>Retos que impulsan el crecimiento personal</p>
+            </div>
+          </div>
+          <div class="about__value fade-in">
+            <span class="about__value-icon">🌍</span>
+            <div class="about__value-text">
+              <h4>Servicio</h4>
+              <p>Compromiso activo con la comunidad y la sociedad</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Logo decorativo animado -->
+      <div class="about__image-wrapper fade-in" aria-hidden="true">
+        <div class="about__circle"></div>
+        <img
+          src="{{ '/assets/img/logo-transparente.png' | relative_url }}"
+          alt="Escudo del Grupo Scout Nyeri"
+          class="about__logo"
+          loading="lazy"
+        >
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     SECCIÓN LAS UNIDADES
+     ============================================================ -->
+<section class="units" id="unidades" aria-labelledby="units-title">
+  <div class="container">
+    <div class="units__header fade-in">
+      <span class="section-label">🏕️ Nuestras Unidades</span>
+      <h2 class="section-title" id="units-title">Un lugar para cada etapa</h2>
+      <p class="section-subtitle mx-auto">
+        Cada unidad tiene su propio programa educativo, ritmo y aventuras,
+        adaptados al desarrollo de cada joven.
+      </p>
+    </div>
+
+    <div class="units__grid">
+
+      <!-- Manada -->
+      <a href="{{ '/manada.html' | relative_url }}" class="unit-card unit-card--manada fade-in" aria-label="Conoce la Manada (7-11 años)">
+        <div class="unit-card__header">
+          <span class="unit-card__icon" aria-hidden="true">🐺</span>
+          <h3 class="unit-card__title">Manada</h3>
+          <p class="unit-card__age">7 — 11 años</p>
+        </div>
+        <div class="unit-card__body">
+          <p class="unit-card__desc">
+            El mundo de Mowgli y los lobatos. Juegos, cuentos y primeras aventuras en un entorno
+            mágico lleno de imaginación y amistad.
+          </p>
+          <span class="unit-card__cta">Conoce la Manada →</span>
+        </div>
+      </a>
+
+      <!-- Tropa -->
+      <a href="{{ '/tropa.html' | relative_url }}" class="unit-card unit-card--tropa fade-in" aria-label="Conoce la Sección Scout/Tropa (11-14 años)">
+        <div class="unit-card__header">
+          <span class="unit-card__icon" aria-hidden="true">🌲</span>
+          <h3 class="unit-card__title">Scout / Tropa</h3>
+          <p class="unit-card__age">11 — 14 años</p>
+        </div>
+        <div class="unit-card__body">
+          <p class="unit-card__desc">
+            Técnicas de exploración, trabajo en patrullas y campamentos. Aquí nace el verdadero
+            espíritu scout: responsabilidad, compañerismo y superación.
+          </p>
+          <span class="unit-card__cta">Conoce la Tropa →</span>
+        </div>
+      </a>
+
+      <!-- Esculta -->
+      <a href="{{ '/esculta.html' | relative_url }}" class="unit-card unit-card--esculta fade-in" aria-label="Conoce la Unidad Esculta/Pioneros (14-17 años)">
+        <div class="unit-card__header">
+          <span class="unit-card__icon" aria-hidden="true">🔥</span>
+          <h3 class="unit-card__title">Esculta / Pioneros</h3>
+          <p class="unit-card__age">14 — 17 años</p>
+        </div>
+        <div class="unit-card__body">
+          <p class="unit-card__desc">
+            Proyectos de servicio, rutas de alta montaña y autonomía progresiva.
+            Una etapa de grandes retos y descubrimiento de la propia identidad.
+          </p>
+          <span class="unit-card__cta">Conoce la Esculta →</span>
+        </div>
+      </a>
+
+      <!-- Rovers -->
+      <a href="{{ '/rovers.html' | relative_url }}" class="unit-card unit-card--rovers fade-in" aria-label="Conoce el Clan de Rovers (17-20 años)">
+        <div class="unit-card__header">
+          <span class="unit-card__icon" aria-hidden="true">⚜️</span>
+          <h3 class="unit-card__title">Clan Rovers</h3>
+          <p class="unit-card__age">17 — 20 años</p>
+        </div>
+        <div class="unit-card__body">
+          <p class="unit-card__desc">
+            Compromiso social, voluntariado y liderazgo. Los rovers son el alma del grupo:
+            jóvenes adultos que eligen el escultismo como estilo de vida.
+          </p>
+          <span class="unit-card__cta">Conoce el Clan →</span>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     SECCIÓN CALENDARIO DE ACTIVIDADES
+     ============================================================ -->
+<section class="calendar-section" id="calendario" aria-labelledby="calendar-title">
+  <div class="container">
+    <div class="calendar-section__header fade-in">
+      <span class="section-label">📅 Próximas actividades</span>
+      <h2 class="section-title" id="calendar-title">Calendario del grupo</h2>
+      <p class="section-subtitle mx-auto">
+        Consulta las salidas, reuniones y campamentos programados.
+      </p>
+    </div>
+
+    <!-- Embed Google Calendar — sustituir src por la URL real del calendario -->
+    <div class="calendar-embed-wrapper fade-in">
+      <iframe
+        src="https://calendar.google.com/calendar/embed?src=TU_CALENDAR_ID%40group.calendar.google.com&ctz=Europe%2FMadrid&mode=MONTH&hl=es"
+        title="Calendario de actividades Grupo Scout Nyeri"
+        loading="lazy"
+        allowfullscreen
+      ></iframe>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     SECCIÓN BLOG — Últimas noticias
+     ============================================================ -->
+<section class="blog-preview" id="noticias" aria-labelledby="blog-title">
+  <div class="container">
+    <div class="blog-preview__header fade-in">
+      <div>
+        <span class="section-label">📰 Blog de Aventuras</span>
+        <h2 class="section-title" id="blog-title">Últimas crónicas</h2>
+      </div>
+      <a href="{{ '/blog/' | relative_url }}" class="btn btn--outline">Ver todo el blog →</a>
+    </div>
+
+    <div class="blog-preview__grid">
+      {% for post in site.posts limit:3 %}
+      <a href="{{ post.url | relative_url }}" class="post-card fade-in">
+        <div class="post-card__image-wrapper">
+          {% if post.image %}
+          <img
+            src="{{ post.image | relative_url }}"
+            alt="{{ post.image_alt | default: post.title }}"
+            class="post-card__image"
+            loading="lazy"
+          >
+          {% else %}
+          <!-- Placeholder si no hay imagen -->
+          <div class="post-card__placeholder">
+            <span class="post-card__placeholder-icon">🏕️</span>
+            <span>Crónica Scout</span>
+          </div>
+          {% endif %}
+        </div>
+        <div class="post-card__body">
+          <div class="post-card__meta">
+            {% if post.categories[0] %}
+            <span class="post-card__category">{{ post.categories[0] }}</span>
+            {% endif %}
+            <time class="post-card__date" datetime="{{ post.date | date_to_xmlschema }}">
+              {{ post.date | date: "%d %b %Y" }}
+            </time>
+          </div>
+          <h3 class="post-card__title">{{ post.title }}</h3>
+          <p class="post-card__excerpt">{{ post.excerpt | strip_html | truncate: 120 }}</p>
+        </div>
+      </a>
+      {% else %}
+      <!-- Mensaje si no hay posts aún -->
+      <div class="post-card" style="grid-column: 1 / -1; text-align: center; padding: 3rem;">
+        <div class="post-card__placeholder-icon" style="font-size: 4rem; margin-bottom: 1rem;">🏕️</div>
+        <h3 style="color: var(--color-text-light);">¡Las crónicas llegan pronto!</h3>
+        <p style="color: var(--color-text-light);">Aquí encontrarás las aventuras y campamentos del grupo.</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     SECCIÓN CTA FINAL — Llamada a la acción
+     ============================================================ -->
+<section class="cta-section" aria-labelledby="cta-title">
+  <div class="container fade-in">
+    <h2 class="cta-section__title" id="cta-title">¿Listo para la aventura?</h2>
+    <p class="cta-section__subtitle">
+      Únete al Grupo Scout Nyeri y descubre lo que significa crecer junto a una gran familia.
+      <em>Más cerca de Nyeri, más cerca del cielo.</em>
+    </p>
+    <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+      <a href="{{ '/contacto.html' | relative_url }}" class="btn btn--white btn--lg">
+        Contacta con nosotros →
+      </a>
+      <a href="{{ '/descargas.html' | relative_url }}" class="btn btn--outline btn--lg" style="border-color: rgba(255,255,255,0.5); color: white;">
+        Documentos y formularios
+      </a>
+    </div>
+  </div>
+</section>

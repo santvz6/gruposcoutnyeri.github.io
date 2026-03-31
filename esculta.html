@@ -1,0 +1,79 @@
+---
+# Página de la Unidad Esculta / Pioneros — 14-17 años
+layout: page
+title: "Esculta / Pioneros"
+subtitle: "Proyectos, autonomía y servicio — 14 a 17 años"
+icon: "🔥"
+unit_color: "esculta"
+hero_color: "linear-gradient(135deg, #BF360C 0%, #FF8A50 100%)"
+description: "La Unidad Esculta-Pioneros del Grupo Scout Nyeri: proyectos de servicio, aventura y desarrollo personal para jóvenes de 14 a 17 años en Alicante."
+---
+
+<!-- Presentación de la unidad -->
+<div class="unit-intro fade-in">
+  <div>
+    <h2 class="unit-intro__title" style="color: #BF360C;">¿Qué es la Esculta?</h2>
+    <p class="unit-intro__text">
+      La <strong>Unidad Esculta o Pioneros</strong> es la etapa del compromiso personal. Los <em>escultas</em>
+      son jóvenes que eligen libremente el escultismo como un camino de crecimiento, servicio y aventura.
+    </p>
+    <p class="unit-intro__text">
+      Esta etapa se caracteriza por la autonomía progresiva: los escultas diseñan y ejecutan sus propios
+      proyectos, organizan rutas de alta montaña, desarrollan iniciativas de voluntariado y reflexionan
+      sobre su papel en la sociedad.
+    </p>
+    <p class="unit-intro__text">
+      Es una etapa apasionante donde los retos físicos e intelectuales conviven con el descubrimiento
+      de la propia identidad. El fuego de la aventura, la llama del compromiso.
+    </p>
+    <a href="{{ '/contacto.html' | relative_url }}" class="btn btn--primary" style="background: var(--color-esculta); border-color: var(--color-esculta); margin-top: 1rem;">
+      ¿Quieres unirte a la Esculta? →
+    </a>
+  </div>
+  <div style="background: var(--color-esculta-bg); border-radius: var(--radius-xl); padding: 2rem; text-align: center;">
+    <p style="font-size: 5rem; margin-bottom: 1rem;" aria-hidden="true">🔥</p>
+    <h3 style="font-size: 1.5rem; color: #BF360C; margin-bottom: 0.5rem;">Datos de la Unidad</h3>
+    <ul style="list-style: none; color: var(--color-text-light); line-height: 2.2; font-size: 0.95rem;">
+      <li>📅 <strong>Edad:</strong> 14 — 17 años</li>
+      <li>📆 <strong>Reuniones:</strong> Sábados (tarde)</li>
+      <li>🏔️ <strong>Rutas:</strong> Media y alta montaña</li>
+      <li>🌍 <strong>Servicio:</strong> Proyectos comunitarios</li>
+      <li>📍 <strong>Local:</strong> Alicante (ver Contacto)</li>
+    </ul>
+  </div>
+</div>
+
+<!-- Qué hacen -->
+<section style="margin-bottom: var(--space-16);">
+  <h2 class="section-title fade-in" style="margin-bottom: var(--space-8);">Proyectos y aventuras</h2>
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem;">
+    {% assign esculta_activities = "🏔️ Rutas de alta montaña|🌍 Proyectos de voluntariado|🛶 Aventura náutica y remo|🧗 Escalada y rappel|💡 Liderazgo y gestión de proyectos|🔭 Reflexión y crecimiento personal" | split: "|" %}
+    {% for activity in esculta_activities %}
+    <div class="fade-in" style="background: var(--color-esculta-bg); border-radius: var(--radius-lg); padding: 1.5rem; text-align: center; border-left: 4px solid var(--color-esculta);">
+      <p style="font-size: 0.95rem; color: #BF360C; font-weight: 600;">{{ activity }}</p>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+<!-- Galería de fotos (placeholder) -->
+<section class="unit-gallery fade-in">
+  <h2 class="unit-gallery__title">Momentos de la Esculta</h2>
+  <div class="unit-gallery__grid">
+    <div class="unit-gallery__item">
+      <span class="unit-gallery__item-icon">🏔️</span>
+      <span>Ruta de montaña</span>
+    </div>
+    <div class="unit-gallery__item">
+      <span class="unit-gallery__item-icon">🌍</span>
+      <span>Proyecto de servicio</span>
+    </div>
+    <div class="unit-gallery__item">
+      <span class="unit-gallery__item-icon">🔥</span>
+      <span>Noche de campamento</span>
+    </div>
+  </div>
+  <p class="unit-gallery__privacy">
+    🔒 Las fotos reales de los jóvenes serán publicadas solo con el consentimiento expreso de sus familias.
+  </p>
+</section>
