@@ -1,0 +1,285 @@
+---
+layout: default
+title: "Acceso al Área del Grupo"
+description: "Inicio de sesión para miembros y familias del Grupo Scout Nyeri."
+---
+
+<!-- ============================================================
+     login.html — Inicio de sesión + Registro con Firebase Auth
+     Grupo Scout Nyeri (Alicante)
+     ============================================================ -->
+
+<!-- Firebase SDK (módulos) -->
+<script type="module">
+  // ============================================================
+  // CONFIGURACIÓN DE FIREBASE
+  // Sustituye los valores de ESTE bloque con los de tu proyecto
+  // Firebase Console → Configuración del proyecto → Tus apps → Web
+  // ============================================================
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+  import { getFirestore, doc, setDoc, getDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey:            "{{ site.firebase.apiKey }}",
+    authDomain:        "{{ site.firebase.authDomain }}",
+    projectId:         "{{ site.firebase.projectId }}",
+    storageBucket:     "{{ site.firebase.storageBucket }}",
+    messagingSenderId: "{{ site.firebase.messagingSenderId }}",
+    appId:             "{{ site.firebase.appId }}"
+  };
+
+
+  const app  = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db   = getFirestore(app);
+
+  // Si ya hay sesión activa y está aprobado, redirigir directo
+  onAuthStateChanged(auth, async (user) => {
+    if (user) {
+      const snap = await getDoc(doc(db, "users", user.uid));
+      if (snap.exists() && snap.data().approved) {
+        window.location.href = "{{ '/area-del-grupo/' | relative_url }}";
+      }
+    }
+  });
+
+  // ── LOGIN ──────────────────────────────────────────────────
+  document.getElementById("login-form").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    clearMessages();
+    const email    = document.getElementById("login-email").value.trim();
+    const password = document.getElementById("login-password").value;
+    try {
+      const cred = await signInWithEmailAndPassword(auth, email, password);
+      // Comprobar si el usuario está aprobado
+      const snap = await getDoc(doc(db, "users", cred.user.uid));
+      if (!snap.exists() || !snap.data().approved) {
+        showError("login-error", "Tu solicitud de acceso aún está pendiente de aprobación. Recibirás un aviso cuando el administrador te dé acceso.");
+        await auth.signOut();
+        return;
+      }
+      window.location.href = "{{ '/area-del-grupo/' | relative_url }}";
+    } catch (err) {
+      showError("login-error", traducirError(err.code));
+    }
+  });
+
+  // ── REGISTRO ───────────────────────────────────────────────
+  document.getElementById("register-form").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    clearMessages();
+    const name     = document.getElementById("reg-name").value.trim();
+    const email    = document.getElementById("reg-email").value.trim();
+    const password = document.getElementById("reg-password").value;
+    const role     = document.getElementById("reg-role").value;
+    try {
+      const cred = await createUserWithEmailAndPassword(auth, email, password);
+      // Guardar en Firestore pendiente de aprobación
+      await setDoc(doc(db, "users", cred.user.uid), {
+        uid: cred.user.uid,
+        name, email, role,
+        approved: false,
+        createdAt: serverTimestamp()
+      });
+      await auth.signOut();
+      showSuccess("reg-success", "✅ Solicitud enviada correctamente. El administrador del grupo la revisará y te notificará por email cuando tengas acceso.");
+      document.getElementById("register-form").reset();
+    } catch (err) {
+      showError("reg-error", traducirError(err.code));
+    }
+  });
+
+  // ── Helpers ────────────────────────────────────────────────
+  function showError(id, msg)   { const el = document.getElementById(id); el.textContent = msg; el.style.display = "block"; }
+  function showSuccess(id, msg) { const el = document.getElementById(id); el.textContent = msg; el.style.display = "block"; }
+  function clearMessages()      {
+    ["login-error","reg-error","reg-success"].forEach(id => {
+      const el = document.getElementById(id);
+      el.textContent = ""; el.style.display = "none";
+    });
+  }
+  function traducirError(code) {
+    const map = {
+      "auth/user-not-found":    "No existe una cuenta con ese email.",
+      "auth/wrong-password":    "Contraseña incorrecta.",
+      "auth/invalid-email":     "El email no es válido.",
+      "auth/email-already-in-use": "Ese email ya tiene una cuenta. Usa el formulario de acceso.",
+      "auth/weak-password":     "La contraseña debe tener al menos 6 caracteres.",
+      "auth/too-many-requests": "Demasiados intentos. Espera unos minutos e inténtalo de nuevo.",
+      "auth/invalid-credential": "Email o contraseña incorrectos."
+    };
+    return map[code] || "Ha ocurrido un error. Inténtalo de nuevo.";
+  }
+</script>
+
+<style>
+  .login-section {
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+    padding: 4rem 1rem;
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary-dark, #1a5c2d) 100%);
+  }
+  .login-container {
+    max-width: 520px;
+    margin: 0 auto;
+    width: 100%;
+  }
+  .login-header {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: white;
+  }
+  .login-header .lock-icon { font-size: 3rem; margin-bottom: 0.5rem; }
+  .login-header h1 { font-size: 2rem; font-weight: 900; margin: 0 0 0.5rem; }
+  .login-header p  { opacity: 0.85; font-size: 0.95rem; }
+
+  .login-card {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+    overflow: hidden;
+  }
+  .tab-buttons {
+    display: flex;
+    border-bottom: 2px solid #f0f0f0;
+  }
+  .tab-btn {
+    flex: 1;
+    padding: 1rem;
+    border: none;
+    background: #fafafa;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--color-text-light, #666);
+    transition: all 0.2s;
+  }
+  .tab-btn.active {
+    background: white;
+    color: var(--color-primary);
+    border-bottom: 2px solid var(--color-primary);
+    margin-bottom: -2px;
+  }
+  .tab-panel { display: none; padding: 2rem; }
+  .tab-panel.active { display: block; }
+
+  .form-group { margin-bottom: 1.25rem; }
+  .form-label { display: block; font-weight: 600; font-size: 0.88rem; margin-bottom: 0.4rem; color: #444; }
+  .form-input, .form-select {
+    width: 100%; padding: 0.75rem 1rem;
+    border: 1.5px solid #e0e0e0; border-radius: 8px;
+    font-size: 0.95rem; transition: border-color 0.2s;
+    box-sizing: border-box;
+  }
+  .form-input:focus, .form-select:focus {
+    outline: none; border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(var(--color-primary-rgb, 46,125,50), 0.15);
+  }
+  .btn-submit {
+    width: 100%; padding: 0.9rem;
+    background: var(--color-primary); color: white;
+    border: none; border-radius: 8px; font-weight: 700;
+    font-size: 1rem; cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .btn-submit:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+  }
+  .alert-error {
+    display: none; margin-bottom: 1rem;
+    padding: 0.875rem 1rem; border-radius: 8px;
+    background: #fdecea; color: #c62828;
+    font-size: 0.9rem; border-left: 4px solid #c62828;
+  }
+  .alert-success {
+    display: none; margin-bottom: 1rem;
+    padding: 0.875rem 1rem; border-radius: 8px;
+    background: #e8f5e9; color: #2e7d32;
+    font-size: 0.9rem; border-left: 4px solid #2e7d32;
+  }
+  .form-required { color: var(--color-primary); }
+</style>
+
+<section class="login-section">
+  <div class="login-container">
+
+    <div class="login-header">
+      <div class="lock-icon">🔒</div>
+      <h1>Área del Grupo</h1>
+      <p>Espacio privado para familias y scouters del Grupo Scout Nyeri</p>
+    </div>
+
+    <div class="login-card">
+
+      <!-- Pestañas -->
+      <div class="tab-buttons" role="tablist">
+        <button class="tab-btn active" id="tab-login" role="tab" aria-controls="panel-login" aria-selected="true"
+                onclick="switchTab('login')">Iniciar sesión</button>
+        <button class="tab-btn" id="tab-register" role="tab" aria-controls="panel-register" aria-selected="false"
+                onclick="switchTab('register')">Solicitar acceso</button>
+      </div>
+
+      <!-- Panel: Login -->
+      <div class="tab-panel active" id="panel-login" role="tabpanel" aria-labelledby="tab-login">
+        <div class="alert-error" id="login-error" role="alert"></div>
+        <form id="login-form" novalidate>
+          <div class="form-group">
+            <label class="form-label" for="login-email">Email <span class="form-required">*</span></label>
+            <input type="email" id="login-email" class="form-input" placeholder="tu@email.com" required autocomplete="email">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="login-password">Contraseña <span class="form-required">*</span></label>
+            <input type="password" id="login-password" class="form-input" placeholder="••••••••" required autocomplete="current-password">
+          </div>
+          <button type="submit" class="btn-submit">Entrar al Área del Grupo →</button>
+        </form>
+      </div>
+
+      <!-- Panel: Registro -->
+      <div class="tab-panel" id="panel-register" role="tabpanel" aria-labelledby="tab-register">
+        <p style="font-size:0.88rem; color:#666; margin-bottom:1.25rem;">
+          ¿Eres nuevo? Solicita acceso. El administrador del grupo lo revisará y recibirás confirmación por email.
+        </p>
+        <div class="alert-error" id="reg-error" role="alert"></div>
+        <div class="alert-success" id="reg-success" role="status"></div>
+        <form id="register-form" novalidate>
+          <div class="form-group">
+            <label class="form-label" for="reg-name">Nombre completo <span class="form-required">*</span></label>
+            <input type="text" id="reg-name" class="form-input" placeholder="Nombre y apellidos" required autocomplete="name">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="reg-email">Email <span class="form-required">*</span></label>
+            <input type="email" id="reg-email" class="form-input" placeholder="tu@email.com" required autocomplete="email">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="reg-password">Contraseña <span class="form-required">*</span></label>
+            <input type="password" id="reg-password" class="form-input" placeholder="Mínimo 6 caracteres" required autocomplete="new-password">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="reg-role">Soy… <span class="form-required">*</span></label>
+            <select id="reg-role" class="form-select" required>
+              <option value="">-- Selecciona --</option>
+              <option value="family">Familiar de un scout</option>
+              <option value="scouter">Scouter / Monitor-a</option>
+            </select>
+          </div>
+          <button type="submit" class="btn-submit">Solicitar acceso ✉️</button>
+        </form>
+      </div>
+
+    </div><!-- /.login-card -->
+  </div><!-- /.login-container -->
+</section>
+
+<script>
+  function switchTab(tab) {
+    document.querySelectorAll('.tab-btn').forEach(b => { b.classList.remove('active'); b.setAttribute('aria-selected','false'); });
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    document.getElementById('tab-'    + tab).classList.add('active');
+    document.getElementById('tab-'    + tab).setAttribute('aria-selected','true');
+    document.getElementById('panel-'  + tab).classList.add('active');
+  }
+</script>

@@ -19,16 +19,16 @@ description: "Rovers del Grupo Scout Nyeri: servicio, madurez y proyectos de vol
       de consolidación de la madurez y la acción comunitaria.
     </p>
     <p class="unit-intro__text">
-      A través del desarrollo de "Proyectos", la vida en la unidad fomenta un compromiso real y cívico con la
+      A través del desarrollo de "Rutas", la vida en la unidad fomenta un compromiso real y cívico con la
       sociedad. Los rovers analizan su entorno, detectan necesidades y pasan a la acción a través del
       voluntariado y el compromiso social continuo, marcando su camino futuro 
-      bajo el lema: **"Servir"**.
+      bajo el lema: <strong>"Servir"</strong>.
     </p>
     <p class="unit-intro__text">
       La flor de lis malva que identifica al Grupo Scout Nyeri es también el color que representa esta
       unidad: la madurez, la identidad y el compromiso con los valores más profundos del escultismo.
     </p>
-    <a href="{{ '/contacto/' | relative_url }}" class="btn btn--primary" style="margin-top: 1rem;">
+    <a href="{{ '/contacto/' | relative_url }}" class="btn btn--primary" style="background: var(--color-rovers); border-color: var(--color-rovers); margin-top: 1rem;">
       ¿Quieres unirte a los Rovers? →
     </a>
   </div>
@@ -37,10 +37,10 @@ description: "Rovers del Grupo Scout Nyeri: servicio, madurez y proyectos de vol
     <h3 style="font-size: 1.5rem; color: var(--color-rovers); margin-bottom: 0.5rem;">Datos de la Unidad</h3>
     <ul style="list-style: none; color: var(--color-text-light); line-height: 2.2; font-size: 0.95rem;">
       <li>📅 <strong>Edad:</strong> 17 — 20 años</li>
-      <li>📆 <strong>Reuniones:</strong> Fines de semana</li>
+      <li>🗓️ <strong>Reuniones:</strong> Sábados — 16:30 - 18:30</li>
       <li>🌍 <strong>Servicio:</strong> Local e internacional</li>
       <li>🎓 <strong>Formación:</strong> Cursos y jornadas scouts</li>
-      <li>📍 <strong>Local:</strong> Alicante (ver Contacto)</li>
+      <li>📍 <strong>Local:</strong> San Vicente del Raspeig (ver Contacto)</li>
     </ul>
   </div>
 </div>
@@ -49,7 +49,7 @@ description: "Rovers del Grupo Scout Nyeri: servicio, madurez y proyectos de vol
 <section style="margin-bottom: var(--space-16);">
   <h2 class="section-title fade-in" style="margin-bottom: var(--space-8);">Ámbitos de actuación</h2>
   <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem;">
-    {% assign rovers_activities = "🌍 Voluntariado y servicio comunitario|🎓 Formación de monitores|🏔️ Expediciones y grandes travesías|🤝 Cooperación internacional|🎭 Cultura, arte y expresión|💼 Gestión y dirección del grupo" | split: "|" %}
+    {% assign rovers_activities = "🌍 Voluntariado y servicio comunitario|🎓 Formación de scouters|🏔️ Expediciones y grandes travesías|🤝 Cooperación internacional|🎭 Cultura, arte y expresión|💼 Gestión y dirección del grupo" | split: "|" %}
     {% for activity in rovers_activities %}
     <div class="fade-in" style="background: var(--color-rovers-bg); border-radius: var(--radius-lg); padding: 1.5rem; text-align: center; border-left: 4px solid var(--color-rovers);">
       <p style="font-size: 0.95rem; color: var(--color-rovers); font-weight: 600;">{{ activity }}</p>

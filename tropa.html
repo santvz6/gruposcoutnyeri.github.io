@@ -16,19 +16,19 @@ description: "Tropa del Grupo Scout Nyeri: aventura, exploración y trabajo en e
     <h2 class="unit-intro__title" style="color: var(--color-tropa);">¿Qué es la Tropa?</h2>
     <p class="unit-intro__text">
       La <strong>Tropa</strong> es el corazón del escultismo. Aquí los jóvenes viven la esencia
-      del movimiento: la <em>patrulla</em>. Cada patrulla es un pequeño equipo que aprende a organizarse,
+      del movimiento: los <em>barcos</em>. Cada barco es un pequeño equipo que aprende a organizarse,
       tomar decisiones y superar retos juntos.
     </p>
     <p class="unit-intro__text">
       En la Tropa, los chicos y chicas de 11 a 14 años se enfrentan a nuevos retos
-      y aprenden a trabajar en grupo mediante el sistema de "Patrullas".
+      y aprenden a trabajar en grupo mediante el sistema de "Barcos".
     </p>
     <p class="unit-intro__text">
       Es la etapa de la gran aventura. El campamento, las excursiones y los proyectos en equipo (la "Aventura")
       les ayudan a forjar el carácter, responsabilizarse de las tareas comunes y colaborar para lograr un objetivo
-      bajo el lema: **"Siempre Listos"**.
+      bajo el lema: <strong>"Siempre Listos"</strong>.
     </p>
-    <a href="{{ '/contacto/' | relative_url }}" class="btn btn--secondary" style="margin-top: 1rem;">
+    <a href="{{ '/contacto/' | relative_url }}" class="btn btn--primary" style="background: var(--color-tropa); border-color: var(--color-tropa); margin-top: 1rem;">
       ¿Quieres unirte a la Tropa? →
     </a>
   </div>
@@ -37,10 +37,9 @@ description: "Tropa del Grupo Scout Nyeri: aventura, exploración y trabajo en e
     <h3 style="font-size: 1.5rem; color: var(--color-tropa); margin-bottom: 0.5rem;">Datos de la Unidad</h3>
     <ul style="list-style: none; color: var(--color-text-light); line-height: 2.2; font-size: 0.95rem;">
       <li>📅 <strong>Edad:</strong> 11 — 14 años</li>
-      <li>📆 <strong>Reuniones:</strong> Sábados por la tarde</li>
-      <li>🏕️ <strong>Campamentos:</strong> Fines de semana y verano</li>
-      <li>👥 <strong>Grupo:</strong> Patrullas de 6-8 scouts</li>
-      <li>📍 <strong>Local:</strong> Alicante (ver Contacto)</li>
+      <li>🗓️ <strong>Reuniones:</strong> Sábados — 16:30 - 18:30</li>
+      <li>👥 <strong>Grupo:</strong> Barcos</li>
+      <li>📍 <strong>Local:</strong> San Vicente del Raspeig (ver Contacto)</li>
     </ul>
   </div>
 </div>
@@ -49,7 +48,7 @@ description: "Tropa del Grupo Scout Nyeri: aventura, exploración y trabajo en e
 <section style="margin-bottom: var(--space-16);">
   <h2 class="section-title fade-in" style="margin-bottom: var(--space-8);">Técnicas y habilidades scouts</h2>
   <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem;">
-    {% assign tropa_activities = "🧭 Orientación y cartografía|🪢 Nudos y pionerismo|🩹 Primeros auxilios básicos|🔥 Vida en el monte y acampada|⛵ Actividades náuticas|🤝 Liderazgo y patrulla" | split: "|" %}
+    {% assign tropa_activities = "🧭 Orientación y cartografía|🪢 Nudos|🔥 Vida en el monte y acampada|🤝 Liderazgo y patrulla" | split: "|" %}
     {% for activity in tropa_activities %}
     <div class="fade-in" style="background: var(--color-tropa-bg); border-radius: var(--radius-lg); padding: 1.5rem; text-align: center; border-left: 4px solid var(--color-tropa);">
       <p style="font-size: 0.95rem; color: var(--color-tropa); font-weight: 600;">{{ activity }}</p>

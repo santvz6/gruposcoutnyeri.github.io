@@ -1,0 +1,44 @@
+// ============================================================
+// Firestore Security Rules — Grupo Scout Nyeri
+// Pega estas reglas en:
+//   Firebase Console → Firestore Database → Reglas
+// ============================================================
+
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Función para verificar si el usuario autenticado tiene el rol "admin"
+    // Busca su propio documento en la colección users y comprueba el campo "role"
+    function isAdmin() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+
+    match /users/{userId} {
+
+      // Cualquier usuario autenticado puede leer su propio documento
+      // (para comprobar si está aprobado, y qué rol tiene)
+      allow read: if request.auth != null && request.auth.uid == userId;
+
+      // El administrador 'admin' puede leer TODOS los documentos
+      allow read: if request.auth != null && isAdmin();
+      
+      // El administrador 'admin' puede modificar a TODOS los documentos
+      allow write: if request.auth != null && isAdmin();
+
+      // Un usuario puede crear su propio documento al registrarse.
+      // Validamos que por defecto no se auto-apruebe ni se asigne como admin.
+      allow create: if request.auth != null
+                    && request.auth.uid == userId
+                    && request.resource.data.approved == false
+                    && request.resource.data.role != 'admin';
+
+      // Importante: Un usuario NO puede modificar su propio documento (update),
+      // ya que podría auto-aprobarse `approved: true` o ponerse `role: 'admin'`.
+      // El permiso de 'update' está cubierto para el Administrador arriba en `allow write`.
+
+      // Nadie puede borrar usuarios (solo el admin manualmente desde la consola web de Firebase)
+      allow delete: if false;
+    }
+  }
+}

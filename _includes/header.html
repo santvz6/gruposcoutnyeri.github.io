@@ -72,6 +72,11 @@
           </a>
         </li>
         <li>
+          <a href="{{ '/area-del-grupo/' | relative_url }}" class="navbar__link navbar__link--area {% if page.url contains '/area-del-grupo' or page.url contains '/login' or page.url contains '/admin' %}navbar__link--active{% endif %}">
+            🔒 Área del Grupo
+          </a>
+        </li>
+        <li>
           <a href="{{ '/contacto/' | relative_url }}" class="navbar__link navbar__link--cta {% if page.url == '/contacto/' %}navbar__link--active{% endif %}">
             ¡Únete!
           </a>

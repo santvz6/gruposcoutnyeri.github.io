@@ -4,9 +4,9 @@
 
 # Información del sitio
 title: "Grupo Scout Nyeri"
-description: "Más cerca de Nyeri, más cerca del cielo. Grupo Scout de Alicante formando jóvenes en valores de hermandad, servicio y naturaleza."
+description: "Más cerca de Nyeri, más cerca del cielo. Grupo Scout de San Vicente del Raspeig formando jóvenes en valores de servicio y naturaleza."
 author: "Grupo Scout Nyeri"
-email: "contacto@gruposcoutnyeri.es"
+email: "contacto.gsnyeri@gmail.com"
 baseurl: ""
 url: "https://gruposcoutnyeri.github.io"
 
@@ -60,10 +60,20 @@ defaults:
 grupo:
   nombre: "Grupo Scout Nyeri"
   lema: "Más cerca de Nyeri, más cerca del cielo"
-  ciudad: "Alicante"
+  ciudad: "San Vicente del Raspeig"
   pais: "España"
   asociacion: "Scouts MSC"
-  fundacion: "1975"
-  instagram: "#"
+  fundacion: "1994"
+  instagram: "https://www.instagram.com/gruposcoutnyeri/"
   facebook: "#"
   whatsapp: "#"
+
+# Configuración de Firebase
+firebase:
+  apiKey: "AIzaSyAa8n4SPbHFEgL3DzXhyEfh6wol2HRyd0U"
+  authDomain: "nyeri-c45fc.firebaseapp.com"
+  projectId: "nyeri-c45fc"
+  storageBucket: "nyeri-c45fc.firebasestorage.app"
+  messagingSenderId: "921369846811"
+  appId: "1:921369846811:web:c3b85e63992f1bd94cc4be"
+  measurementId: "G-G4Q4Z9ZDDE"

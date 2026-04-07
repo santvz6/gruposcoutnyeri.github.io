@@ -1,0 +1,250 @@
+---
+layout: default
+title: "Área del Grupo"
+description: "Espacio privado para familiares y scouters del Grupo Scout Nyeri."
+---
+
+<!-- ============================================================
+     area-del-grupo.html — Área privada para familias y scouters
+     Grupo Scout Nyeri (Alicante)
+     ============================================================ -->
+
+<!-- Firebase SDK -->
+<script type="module">
+  import { initializeApp }                      from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+  import { getFirestore, doc, getDoc }            from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+  // ── CONFIGURACIÓN DESDE _config.yml ─────────────────────────
+  const firebaseConfig = {
+    apiKey:            "{{ site.firebase.apiKey }}",
+    authDomain:        "{{ site.firebase.authDomain }}",
+    projectId:         "{{ site.firebase.projectId }}",
+    storageBucket:     "{{ site.firebase.storageBucket }}",
+    messagingSenderId: "{{ site.firebase.messagingSenderId }}",
+    appId:             "{{ site.firebase.appId }}"
+  };
+
+  const app  = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db   = getFirestore(app);
+
+  // ── Guard: comprobar sesión y aprobación ───────────────────
+  onAuthStateChanged(auth, async (user) => {
+    if (!user) {
+      // No hay sesión → redirigir al login
+      window.location.href = "{{ '/login/' | relative_url }}";
+      return;
+    }
+
+    const snap = await getDoc(doc(db, "users", user.uid));
+
+    if (!snap.exists() || !snap.data().approved) {
+      // Sesión válida pero pendiente de aprobación
+      document.getElementById("view-pending").style.display = "block";
+      document.getElementById("user-display-pending").textContent = user.email;
+      document.getElementById("view-loading").style.display = "none";
+      return;
+    }
+
+    // ✅ Sesión válida y aprobada
+    const userData = snap.data();
+    document.getElementById("user-name-display").textContent = userData.name || user.email;
+    document.getElementById("user-role-badge").textContent   =
+      userData.role === "scouter" ? "⚜️ Scouter" : (userData.role === "admin" ? "🛡️ Admin" : "👨‍👩‍👧 Familia");
+    document.getElementById("view-loading").style.display  = "none";
+    document.getElementById("view-content").style.display  = "block";
+
+    // Mostrar panel admin solo si el usuario tiene rol 'admin'
+    if (userData.role === "admin") {
+      document.getElementById("admin-link-wrapper").style.display = "block";
+    }
+  });
+
+  // ── Cerrar sesión ──────────────────────────────────────────
+  document.getElementById("logout-btn").addEventListener("click", async () => {
+    await signOut(auth);
+    window.location.href = "{{ '/login/' | relative_url }}";
+  });
+</script>
+
+<style>
+  .area-wrapper { max-width: 960px; margin: 0 auto; padding: 3rem 1.5rem; }
+
+  /* Loading */
+  #view-loading { text-align: center; padding: 6rem 1rem; color: var(--color-text-light); }
+  .spinner { font-size: 2.5rem; animation: spin 1.5s linear infinite; margin-bottom: 1rem; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* Pending */
+  #view-pending {
+    display: none; text-align: center; padding: 4rem 1.5rem;
+    background: #fff8e1; border-radius: 16px; border: 2px dashed #f9a825;
+    max-width: 500px; margin: 6rem auto;
+  }
+  #view-pending .pending-icon { font-size: 3.5rem; margin-bottom: 1rem; }
+
+  /* Top bar de usuario */
+  .user-bar {
+    display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap;
+    gap: 1rem; background: white; border-radius: 12px;
+    padding: 1rem 1.5rem; box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+    margin-bottom: 2.5rem;
+  }
+  .user-bar__info { display: flex; align-items: center; gap: 0.75rem; }
+  .user-avatar {
+    width: 44px; height: 44px; background: var(--color-primary);
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    color: white; font-size: 1.3rem; font-weight: 900; flex-shrink: 0;
+  }
+  .user-bar__name { font-weight: 700; color: #222; }
+  .role-badge {
+    display: inline-block; padding: 0.2rem 0.75rem;
+    background: #e8f5e9; color: #2e7d32; border-radius: 20px;
+    font-size: 0.78rem; font-weight: 700;
+  }
+  .btn-logout {
+    padding: 0.5rem 1.2rem; background: transparent;
+    border: 1.5px solid #ccc; border-radius: 8px; cursor: pointer;
+    font-size: 0.88rem; color: #666; transition: all 0.2s;
+  }
+  .btn-logout:hover { border-color: #e53935; color: #e53935; }
+
+  /* Grid de secciones */
+  .area-sections { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; }
+  .section-card {
+    background: white; border-radius: 14px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+    padding: 1.75rem; transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .section-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.1); }
+  .section-card__icon { font-size: 2rem; margin-bottom: 0.75rem; }
+  .section-card__title { font-weight: 800; font-size: 1.1rem; margin-bottom: 0.5rem; color: #222; }
+  .section-card__desc  { font-size: 0.88rem; color: #666; line-height: 1.6; margin-bottom: 1.25rem; }
+  .btn-section {
+    display: inline-block; padding: 0.55rem 1.1rem;
+    background: var(--color-primary); color: white;
+    border-radius: 8px; font-weight: 700; font-size: 0.88rem;
+    text-decoration: none; transition: opacity 0.2s;
+  }
+  .btn-section:hover { opacity: 0.85; }
+
+  /* Admin card */
+  .admin-card { border: 2px solid #ff6f00; }
+  .admin-card .btn-section { background: #ff6f00; }
+
+  #admin-link-wrapper { display: none; } /* se muestra solo para admin via JS */
+</style>
+
+<!-- ── Pantalla de carga ─────────────────────────────────── -->
+<div id="view-loading" class="area-wrapper" style="text-align:center; padding:6rem 1rem;">
+  <div class="spinner">⚜️</div>
+  <p style="color: var(--color-text-light);">Comprobando sesión…</p>
+</div>
+
+<!-- ── Pendiente de aprobación ────────────────────────────── -->
+<div id="view-pending">
+  <div class="pending-icon">⏳</div>
+  <h2 style="font-weight:800; margin-bottom:0.5rem;">Solicitud pendiente</h2>
+  <p style="color:#555; margin-bottom:0.5rem;">
+    Tu solicitud de acceso (<strong id="user-display-pending"></strong>) está pendiente de revisión.
+    El administrador del grupo la revisará próximamente.
+  </p>
+  <p style="font-size:0.85rem; color:#888;">
+    Si llevas varios días esperando, puedes escribirnos a
+    <a href="mailto:{{ site.email }}">{{ site.email }}</a>.
+  </p>
+  <button id="logout-btn" style="margin-top:1.5rem; padding:0.6rem 1.5rem; border:1.5px solid #ccc; border-radius:8px; cursor:pointer; background:white;">
+    Cerrar sesión
+  </button>
+</div>
+
+<!-- ── Contenido del Área del Grupo ──────────────────────── -->
+<div id="view-content" style="display:none;">
+  <div class="area-wrapper">
+
+    <!-- Barra de usuario -->
+    <div class="user-bar">
+      <div class="user-bar__info">
+        <div class="user-avatar">⚜</div>
+        <div>
+          <div class="user-bar__name" id="user-name-display"></div>
+          <span class="role-badge" id="user-role-badge"></span>
+        </div>
+      </div>
+      <button id="logout-btn" class="btn-logout">Cerrar sesión</button>
+    </div>
+
+    <h2 style="font-weight:900; font-size:1.75rem; margin-bottom:0.5rem;">¡Bienvenido al Área del Grupo! 🏕️</h2>
+    <p style="color:#666; margin-bottom:2.5rem;">
+      Aquí encontrarás los álbumes de fotos, documentación interna y recursos exclusivos para miembros del Grupo Scout Nyeri.
+    </p>
+
+    <!-- Secciones -->
+    <div class="area-sections">
+
+      <!-- Álbum: Manada -->
+      <div class="section-card">
+        <div class="section-card__icon">🐺</div>
+        <h3 class="section-card__title">Fotos de la Manada</h3>
+        <p class="section-card__desc">
+          Álbumes de actividades, excursiones y campamentos de los más pequeños.
+        </p>
+        <a href="#" class="btn-section" target="_blank" rel="noopener">Ver álbum →</a>
+      </div>
+
+      <!-- Álbum: Tropa -->
+      <div class="section-card">
+        <div class="section-card__icon">🌲</div>
+        <h3 class="section-card__title">Fotos de la Tropa</h3>
+        <p class="section-card__desc">
+          Crónicas fotográficas de las salidas y campamentos de la Tropa.
+        </p>
+        <a href="#" class="btn-section" target="_blank" rel="noopener">Ver álbum →</a>
+      </div>
+
+      <!-- Álbum: Pioneros -->
+      <div class="section-card">
+        <div class="section-card__icon">🔥</div>
+        <h3 class="section-card__title">Fotos de Pioneros</h3>
+        <p class="section-card__desc">
+          Proyectos, rutas y actividades de la unidad Pioneros.
+        </p>
+        <a href="#" class="btn-section" target="_blank" rel="noopener">Ver álbum →</a>
+      </div>
+
+      <!-- Álbum: Rovers -->
+      <div class="section-card">
+        <div class="section-card__icon">⚜️</div>
+        <h3 class="section-card__title">Fotos de Rovers</h3>
+        <p class="section-card__desc">
+          Documentación visual de los proyectos y voluntariados de los Rovers.
+        </p>
+        <a href="#" class="btn-section" target="_blank" rel="noopener">Ver álbum →</a>
+      </div>
+
+      <!-- Documentos internos -->
+      <div class="section-card">
+        <div class="section-card__icon">📄</div>
+        <h3 class="section-card__title">Documentación interna</h3>
+        <p class="section-card__desc">
+          Formularios de autorización, reglamento interno y circulares del grupo.
+        </p>
+        <a href="{{ '/descargas/' | relative_url }}" class="btn-section">Ir a descargas →</a>
+      </div>
+
+      <!-- Panel de Administración (solo para admin) -->
+      <div id="admin-link-wrapper">
+        <div class="section-card admin-card">
+          <div class="section-card__icon">🛡️</div>
+          <h3 class="section-card__title">Panel de Administración</h3>
+          <p class="section-card__desc">
+            Gestiona los accesos pendientes y aprueba o revoca usuarios.
+          </p>
+          <a href="{{ '/admin/' | relative_url }}" class="btn-section">Ir al panel →</a>
+        </div>
+      </div>
+
+    </div><!-- /.area-sections -->
+  </div><!-- /.area-wrapper -->
+</div><!-- /#view-content -->
