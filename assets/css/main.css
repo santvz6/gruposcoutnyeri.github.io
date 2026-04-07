@@ -1622,12 +1622,15 @@ h1, h2, h3, h4, h5, h6 {
   .navbar__link { justify-content: flex-start; border-radius: var(--radius-md); }
 
   /* Dropdown en móvil: siempre visible cuando el menú está abierto */
-  .navbar__submenu {
-    position: static;
-    opacity: 1;
-    visibility: visible;
+  .navbar__submenu,
+  .navbar__dropdown.is-open .navbar__submenu {
+    position: static !important;
+    left: auto !important;
+    top: auto !important;
     transform: none !important;
-    pointer-events: auto;
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
     box-shadow: none;
     border: none;
     background: var(--color-light);
@@ -1637,7 +1640,7 @@ h1, h2, h3, h4, h5, h6 {
     display: none;
   }
 
-  .navbar__submenu.is-open { display: block; }
+  .navbar__submenu.is-open { display: block !important; }
 
   /* Hero */
   .hero__decoration { display: none; }
