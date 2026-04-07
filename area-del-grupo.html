@@ -62,9 +62,11 @@ description: "Espacio privado para familiares y scouters del Grupo Scout Nyeri."
   });
 
   // ── Cerrar sesión ──────────────────────────────────────────
-  document.getElementById("logout-btn").addEventListener("click", async () => {
-    await signOut(auth);
-    window.location.href = "{{ '/login/' | relative_url }}";
+  document.addEventListener("click", async (e) => {
+    if (e.target.closest(".logout-btn")) {
+      await signOut(auth);
+      window.location.href = "{{ '/login/' | relative_url }}";
+    }
   });
 </script>
 
@@ -154,7 +156,7 @@ description: "Espacio privado para familiares y scouters del Grupo Scout Nyeri."
     Si llevas varios días esperando, puedes escribirnos a
     <a href="mailto:{{ site.email }}">{{ site.email }}</a>.
   </p>
-  <button id="logout-btn" style="margin-top:1.5rem; padding:0.6rem 1.5rem; border:1.5px solid #ccc; border-radius:8px; cursor:pointer; background:white;">
+  <button class="logout-btn" style="margin-top:1.5rem; padding:0.6rem 1.5rem; border:1.5px solid #ccc; border-radius:8px; cursor:pointer; background:white;">
     Cerrar sesión
   </button>
 </div>
@@ -172,7 +174,7 @@ description: "Espacio privado para familiares y scouters del Grupo Scout Nyeri."
           <span class="role-badge" id="user-role-badge"></span>
         </div>
       </div>
-      <button id="logout-btn" class="btn-logout">Cerrar sesión</button>
+      <button class="btn-logout logout-btn">Cerrar sesión</button>
     </div>
 
     <h2 style="font-weight:900; font-size:1.75rem; margin-bottom:0.5rem;">¡Bienvenido al Área del Grupo! 🏕️</h2>

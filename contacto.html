@@ -4,7 +4,8 @@ layout: page
 title: "Contacto"
 subtitle: "¡Nos encantaría conocerte! Escríbenos sin compromiso"
 icon: "📬"
-description: "Contacta con el Grupo Scout Nyeri de Alicante. Formulario de contacto, ubicación del local y horario de reuniones."
+description: "Contacta con el Grupo Scout Nyeri de Alicante. Formulario de contacto, ubicación del local y horario de
+reuniones."
 ---
 
 <section class="contact-section">
@@ -25,7 +26,7 @@ description: "Contacta con el Grupo Scout Nyeri de Alicante. Formulario de conta
           <div>
             <p class="contact-info__label">Local del grupo</p>
             <!-- Sustituir por la dirección real del local -->
-            <p class="contact-info__value">C. Cervantes, 4-10, 03690 San Vicente del Raspeig, Alicante</p>
+            <p class="contact-info__value">Pl. España, 2, 03690 Sant Vicent del Raspeig, Alicante</p>
           </div>
         </div>
 
@@ -51,17 +52,8 @@ description: "Contacta con el Grupo Scout Nyeri de Alicante. Formulario de conta
       <!-- Mapa OpenStreetMap — sustituir coordenadas por la ubicación real del local -->
       <div class="contact-map">
         <iframe
-          src="https://www.openstreetmap.org/export/embed.html?bbox=-0.5280,38.3920,-0.5180,38.4000&layer=mapnik&marker=38.39612,-0.52290"
-          title="Ubicación del local del Grupo Scout Nyeri en Alicante"
-          loading="lazy"
-          allowfullscreen
-        ></iframe>
-      </div>
-      <div style="background: var(--color-light); padding: 1rem; border-radius: var(--radius-md); border-left: 4px solid var(--color-secondary); margin-top: 1.5rem; display: flex; align-items: flex-start; gap: 0.75rem;">
-        <span style="font-size: 1.25rem;" aria-hidden="true">🌳</span>
-        <p style="font-size: 0.9rem; color: var(--color-text); margin: 0; line-height: 1.5;">
-          <strong>Punto de encuentro habitual:</strong> Aunque nuestro "local" está en la calle Cervantes, solemos reunirnos en la <strong>Plaza de España</strong> para comenzar las actividades al aire libre.
-        </p>
+          src="https://www.openstreetmap.org/export/embed.html?bbox=-0.5285,38.3935,-0.5215,38.3995&layer=mapnik&marker=38.39638,-0.52515"
+          title="Ubicación del local del Grupo Scout Nyeri en Alicante" loading="lazy" allowfullscreen></iframe>
       </div>
     </div>
 
@@ -76,16 +68,13 @@ description: "Contacta con el Grupo Scout Nyeri de Alicante. Formulario de conta
       </p>
 
       <!-- Mensaje de éxito (oculto por defecto, se muestra con JS tras envío) -->
-      <div id="form-success" style="display: none; background: #E8F5E9; border-radius: var(--radius-md); padding: 1rem 1.5rem; margin-bottom: 1.5rem; border-left: 4px solid var(--color-secondary); color: var(--color-secondary-dark);">
+      <div id="form-success"
+        style="display: none; background: #E8F5E9; border-radius: var(--radius-md); padding: 1rem 1.5rem; margin-bottom: 1.5rem; border-left: 4px solid var(--color-secondary); color: var(--color-secondary-dark);">
         ✅ ¡Mensaje enviado! Nos pondremos en contacto contigo pronto.
       </div>
 
       <!-- Formulario conectado a Formspree — sustituir ACTION por la URL real de tu formulario -->
-      <form
-        action="https://formspree.io/f/mwvwbwkv"
-        method="POST"
-        id="contact-form"
-      >
+      <form action="https://formspree.io/f/xwvwyjlk" method="POST" id="contact-form">
         <!-- Campo honeypot anti-spam (oculto) -->
         <input type="text" name="_gotcha" style="display:none">
         <!-- Redirect al mismo sitio con parámetro de éxito -->
@@ -96,26 +85,13 @@ description: "Contacta con el Grupo Scout Nyeri de Alicante. Formulario de conta
             <label class="form-label" for="nombre">
               Nombre <span class="form-required" aria-hidden="true">*</span>
             </label>
-            <input
-              type="text"
-              id="nombre"
-              name="nombre"
-              class="form-input"
-              placeholder="Tu nombre"
-              required
-              autocomplete="given-name"
-            >
+            <input type="text" id="nombre" name="nombre" class="form-input" placeholder="Tu nombre" required
+              autocomplete="given-name">
           </div>
           <div class="form-group">
             <label class="form-label" for="apellidos">Apellidos</label>
-            <input
-              type="text"
-              id="apellidos"
-              name="apellidos"
-              class="form-input"
-              placeholder="Tus apellidos"
-              autocomplete="family-name"
-            >
+            <input type="text" id="apellidos" name="apellidos" class="form-input" placeholder="Tus apellidos"
+              autocomplete="family-name">
           </div>
         </div>
 
@@ -124,26 +100,13 @@ description: "Contacta con el Grupo Scout Nyeri de Alicante. Formulario de conta
             <label class="form-label" for="email">
               Email <span class="form-required" aria-hidden="true">*</span>
             </label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              class="form-input"
-              placeholder="tu@email.com"
-              required
-              autocomplete="email"
-            >
+            <input type="email" id="email" name="email" class="form-input" placeholder="tu@email.com" required
+              autocomplete="email">
           </div>
           <div class="form-group">
             <label class="form-label" for="telefono">Teléfono</label>
-            <input
-              type="tel"
-              id="telefono"
-              name="telefono"
-              class="form-input"
-              placeholder="6XX XXX XXX"
-              autocomplete="tel"
-            >
+            <input type="tel" id="telefono" name="telefono" class="form-input" placeholder="6XX XXX XXX"
+              autocomplete="tel">
           </div>
         </div>
 
@@ -164,25 +127,16 @@ description: "Contacta con el Grupo Scout Nyeri de Alicante. Formulario de conta
           <label class="form-label" for="mensaje">
             Mensaje <span class="form-required" aria-hidden="true">*</span>
           </label>
-          <textarea
-            id="mensaje"
-            name="mensaje"
-            class="form-textarea"
-            placeholder="Cuéntanos tu consulta o preséntate..."
-            required
-          ></textarea>
+          <textarea id="mensaje" name="mensaje" class="form-textarea"
+            placeholder="Cuéntanos tu consulta o preséntate..." required></textarea>
         </div>
 
         <!-- Consentimiento RGPD -->
         <div class="form-group" style="display: flex; align-items: flex-start; gap: 0.75rem;">
-          <input
-            type="checkbox"
-            id="rgpd"
-            name="rgpd"
-            required
-            style="margin-top: 4px; width: 18px; height: 18px; flex-shrink: 0; accent-color: var(--color-primary);"
-          >
-          <label for="rgpd" style="font-size: 0.85rem; color: var(--color-text-light); cursor: pointer; line-height: 1.5;">
+          <input type="checkbox" id="rgpd" name="rgpd" required
+            style="margin-top: 4px; width: 18px; height: 18px; flex-shrink: 0; accent-color: var(--color-primary);">
+          <label for="rgpd"
+            style="font-size: 0.85rem; color: var(--color-text-light); cursor: pointer; line-height: 1.5;">
             He leído y acepto la política de privacidad. Los datos facilitados serán utilizados únicamente
             para responder a tu consulta y no serán cedidos a terceros. <span class="form-required">*</span>
           </label>

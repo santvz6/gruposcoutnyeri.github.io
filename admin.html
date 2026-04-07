@@ -15,7 +15,7 @@ description: "Gestión de accesos al Área del Grupo Scout Nyeri."
   import { getAuth, onAuthStateChanged, signOut }   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
   import {
     getFirestore, collection, getDocs,
-    doc, updateDoc                               } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+    doc, updateDoc, getDoc                         } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
   // ── MISMO firebaseConfig que en login.html ──────────────────
   const firebaseConfig = {

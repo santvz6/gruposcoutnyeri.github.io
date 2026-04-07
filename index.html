@@ -2,7 +2,8 @@
 # Página principal — Home / Landing Page
 layout: default
 title: "Inicio"
-description: "Grupo Scout Nyeri de Alicante. Formando jóvenes con valores de hermandad, servicio y aventura en la naturaleza. ¡Únete a nosotros!"
+description: "Grupo Scout Nyeri de Alicante. Formando jóvenes con valores de hermandad, servicio y aventura en la
+naturaleza. ¡Únete a nosotros!"
 ---
 
 <!-- ============================================================
@@ -11,13 +12,8 @@ description: "Grupo Scout Nyeri de Alicante. Formando jóvenes con valores de he
 <section class="hero" aria-labelledby="hero-title">
 
   <!-- Imagen de fondo del hero (placeholder hasta que se suba foto real) -->
-  <img
-    src="{{ '/assets/img/hero-bg-3.jpg' | relative_url }}"
-    alt="Jóvenes del Grupo Scout Nyeri en la naturaleza"
-    class="hero__bg"
-    loading="eager"
-    onerror="this.style.display='none'"
-  >
+  <img src="{{ '/assets/img/hero-bg-3.jpg' | relative_url }}" alt="Jóvenes del Grupo Scout Nyeri en la naturaleza"
+    class="hero__bg" loading="eager" onerror="this.style.display='none'">
 
   <!-- Overlay de color -->
   <div class="hero__overlay" aria-hidden="true"></div>
@@ -123,16 +119,13 @@ description: "Grupo Scout Nyeri de Alicante. Formando jóvenes con valores de he
       </div>
 
       <!-- Cuadro decorativo con pañoleta y link a historia -->
-      <div class="about__image-wrapper fade-in" aria-hidden="true" style="display: flex; flex-direction: column; gap: 2rem;">
+      <div class="about__image-wrapper fade-in" aria-hidden="true"
+        style="display: flex; flex-direction: column; gap: 2rem;">
         <div style="position: relative;">
           <div class="about__circle" style="inset: -40px;"></div>
-          <img
-            src="{{ '/assets/img/panoleta-transparente.png' | relative_url }}"
-            alt="Pañoleta del Grupo Scout Nyeri"
-            class="about__logo"
-            style="width: 280px; height: 280px; filter: drop-shadow(0 15px 25px rgba(0,0,0,0.15));"
-            loading="lazy"
-          >
+          <img src="{{ '/assets/img/panoleta-transparente.png' | relative_url }}" alt="Pañoleta del Grupo Scout Nyeri"
+            class="about__logo" style="width: 280px; height: 280px; filter: drop-shadow(0 15px 25px rgba(0,0,0,0.15));"
+            loading="lazy">
         </div>
         <a href="{{ '/el-grupo/' | relative_url }}" class="btn btn--primary" style="margin-top: 2rem; z-index: 2;">
           Conoce nuestra historia y colores →
@@ -161,7 +154,8 @@ description: "Grupo Scout Nyeri de Alicante. Formando jóvenes con valores de he
     <div class="units__grid">
 
       <!-- Manada -->
-      <a href="{{ '/manada/' | relative_url }}" class="unit-card unit-card--manada fade-in" aria-label="Conoce la Manada (7-11 años)">
+      <a href="{{ '/manada/' | relative_url }}" class="unit-card unit-card--manada fade-in"
+        aria-label="Conoce la Manada (7-11 años)">
         <div class="unit-card__header">
           <span class="unit-card__icon" aria-hidden="true">🐺</span>
           <h3 class="unit-card__title">Manada</h3>
@@ -177,7 +171,8 @@ description: "Grupo Scout Nyeri de Alicante. Formando jóvenes con valores de he
       </a>
 
       <!-- Tropa -->
-      <a href="{{ '/tropa/' | relative_url }}" class="unit-card unit-card--tropa fade-in" aria-label="Conoce la Sección Tropa (11-14 años)">
+      <a href="{{ '/tropa/' | relative_url }}" class="unit-card unit-card--tropa fade-in"
+        aria-label="Conoce la Sección Tropa (11-14 años)">
         <div class="unit-card__header">
           <span class="unit-card__icon" aria-hidden="true">🌲</span>
           <h3 class="unit-card__title">Tropa</h3>
@@ -193,7 +188,8 @@ description: "Grupo Scout Nyeri de Alicante. Formando jóvenes con valores de he
       </a>
 
       <!-- Pioneros -->
-      <a href="{{ '/pioneros/' | relative_url }}" class="unit-card unit-card--pioneros fade-in" aria-label="Conoce la Unidad Pioneros (14-17 años)">
+      <a href="{{ '/pioneros/' | relative_url }}" class="unit-card unit-card--pioneros fade-in"
+        aria-label="Conoce la Unidad Pioneros (14-17 años)">
         <div class="unit-card__header">
           <span class="unit-card__icon" aria-hidden="true">🔥</span>
           <h3 class="unit-card__title">Pioneros</h3>
@@ -209,7 +205,8 @@ description: "Grupo Scout Nyeri de Alicante. Formando jóvenes con valores de he
       </a>
 
       <!-- Rovers -->
-      <a href="{{ '/rovers/' | relative_url }}" class="unit-card unit-card--rovers fade-in" aria-label="Conoce los Rovers (17-20 años)">
+      <a href="{{ '/rovers/' | relative_url }}" class="unit-card unit-card--rovers fade-in"
+        aria-label="Conoce los Rovers (17-20 años)">
         <div class="unit-card__header">
           <span class="unit-card__icon" aria-hidden="true">⚜️</span>
           <h3 class="unit-card__title">Rovers</h3>
@@ -245,16 +242,9 @@ description: "Grupo Scout Nyeri de Alicante. Formando jóvenes con valores de he
     <!-- Embed Google Calendar — sustituir src por la URL real del calendario -->
     <div class="calendar-embed-wrapper fade-in">
       <iframe
-        src="https://calendar.google.com/calendar/embed?src=ea4fa9c1de14c45cfa1c4689dd80acf350a8043a27c4d233f5387af4b5a7695d%40group.calendar.google.com&ctz=Europe%2FMadrid"
-        title="Calendario de actividades Grupo Scout Nyeri"
-        style="border: 0"
-        width="100%"
-        height="600"
-        frameborder="0"
-        scrolling="no"
-        loading="lazy"
-        allowfullscreen
-      ></iframe>
+        src="https://calendar.google.com/calendar/embed?src=ea4fa9c1de14c45cfa1c4689dd80acf350a8043a27c4d233f5387af4b5a7695d%40group.calendar.google.com&ctz=Europe%2FMadrid&wkst=2&hl=es"
+        title="Calendario de actividades Grupo Scout Nyeri" style="border: 0" width="100%" height="600" frameborder="0"
+        scrolling="no" loading="lazy" allowfullscreen></iframe>
     </div>
   </div>
 </section>
@@ -277,12 +267,8 @@ description: "Grupo Scout Nyeri de Alicante. Formando jóvenes con valores de he
       <a href="{{ post.url | relative_url }}" class="post-card fade-in">
         <div class="post-card__image-wrapper">
           {% if post.image %}
-          <img
-            src="{{ post.image | relative_url }}"
-            alt="{{ post.image_alt | default: post.title }}"
-            class="post-card__image"
-            loading="lazy"
-          >
+          <img src="{{ post.image | relative_url }}" alt="{{ post.image_alt | default: post.title }}"
+            class="post-card__image" loading="lazy">
           {% else %}
           <!-- Placeholder si no hay imagen -->
           <div class="post-card__placeholder">
@@ -331,7 +317,8 @@ description: "Grupo Scout Nyeri de Alicante. Formando jóvenes con valores de he
       <a href="{{ '/contacto/' | relative_url }}" class="btn btn--white btn--lg">
         Contacta con nosotros →
       </a>
-      <a href="{{ '/descargas/' | relative_url }}" class="btn btn--outline btn--lg" style="border-color: rgba(255,255,255,0.5); color: white;">
+      <a href="{{ '/descargas/' | relative_url }}" class="btn btn--outline btn--lg"
+        style="border-color: rgba(255,255,255,0.5); color: white;">
         Documentos y formularios
       </a>
     </div>
