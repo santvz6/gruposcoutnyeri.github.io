@@ -73,7 +73,7 @@ firebase:
   apiKey: "AIzaSyAa8n4SPbHFEgL3DzXhyEfh6wol2HRyd0U"
   authDomain: "nyeri-c45fc.firebaseapp.com"
   projectId: "nyeri-c45fc"
-  storageBucket: "nyeri-c45fc.firebasestorage.app"
+  # storageBucket: "nyeri-c45fc.firebasestorage.app" -- Firebase Storage (tiene costo)
   messagingSenderId: "921369846811"
   appId: "1:921369846811:web:c3b85e63992f1bd94cc4be"
   measurementId: "G-G4Q4Z9ZDDE"
