@@ -357,12 +357,22 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* Dropdown Unidades */
+/* El <li> ocupa la altura completa del navbar para que no haya gap
+   entre el botón y el submenú desplegable */
 .navbar__dropdown {
   position: relative;
+  display: flex;
+  align-items: stretch;
+  align-self: stretch;
 }
 
 .navbar__dropdown-toggle {
   position: relative;
+  /* Rellena toda la altura del <li> padre para eliminar la zona muerta
+     entre el botón y el submenú (sin afectar al aspecto visual) */
+  height: 100%;
+  display: inline-flex;
+  align-items: center;
 }
 
 .navbar__arrow {
@@ -370,31 +380,33 @@ h1, h2, h3, h4, h5, h6 {
   transition: transform var(--transition-fast);
 }
 
-.navbar__dropdown:hover .navbar__arrow,
-.navbar__dropdown-toggle[aria-expanded="true"] .navbar__arrow {
+/* La flecha rota cuando el dropdown está abierto (controlado por JS) */
+.navbar__dropdown.is-open .navbar__arrow {
   transform: rotate(180deg);
 }
 
 .navbar__submenu {
   position: absolute;
-  top: calc(100% + var(--space-2));
+  /* top: 100% — sin gap físico para que el cursor no salga del <li> padre */
+  top: 100%;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translateX(-50%) translateY(-8px);
   background: var(--color-white);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-xl);
   border: 1px solid var(--color-border);
+  /* El espacio visual se consigue con padding-top, no con top */
   padding: var(--space-2);
+  padding-top: calc(var(--space-2) + 8px);
   min-width: 240px;
   opacity: 0;
   visibility: hidden;
-  transform: translateX(-50%) translateY(-8px);
-  transition: all var(--transition-normal);
+  transition: opacity var(--transition-normal), transform var(--transition-normal), visibility var(--transition-normal);
   pointer-events: none;
 }
 
-.navbar__dropdown:hover .navbar__submenu,
-.navbar__dropdown-toggle[aria-expanded="true"] + .navbar__submenu {
+/* El submenu solo se muestra cuando JS añade .is-open al .navbar__dropdown padre */
+.navbar__dropdown.is-open .navbar__submenu {
   opacity: 1;
   visibility: visible;
   transform: translateX(-50%) translateY(0);
@@ -1570,7 +1582,7 @@ h1, h2, h3, h4, h5, h6 {
    18. RESPONSIVE — TABLET (max 1024px)
    ============================================================ */
 @media (max-width: 1024px) {
-  .about__grid       { grid-template-columns: 1fr; }
+  .about__grid       { grid-template-columns: 1fr !important; }
   .about__image-wrapper { order: -1; }
   .about__logo       { width: 220px; height: 220px; }
   .unit-intro        { grid-template-columns: 1fr; }
@@ -1614,7 +1626,7 @@ h1, h2, h3, h4, h5, h6 {
     position: static;
     opacity: 1;
     visibility: visible;
-    transform: none;
+    transform: none !important;
     pointer-events: auto;
     box-shadow: none;
     border: none;

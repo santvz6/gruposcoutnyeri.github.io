@@ -8,48 +8,122 @@ document.addEventListener('DOMContentLoaded', function () {
   // ============================================================
   // 1. MENÚ HAMBURGUESA (móvil)
   // ============================================================
-  const hamburgerBtn  = document.getElementById('hamburger-btn');
-  const navbarMenu    = document.getElementById('navbar-menu');
+  const hamburgerBtn   = document.getElementById('hamburger-btn');
+  const navbarMenu     = document.getElementById('navbar-menu');
+  const dropdownLi     = document.querySelector('.navbar__dropdown');
   const dropdownToggle = document.querySelector('.navbar__dropdown-toggle');
   const submenu        = document.querySelector('.navbar__submenu');
 
-  if (hamburgerBtn && navbarMenu) {
-    hamburgerBtn.addEventListener('click', function () {
-      const isOpen = navbarMenu.classList.toggle('is-open');
-      hamburgerBtn.classList.toggle('is-active', isOpen);
-      hamburgerBtn.setAttribute('aria-expanded', isOpen);
-    });
+  // Estado para saber si el dropdown está fijado por click
+  let isDropdownLocked = false;
+  let closeTimer = null;
+
+  function openDropdown() {
+    clearTimeout(closeTimer);
+    if (dropdownLi) dropdownLi.classList.add('is-open');
+    if (dropdownToggle) dropdownToggle.setAttribute('aria-expanded', 'true');
   }
 
-  // Toggle del dropdown de Unidades en móvil
-  if (dropdownToggle && submenu) {
-    dropdownToggle.addEventListener('click', function () {
-      // Solo en móvil (menú hamburguesa activo)
-      if (window.innerWidth <= 768) {
-        const isExpanded = dropdownToggle.getAttribute('aria-expanded') === 'true';
-        dropdownToggle.setAttribute('aria-expanded', !isExpanded);
-        submenu.classList.toggle('is-open', !isExpanded);
+  function closeDropdown() {
+    if (isDropdownLocked) return; // No cerrar si está fijado
+    closeTimer = setTimeout(function () {
+      if (dropdownLi) dropdownLi.classList.remove('is-open');
+      if (dropdownToggle) dropdownToggle.setAttribute('aria-expanded', 'false');
+    }, 400); // 400 ms de gracia
+  }
+
+  if (dropdownLi && submenu) {
+    // Eventos de hover para escritorio
+    dropdownLi.addEventListener('mouseenter', function () {
+      if (window.innerWidth > 768) {
+        openDropdown();
+      }
+    });
+
+    dropdownLi.addEventListener('mouseleave', function () {
+      if (window.innerWidth > 768) {
+        closeDropdown();
+      }
+    });
+
+    submenu.addEventListener('mouseenter', function () {
+      if (window.innerWidth > 768) {
+        clearTimeout(closeTimer);
+      }
+    });
+
+    submenu.addEventListener('mouseleave', function () {
+      if (window.innerWidth > 768) {
+        closeDropdown();
       }
     });
   }
 
-  // Cerrar menú al pulsar fuera
+  // --- Toggle por Click (Sirve para móvil y para fijar en escritorio) ---
+  if (dropdownToggle && submenu && dropdownLi) {
+    dropdownToggle.addEventListener('click', function (e) {
+      e.preventDefault();
+      const isExpanded = dropdownLi.classList.contains('is-open');
+
+      if (isExpanded && isDropdownLocked) {
+        // Cierra el menú si estaba fijado y se vuelve a hacer clic
+        isDropdownLocked = false;
+        dropdownLi.classList.remove('is-open');
+        dropdownToggle.setAttribute('aria-expanded', 'false');
+        submenu.classList.remove('is-open');
+      } else {
+        // Lo abre y lo fija
+        isDropdownLocked = true;
+        dropdownLi.classList.add('is-open');
+        dropdownToggle.setAttribute('aria-expanded', 'true');
+        submenu.classList.add('is-open');
+      }
+    });
+  }
+
+  // --- Hamburguesa (móvil) ---
+  if (hamburgerBtn && navbarMenu) {
+    hamburgerBtn.addEventListener('click', function () {
+      const isOpen = navbarMenu.classList.toggle('is-open');
+      hamburgerBtn.classList.toggle('is-active', isOpen);
+      hamburgerBtn.setAttribute('aria-expanded', String(isOpen));
+    });
+  }
+
+  // Cerrar menú al pulsar fuera de cualquier elemento del dropdown o nav
   document.addEventListener('click', function (e) {
-    if (navbarMenu && !navbarMenu.contains(e.target) && !hamburgerBtn.contains(e.target)) {
+    // Cerrar hamburguesa si se hace click fuera
+    if (navbarMenu && !navbarMenu.contains(e.target) && hamburgerBtn && !hamburgerBtn.contains(e.target)) {
       navbarMenu.classList.remove('is-open');
       hamburgerBtn.classList.remove('is-active');
       hamburgerBtn.setAttribute('aria-expanded', 'false');
     }
+    
+    // Cerrar dropdown escritorio y quitar bloqueo si se hace click fuera
+    if (dropdownLi && !dropdownLi.contains(e.target)) {
+      isDropdownLocked = false;
+      dropdownLi.classList.remove('is-open');
+      if (dropdownToggle) dropdownToggle.setAttribute('aria-expanded', 'false');
+      if (submenu) submenu.classList.remove('is-open');
+    }
   });
 
-  // Cerrar menú al pulsar un enlace (móvil)
-  navbarMenu && navbarMenu.querySelectorAll('.navbar__link, .navbar__sublink').forEach(function (link) {
-    link.addEventListener('click', function () {
-      navbarMenu.classList.remove('is-open');
-      hamburgerBtn && hamburgerBtn.classList.remove('is-active');
-      hamburgerBtn && hamburgerBtn.setAttribute('aria-expanded', 'false');
+  // Cerrar menú al pulsar un enlace genérico (móvil o dropdown)
+  if (navbarMenu) {
+    navbarMenu.querySelectorAll('.navbar__link:not(.navbar__dropdown-toggle), .navbar__sublink').forEach(function (link) {
+      link.addEventListener('click', function () {
+        // Reseteo general
+        navbarMenu.classList.remove('is-open');
+        if (hamburgerBtn) {
+          hamburgerBtn.classList.remove('is-active');
+          hamburgerBtn.setAttribute('aria-expanded', 'false');
+        }
+        isDropdownLocked = false;
+        if (dropdownLi) dropdownLi.classList.remove('is-open');
+        if (dropdownToggle) dropdownToggle.setAttribute('aria-expanded', 'false');
+      });
     });
-  });
+  }
 
   // ============================================================
   // 2. EFECTO SCROLL EN HEADER (añade sombra)
