@@ -8,40 +8,75 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // Función para verificar si el usuario autenticado tiene el rol "admin"
+    // ── Helpers ────────────────────────────────────────────────
+
     function isAdmin() {
-      return request.auth != null && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+      return request.auth != null
+          && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
     }
 
-    // Función para verificar si el usuario ha sido aprobado por un administrador
+    function isScouter() {
+      return request.auth != null
+          && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'scouter';
+    }
+
+    function isEducando() {
+      return request.auth != null
+          && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'educando';
+    }
+
+    // Usuario autenticado y aprobado (cualquier rol excepto admin que siempre está aprobado)
     function isApproved() {
-      return request.auth != null && (get(/databases/$(database)/documents/users/$(request.auth.uid)).data.approved == true || isAdmin());
+      return request.auth != null && (
+        isAdmin() ||
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.approved == true
+      );
     }
 
-    // Documentos sensibles (puedes crear esta colección para guardar datos que no sean públicos)
-    match /documentos_privados/{docId} {
-      // Solo usuarios aprobados o administradores pueden leer estos documentos
-      allow read: if isApproved();
-      // Solo administradores pueden subir o modificar estos documentos
-      allow write: if isAdmin();
-    }
+    // ── Usuarios ───────────────────────────────────────────────
 
     match /users/{userId} {
       // Cualquier usuario autenticado puede leer su propio documento
       allow read: if request.auth != null && request.auth.uid == userId;
       // El administrador puede leer todos los usuarios
       allow read: if isAdmin();
-      // Solo el administrador puede modificar usuarios (aprobarlos, cambiarles el rol)
+      // Solo el administrador puede modificar usuarios (aprobarlos, cambiarles el rol, asignar rama)
       allow write: if isAdmin();
 
       // Un usuario puede crear su propio documento al registrarse.
+      // El campo rama queda null hasta que el admin lo asigne.
       allow create: if request.auth != null
                     && request.auth.uid == userId
                     && request.resource.data.approved == false
-                    && request.resource.data.role != 'admin';
+                    && request.resource.data.role != 'admin'; 
+                    // Eliminada la restricción de scouter para permitir solicitudes de monitores.
 
       // Nadie puede borrar usuarios desde el SDK (mejor hacerlo desde consola Firebase)
       allow delete: if false;
+    }
+
+    // ── Álbumes de Google Drive (drive_links) ──────────────────
+    // Colección: drive_links/{rondaId}
+    // Estructura: { label, active, grupo, scouters, ramas: { manada: [{label,link}], ... } }
+
+    match /drive_links/{rondaId} {
+      // Cualquier usuario aprobado puede leer los links (la web decide qué mostrar según rol)
+      allow read: if isApproved();
+      // Solo el administrador puede crear, editar o borrar rondas
+      allow write: if isAdmin();
+    }
+
+    // ── Documentos sensibles ───────────────────────────────────
+
+    match /documentos_privados/{docId} {
+      allow read:  if isApproved();
+      allow write: if isAdmin();
+    }
+
+    // ── Sincronización de Álbumes (Drive) ──────────────────────
+    match /albums/{albumId} {
+      allow read:  if isApproved();
+      allow write: if isAdmin();
     }
   }
 }

@@ -77,3 +77,9 @@ firebase:
   messagingSenderId: "921369846811"
   appId: "1:921369846811:web:c3b85e63992f1bd94cc4be"
   measurementId: "G-G4Q4Z9ZDDE"
+
+# Configuración de Google APIs
+google:
+  # Client ID de OAuth 2.0 para Sincronización de Drive
+  # Obtén el Client ID en: Google Cloud Console → APIs y servicios → Credenciales → Aplicación Web
+  oauthClientId: "921369846811-req5qpq1hb3jo0fbv6la28o1s85gb8o5.apps.googleusercontent.com"

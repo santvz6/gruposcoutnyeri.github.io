@@ -1,0 +1,430 @@
+---
+layout: default
+title: "Galería de fotos"
+description: "Álbum de fotos del Grupo Scout Nyeri."
+---
+
+<!-- ============================================================
+     galeria.html — Galería nativa leyendo desde Firestore
+     ============================================================ -->
+
+<script type="module">
+  import { initializeApp }          from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+  import { getFirestore, doc, getDoc }   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey:            "{{ site.firebase.apiKey }}",
+    authDomain:        "{{ site.firebase.authDomain }}",
+    projectId:         "{{ site.firebase.projectId }}",
+    storageBucket:     "{{ site.firebase.storageBucket }}",
+    messagingSenderId: "{{ site.firebase.messagingSenderId }}",
+    appId:             "{{ site.firebase.appId }}"
+  };
+
+  const app  = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db   = getFirestore(app);
+
+  // Parámetros
+  const params    = new URLSearchParams(window.location.search);
+  const carpetaId = params.get("id");
+  const campLabel = decodeURIComponent(params.get("label")     || "Galería");
+  const ramaKey   = params.get("rama")    || "grupo";
+  const ramaLabel = decodeURIComponent(params.get("ramaLabel") || "");
+  const ramaIcon  = decodeURIComponent(params.get("ramaIcon")  || "📂");
+
+  // Estado
+  let albumData = null;      // Objeto completo de Firestore
+  let lightboxPhotos = [];   // Fotos que se muestran actualmente (grid)
+
+  // ── Permisos ────────────────────────────────────────────────
+  function hasPermission(role, userRama, requestedRama) {
+    if (role === "admin" || role === "scouter") return true;
+    if (role === "family")   return requestedRama !== "scouters";
+    if (role === "educando") return requestedRama === userRama || requestedRama === "grupo";
+    return false;
+  }
+
+  onAuthStateChanged(auth, async (user) => {
+    if (!user) { window.location.href = "{{ '/login/' | relative_url }}"; return; }
+    if (!carpetaId) { window.location.href = "{{ '/area-del-grupo/' | relative_url }}"; return; }
+
+    const snap = await getDoc(doc(db, "users", user.uid));
+    if (!snap.exists() || !snap.data().approved) {
+      window.location.href = "{{ '/area-del-grupo/' | relative_url }}"; return;
+    }
+
+    const { role, rama } = snap.data();
+    if (!hasPermission(role, rama, ramaKey)) {
+      document.getElementById("view-loading").style.display = "none";
+      document.getElementById("view-denied").style.display  = "flex";
+      return;
+    }
+
+    // Cabecera
+    document.getElementById("breadcrumb-rama").textContent  = `${ramaIcon} ${ramaLabel}`;
+    document.getElementById("breadcrumb-camp").textContent  = campLabel;
+    document.getElementById("gallery-title").textContent    = campLabel;
+    document.getElementById("gallery-subtitle").textContent = ramaLabel;
+    
+    // Cargar Álbum de Firestore
+    await loadAlbum();
+  });
+
+  async function loadAlbum() {
+    try {
+      const snap = await getDoc(doc(db, "albums", carpetaId));
+      if (!snap.exists()) {
+        showGridError("Este campamento aún no ha sido sincronizado por el administrador.");
+        return;
+      }
+      albumData = snap.data();
+      
+      let categories = [...(albumData.categories || [])];
+      const rootPhotos = albumData.photos || [];
+
+      // Si hay fotos en la raíz y también categorías, añadimos "Fotos generales" como primera pestaña
+      if (rootPhotos.length > 0 && categories.length > 0) {
+        categories.unshift({ id: "root", name: "Fotos generales", photos: rootPhotos });
+      }
+
+      if (categories.length === 0 && rootPhotos.length > 0) {
+        // Solo hay fotos en la raíz
+        renderTabs([{ id: "root", name: "Todas las fotos", photos: rootPhotos }], 0);
+      } else if (categories.length > 0) {
+        // Hay categorías (y quizás la de raíz ya inyectada)
+        renderTabs(categories, 0);
+      } else {
+        showGridError("No se han encontrado fotos en esta carpeta.");
+      }
+
+    } catch(e) {
+      showGridError("Error al cargar las fotos: " + e.message);
+    }
+  }
+
+  // ── Tabs ────────────────────────────────────────────────────
+  function renderTabs(cats, activeIndex) {
+    const cont = document.getElementById("category-tabs");
+    cont.innerHTML = cats.map((c, i) => `
+      <button class="gallery-tab ${i === activeIndex ? "active" : ""}" data-idx="${i}">
+        ${c.name}
+      </button>
+    `).join("");
+
+    cont.querySelectorAll(".gallery-tab").forEach(tab => {
+      tab.addEventListener("click", () => {
+        cont.querySelectorAll(".gallery-tab").forEach(t => t.classList.remove("active"));
+        tab.classList.add("active");
+        
+        const idx = parseInt(tab.dataset.idx);
+        renderPhotos(cats[idx].photos || []);
+      });
+    });
+    
+    // Al renderizar las pestañas, mostramos las fotos de la pestaña activa
+    renderPhotos(cats[activeIndex].photos || []);
+    
+    document.getElementById("view-loading").style.display = "none";
+    document.getElementById("view-gallery").style.display = "block";
+  }
+
+  // ── Grid ────────────────────────────────────────────────────
+  function renderPhotos(photos) {
+    lightboxPhotos = photos;
+    const grid    = document.getElementById("photo-grid");
+    const counter = document.getElementById("photo-counter");
+
+    counter.textContent = photos.length > 0
+      ? `${photos.length} foto${photos.length !== 1 ? "s" : ""}`
+      : "";
+
+    if (photos.length === 0) {
+      grid.innerHTML = `
+        <div class="gallery-empty">
+          <p class="gallery-empty__icon">📭</p>
+          <p>Sin fotos en esta categoría todavía.</p>
+        </div>`;
+      return;
+    }
+
+    grid.innerHTML = photos.map((photo, i) => `
+      <div class="photo-item" onclick="window._openBox(${i})" role="button" tabindex="0"
+           aria-label="Ver foto ${i + 1}"
+           onkeydown="if(event.key==='Enter')window._openBox(${i})">
+        <div class="photo-thumb-bg">
+          <img
+            src="https://drive.google.com/thumbnail?id=${photo.id}&sz=w400"
+            alt="${photo.name}"
+            loading="lazy"
+            class="photo-thumb"
+            onerror="this.closest('.photo-item').classList.add('photo-item--error')"
+          >
+          <div class="photo-hover">
+            <span class="photo-zoom-icon">⬚</span>
+          </div>
+          <div class="photo-error-msg">⚠️ Img no pública</div>
+        </div>
+      </div>
+    `).join("");
+  }
+
+  function showGridError(msg) {
+    document.getElementById("view-loading").style.display = "none";
+    document.getElementById("view-gallery").style.display = "block";
+    document.getElementById("photo-grid").innerHTML = `
+      <div class="gallery-empty">
+        <p class="gallery-empty__icon">⚠️</p>
+        <p>${msg}</p>
+      </div>`;
+    document.getElementById("photo-counter").textContent = "";
+  }
+
+  // ── Lightbox ────────────────────────────────────────────────
+  let boxIndex = 0;
+  window._openBox = (i) => {
+    boxIndex = i;
+    const modal = document.getElementById("lightbox");
+    modal.classList.add("open");
+    document.body.style.overflow = "hidden";
+    _updateBox();
+  };
+  window._closeBox = () => {
+    document.getElementById("lightbox").classList.remove("open");
+    document.body.style.overflow = "";
+    document.getElementById("lb-img").src = "";
+    document.getElementById("lb-video").src = "";
+  };
+  window._nextBox = (e) => { e?.stopPropagation(); if (boxIndex < lightboxPhotos.length - 1) { boxIndex++; _updateBox(); } };
+  window._prevBox = (e) => { e?.stopPropagation(); if (boxIndex > 0) { boxIndex--; _updateBox(); } };
+
+  function _updateBox() {
+    const photo = lightboxPhotos[boxIndex];
+    const imgEl = document.getElementById("lb-img");
+    const vidEl = document.getElementById("lb-video");
+    
+    // Switch for video vs images
+    if (photo.mimeType.startsWith("video/")) {
+      imgEl.style.display = "none";
+      vidEl.style.display = "block";
+      vidEl.src = `https://drive.google.com/thumbnail?id=${photo.id}&sz=w1920`;
+      // No ideal but videos in this API are tricky without a proxy, thumbnail gets a preview image or video if possible.
+    } else {
+      vidEl.style.display = "none";
+      imgEl.style.display = "block";
+      imgEl.src = `https://drive.google.com/thumbnail?id=${photo.id}&sz=w1920`;
+    }
+
+    document.getElementById("lb-count").textContent  = `${boxIndex + 1} / ${lightboxPhotos.length}`;
+    document.getElementById("lb-title").textContent  = photo.name;
+    document.getElementById("lb-prev").style.opacity = boxIndex === 0 ? "0.3" : "1";
+    document.getElementById("lb-next").style.opacity = boxIndex === lightboxPhotos.length - 1 ? "0.3" : "1";
+  }
+
+  window.addEventListener("keydown", (e) => {
+    if (!document.getElementById("lightbox").classList.contains("open")) return;
+    if (e.key === "Escape") window._closeBox();
+    if (e.key === "ArrowRight") window._nextBox();
+    if (e.key === "ArrowLeft") window._prevBox();
+  });
+</script>
+
+<style>
+  /* Base/Loading */
+  #view-loading {
+    display: flex; align-items: center; justify-content: center;
+    min-height: 60vh; flex-direction: column; gap: 1rem; color: #888;
+  }
+  .spinner-icon { font-size: 2.5rem; animation: spin 1.5s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  #view-denied, #view-gallery { display: none; }
+  #view-denied {
+    align-items: center; justify-content: center; min-height: 60vh;
+    flex-direction: column; gap: 1rem; text-align: center;
+  }
+
+  /* Hero */
+  .gallery-hero {
+    background: linear-gradient(135deg, var(--color-primary) 0%, #1a5c2d 100%);
+    color: white; padding: 2.5rem 1.5rem 2rem;
+    position: relative; overflow: hidden; margin-bottom: 2rem;
+  }
+  .gallery-hero__inner { max-width: 1200px; margin: 0 auto; position: relative; }
+  .breadcrumb {
+    display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem;
+    opacity: 0.8; margin-bottom: 1rem; flex-wrap: wrap;
+  }
+  .breadcrumb a { color: white; text-decoration: none; opacity: 0.85; }
+  .breadcrumb a:hover { opacity: 1; text-decoration: underline; }
+  .breadcrumb__sep { opacity: 0.5; }
+  .gallery-hero__title { font-size: clamp(1.4rem, 3vw, 2rem); font-weight: 900; margin: 0 0 0.25rem; }
+  .gallery-hero__sub   { opacity: 0.8; font-size: 0.95rem; }
+
+  /* Contenido */
+  .gallery-page { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem 4rem; }
+
+  .gallery-header {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;
+    border-bottom: 1px solid #eaeaea; padding-bottom: 1rem;
+  }
+  .category-tabs { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+  .gallery-tab {
+    background: #f5f5f5; border: 1px solid #ddd; padding: 0.5rem 1.25rem;
+    border-radius: 20px; font-weight: 600; font-size: 0.85rem; color: #555;
+    cursor: pointer; transition: all 0.2s;
+  }
+  .gallery-tab:hover { background: #eee; border-color: #ccc; }
+  .gallery-tab.active {
+    background: var(--color-primary); border-color: var(--color-primary); color: white;
+  }
+  .photo-counter { font-size: 0.85rem; color: #888; font-weight: 600; }
+
+  /* Grid */
+  .photo-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+  }
+  .photo-item {
+    aspect-ratio: 1; border-radius: 12px; overflow: hidden; cursor: pointer;
+    background: #f0f0f0; position: relative; box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  }
+  .photo-thumb-bg { width: 100%; height: 100%; position: relative; }
+  .photo-thumb { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s; }
+  
+  .photo-hover {
+    position: absolute; inset: 0; background: rgba(0,0,0,0.3);
+    opacity: 0; transition: opacity 0.3s;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .photo-item:hover .photo-hover { opacity: 1; }
+  .photo-item:hover .photo-thumb { transform: scale(1.05); }
+  .photo-zoom-icon { color: white; font-size: 1.5rem; }
+
+  /* Error state en foto (probablemente no visible por URL con enlace) */
+  .photo-error-msg {
+    position: absolute; inset: 0; background: #ffebee; color: #c62828;
+    display: none; align-items: center; justify-content: center;
+    font-size: 0.8rem; font-weight: 700; text-align: center; padding: 1rem;
+  }
+  .photo-item--error .photo-thumb,
+  .photo-item--error .photo-hover { display: none; }
+  .photo-item--error .photo-error-msg { display: flex; }
+
+  /* Empty State */
+  .gallery-empty {
+    grid-column: 1 / -1; text-align: center; padding: 4rem 1rem;
+    background: #f9f9f9; border-radius: 12px; border: 2px dashed #eaeaea;
+  }
+  .gallery-empty__icon { font-size: 3rem; margin-bottom: 1rem; opacity: 0.5; }
+
+  /* Lightbox */
+  .lightbox {
+    position: fixed; inset: 0; z-index: 9999; background: rgba(0,0,0,0.95);
+    display: flex; flex-direction: column; opacity: 0; pointer-events: none;
+    transition: opacity 0.3s; backdrop-filter: blur(5px);
+  }
+  .lightbox.open { opacity: 1; pointer-events: auto; }
+  
+  .lb-header {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1rem 1.5rem; background: linear-gradient(to bottom, rgba(0,0,0,0.5), transparent);
+    color: white; position: absolute; top: 0; left: 0; right: 0; z-index: 10;
+  }
+  .lb-title-wrap { font-size: 0.9rem; font-weight: 600; opacity: 0.8; }
+  .lb-close {
+    background: none; border: none; color: white; font-size: 2rem; cursor: pointer;
+    line-height: 1; opacity: 0.7; transition: opacity 0.2s;
+  }
+  .lb-close:hover { opacity: 1; }
+
+  .lb-content {
+    flex: 1; position: relative; display: flex; align-items: center; justify-content: center;
+  }
+  .lb-img, .lb-video {
+    max-width: 90vw; max-height: 85vh; object-fit: contain;
+    border-radius: 8px; box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+  }
+
+  .lb-nav {
+    position: absolute; top: 50%; transform: translateY(-50%);
+    background: rgba(255,255,255,0.1); border: none; color: white;
+    width: 60px; height: 60px; border-radius: 50%; font-size: 2rem;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s; backdrop-filter: blur(4px);
+    z-index: 100; /* Asegurar que esté por encima de la imagen */
+  }
+  .lb-nav:hover { background: rgba(255,255,255,0.3); transform: translateY(-50%) scale(1.1); }
+  .lb-prev { left: 2vw; }
+  .lb-next { right: 2vw; }
+
+  @media (max-width: 768px) {
+    .photo-grid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 0.75rem; }
+    .lb-nav { width: 45px; height: 45px; font-size: 1.5rem; }
+    .gallery-hero { padding: 1.5rem 1rem; }
+    .gallery-page { padding: 0 1rem 3rem; }
+  }
+</style>
+
+<!-- Loading -->
+<div id="view-loading">
+  <div class="spinner-icon">⚜️</div>
+  <p>Cargando galería…</p>
+</div>
+
+<!-- Denied -->
+<div id="view-denied">
+  <div style="font-size:3rem;">🔒</div>
+  <h2 style="font-weight:900;">Sin acceso</h2>
+  <a href="{{ '/area-del-grupo/' | relative_url }}"
+     style="margin-top:1rem; display:inline-block; padding:0.6rem 1.5rem;
+            background:var(--color-primary); color:white; border-radius:8px;
+            text-decoration:none; font-weight:700;">← Volver</a>
+</div>
+
+<!-- Gallery -->
+<div id="view-gallery">
+  <div class="gallery-hero">
+    <div class="gallery-hero__inner">
+      <nav class="breadcrumb">
+        <a href="{{ '/area-del-grupo/' | relative_url }}">Área</a>
+        <span class="breadcrumb__sep">›</span>
+        <span id="breadcrumb-rama"></span>
+        <span class="breadcrumb__sep">›</span>
+        <span id="breadcrumb-camp"></span>
+      </nav>
+      <h1 class="gallery-hero__title" id="gallery-title"></h1>
+      <p class="gallery-hero__sub" id="gallery-subtitle"></p>
+    </div>
+  </div>
+
+  <div class="gallery-page">
+    <div class="gallery-header">
+      <div id="category-tabs" class="category-tabs"></div>
+      <div class="photo-counter" id="photo-counter"></div>
+    </div>
+    <div id="photo-grid" class="photo-grid"></div>
+  </div>
+</div>
+
+<!-- Lightbox -->
+<div id="lightbox" class="lightbox" onclick="window._closeBox()">
+  <div class="lb-header" onclick="event.stopPropagation()">
+    <div class="lb-title-wrap">
+      <span id="lb-title"></span>
+      <span style="opacity:0.5; margin-left:1rem; font-family:monospace;" id="lb-count"></span>
+    </div>
+    <button class="lb-close" onclick="window._closeBox()" aria-label="Cerrar">×</button>
+  </div>
+  
+  <div class="lb-content" onclick="event.stopPropagation()">
+    <button class="lb-nav lb-prev" id="lb-prev" onclick="window._prevBox(event)" aria-label="Anterior">‹</button>
+    
+    <img id="lb-img" class="lb-img" src="" alt="Vista previa" style="z-index: 10;">
+    <video id="lb-video" class="lb-video" controls style="display:none; z-index: 10;"></video>
+    
+    <button class="lb-nav lb-next" id="lb-next" onclick="window._nextBox(event)" aria-label="Siguiente">›</button>
+  </div>
+</div>

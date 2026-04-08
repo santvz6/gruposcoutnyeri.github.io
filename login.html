@@ -79,6 +79,7 @@ description: "Inicio de sesión para miembros y familias del Grupo Scout Nyeri."
       await setDoc(doc(db, "users", cred.user.uid), {
         uid: cred.user.uid,
         name, email, role,
+        rama: null,   // El admin asigna la rama manualmente desde el panel
         approved: false,
         createdAt: serverTimestamp()
       });
@@ -262,8 +263,9 @@ description: "Inicio de sesión para miembros y familias del Grupo Scout Nyeri."
             <label class="form-label" for="reg-role">Soy… <span class="form-required">*</span></label>
             <select id="reg-role" class="form-select" required>
               <option value="">-- Selecciona --</option>
-              <option value="family">Familiar de un scout</option>
-              <option value="scouter">Scouter / Monitor-a</option>
+              <option value="family">👨‍👩‍👧 Familiar de un scout</option>
+              <option value="educando">🏕️ Educando (Pionero / Rover)</option>
+              <option value="scouter">⚜️ Scouter / Monitor-a</option>
             </select>
           </div>
           <button type="submit" class="btn-submit">Solicitar acceso ✉️</button>

@@ -13,9 +13,12 @@ description: "Espacio privado para familiares y scouters del Grupo Scout Nyeri."
 <script type="module">
   import { initializeApp }                      from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
   import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-  import { getFirestore, doc, getDoc }            from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+  import {
+    getFirestore, doc, getDoc,
+    collection, query, where, getDocs
+  } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-  // ── CONFIGURACIÓN DESDE _config.yml ─────────────────────────
+  // ── CONFIGURACIÓN FIREBASE ──────────────────────────────────
   const firebaseConfig = {
     apiKey:            "{{ site.firebase.apiKey }}",
     authDomain:        "{{ site.firebase.authDomain }}",
@@ -29,10 +32,35 @@ description: "Espacio privado para familiares y scouters del Grupo Scout Nyeri."
   const auth = getAuth(app);
   const db   = getFirestore(app);
 
-  // ── Guard: comprobar sesión y aprobación ───────────────────
+  // ── Configuración de Ramas ──────────────────────────────────
+  const RAMAS_CONFIG = {
+    grupo:    { key: "grupo",    label: "General del Grupo", icon: "🏕️",  color: "#5E35B1" },
+    manada:   { key: "manada",   label: "Manada",            icon: "🐺",  color: "#E65100" },
+    tropa:    { key: "tropa",    label: "Tropa",             icon: "🌲",  color: "#2E7D32" },
+    pioneros: { key: "pioneros", label: "Pioneros",          icon: "🔥",  color: "#C62828" },
+    rovers:   { key: "rovers",   label: "Rovers",            icon: "⚜️",  color: "#1565C0" },
+    scouters: { key: "scouters", label: "Scouters",          icon: "🛡️",  color: "#4E342E" }
+  };
+
+  // ── Determinar ramas visibles según rol ─────────────────────
+  function getRamasVisibles(role, rama) {
+    switch (role) {
+      case "admin":
+      case "scouter":
+        return ["grupo", "manada", "tropa", "pioneros", "rovers", "scouters"];
+      case "family":
+        return ["grupo", "manada", "tropa", "pioneros", "rovers"];
+      case "educando":
+        // Solo su propia rama + grupo general
+        return rama ? ["grupo", rama] : ["grupo"];
+      default:
+        return ["grupo"];
+    }
+  }
+
+  // ── Guard: comprobar sesión y aprobación ────────────────────
   onAuthStateChanged(auth, async (user) => {
     if (!user) {
-      // No hay sesión → redirigir al login
       window.location.href = "{{ '/login/' | relative_url }}";
       return;
     }
@@ -40,34 +68,162 @@ description: "Espacio privado para familiares y scouters del Grupo Scout Nyeri."
     const snap = await getDoc(doc(db, "users", user.uid));
 
     if (!snap.exists() || !snap.data().approved) {
-      // Sesión válida pero pendiente de aprobación
-      document.getElementById("view-pending").style.display = "block";
       document.getElementById("user-display-pending").textContent = user.email;
+      document.getElementById("view-pending").style.display = "block";
       document.getElementById("view-loading").style.display = "none";
       return;
     }
 
     // ✅ Sesión válida y aprobada
     const userData = snap.data();
-    document.getElementById("user-name-display").textContent = userData.name || user.email;
-    document.getElementById("user-role-badge").textContent   =
-      userData.role === "scouter" ? "⚜️ Scouter" : (userData.role === "admin" ? "🛡️ Admin" : "👨‍👩‍👧 Familia");
-    document.getElementById("view-loading").style.display  = "none";
-    document.getElementById("view-content").style.display  = "block";
+    const { role, rama } = userData;
 
-    // Mostrar panel admin solo si el usuario tiene rol 'admin'
-    if (userData.role === "admin") {
+    // Header de usuario
+    document.getElementById("user-name-display").textContent = userData.name || user.email;
+    document.getElementById("user-role-badge").textContent = getRoleBadge(role, rama);
+    document.getElementById("view-loading").style.display = "none";
+    document.getElementById("view-content").style.display = "block";
+
+    if (role === "admin") {
       document.getElementById("admin-link-wrapper").style.display = "block";
     }
+
+    // Cargar álbum activo y renderizar
+    await renderAlbum(role, rama);
   });
 
-  // ── Cerrar sesión ──────────────────────────────────────────
+  // ── Cerrar sesión ───────────────────────────────────────────
   document.addEventListener("click", async (e) => {
     if (e.target.closest(".logout-btn")) {
       await signOut(auth);
       window.location.href = "{{ '/login/' | relative_url }}";
     }
   });
+
+  // ── Badge de rol ────────────────────────────────────────────
+  function getRoleBadge(role, rama) {
+    const ramaLabel = rama ? ` · ${RAMAS_CONFIG[rama]?.label || rama}` : "";
+    switch (role) {
+      case "admin":    return "🛡️ Admin";
+      case "scouter":  return "⚜️ Scouter";
+      case "educando": return `🏕️ Educando${ramaLabel}`;
+      case "family":   return "👨‍👩‍👧 Familia";
+      default:         return role;
+    }
+  }
+
+  // ── Cargar y renderizar álbum ───────────────────────────────
+  async function renderAlbum(role, rama) {
+    const container = document.getElementById("album-container");
+
+    // Buscar la ronda activa en Firestore
+    let driveData = null;
+    try {
+      const q = query(collection(db, "drive_links"), where("active", "==", true));
+      const snaps = await getDocs(q);
+      if (!snaps.empty) {
+        driveData = snaps.docs[0].data();
+      }
+    } catch (e) {
+      console.warn("No se pudieron cargar los álbumes:", e);
+    }
+
+    const ramasVisibles = getRamasVisibles(role, rama);
+
+    if (!driveData) {
+      // Sin configuración todavía
+      container.innerHTML = `
+        <div class="album-empty">
+          <p>📭</p>
+          <p>Los álbumes de fotos estarán disponibles próximamente.</p>
+          <p style="font-size:0.82rem; color:#aaa; margin-top:0.5rem;">
+            El administrador aún no ha configurado los enlaces de Google Drive.
+          </p>
+        </div>`;
+      return;
+    }
+
+    // Renderizar tarjetas de ramas accesibles
+    let html = `<p class="album-label">📁 ${driveData.label || "Álbumes"}</p><div class="album-grid">`;
+
+    for (const key of ramasVisibles) {
+      const cfg = RAMAS_CONFIG[key];
+      if (!cfg) continue;
+
+      // Obtener campamentos de esta rama
+      let campamentos = [];
+      if (key === "grupo" && driveData.grupoCarpetaId) {
+        // Grupo general: tarjeta directa a galería
+        html += buildDirectCard(cfg, driveData.grupoCarpetaId);
+        continue;
+      }
+      if (key === "scouters" && driveData.scoutersCarpetaId) {
+        html += buildDirectCard(cfg, driveData.scoutersCarpetaId);
+        continue;
+      }
+      if (driveData.ramas && driveData.ramas[key]) {
+        campamentos = driveData.ramas[key];
+      }
+      html += buildAccordionCard(cfg, campamentos);
+    }
+
+    html += "</div>";
+    container.innerHTML = html;
+
+    // Bind acordeón
+    container.querySelectorAll(".rama-card__header").forEach(header => {
+      header.addEventListener("click", () => {
+        const card = header.closest(".rama-card");
+        const isOpen = card.classList.contains("open");
+        // Cerrar todos
+        container.querySelectorAll(".rama-card.open").forEach(c => c.classList.remove("open"));
+        // Abrir el clickeado si estaba cerrado
+        if (!isOpen) card.classList.add("open");
+      });
+    });
+  }
+
+  // ── Card con enlace a galería (00_Grupo, Scouters) ────────────
+  function buildDirectCard(cfg, carpetaId) {
+    const url = `{{ '/galeria/' | relative_url }}?id=${carpetaId}&label=${encodeURIComponent(cfg.label)}&rama=${cfg.key}&ramaLabel=${encodeURIComponent(cfg.label)}&ramaIcon=${encodeURIComponent(cfg.icon)}`;
+    return `
+      <div class="rama-card rama-card--direct">
+        <a href="${url}" class="rama-card__direct-link" style="--rama-color:${cfg.color}">
+          <span class="rama-card__icon">${cfg.icon}</span>
+          <div>
+            <div class="rama-card__name">${cfg.label}</div>
+            <div class="rama-card__sublabel">Ver fotos →</div>
+          </div>
+        </a>
+      </div>`;
+  }
+
+  // ── Card acordeón con campamentos ───────────────────────────
+  function buildAccordionCard(cfg, campamentos) {
+    const hasCamps = campamentos && campamentos.length > 0;
+    const campsHtml = hasCamps
+      ? campamentos.map(c => {
+          const url = `{{ '/galeria/' | relative_url }}?id=${c.carpetaId}&label=${encodeURIComponent(c.label)}&rama=${cfg.key}&ramaLabel=${encodeURIComponent(cfg.label)}&ramaIcon=${encodeURIComponent(cfg.icon)}`;
+          return `<a href="${url}" class="camp-btn">📦 ${c.label}</a>`;
+        }).join("")
+      : `<p class="camp-empty">Sin campamentos publicados todavía.</p>`;
+
+    return `
+      <div class="rama-card">
+        <div class="rama-card__header" style="--rama-color:${cfg.color}" role="button" tabindex="0"
+             aria-expanded="false" onkeydown="if(event.key==='Enter'||event.key===' ')this.click()">
+          <span class="rama-card__icon">${cfg.icon}</span>
+          <div class="rama-card__info">
+            <div class="rama-card__name">${cfg.label}</div>
+            <div class="rama-card__sublabel">${hasCamps ? campamentos.length + " campamento(s)" : "Próximamente"}</div>
+          </div>
+          <span class="rama-card__chevron">›</span>
+        </div>
+        <div class="rama-card__body">
+          <div class="camp-list">${campsHtml}</div>
+        </div>
+      </div>`;
+  }
 </script>
 
 <style>
@@ -86,7 +242,7 @@ description: "Espacio privado para familiares y scouters del Grupo Scout Nyeri."
   }
   #view-pending .pending-icon { font-size: 3.5rem; margin-bottom: 1rem; }
 
-  /* Top bar de usuario */
+  /* User bar */
   .user-bar {
     display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap;
     gap: 1rem; background: white; border-radius: 12px;
@@ -112,15 +268,15 @@ description: "Espacio privado para familiares y scouters del Grupo Scout Nyeri."
   }
   .btn-logout:hover { border-color: #e53935; color: #e53935; }
 
-  /* Grid de secciones */
-  .area-sections { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; }
+  /* Secciones estáticas (documentos, admin) */
+  .area-sections { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; margin-top: 2rem; }
   .section-card {
     background: white; border-radius: 14px;
     box-shadow: 0 2px 12px rgba(0,0,0,0.07);
     padding: 1.75rem; transition: transform 0.2s, box-shadow 0.2s;
   }
   .section-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.1); }
-  .section-card__icon { font-size: 2rem; margin-bottom: 0.75rem; }
+  .section-card__icon  { font-size: 2rem; margin-bottom: 0.75rem; }
   .section-card__title { font-weight: 800; font-size: 1.1rem; margin-bottom: 0.5rem; color: #222; }
   .section-card__desc  { font-size: 0.88rem; color: #666; line-height: 1.6; margin-bottom: 1.25rem; }
   .btn-section {
@@ -130,12 +286,104 @@ description: "Espacio privado para familiares y scouters del Grupo Scout Nyeri."
     text-decoration: none; transition: opacity 0.2s;
   }
   .btn-section:hover { opacity: 0.85; }
-
-  /* Admin card */
   .admin-card { border: 2px solid #ff6f00; }
   .admin-card .btn-section { background: #ff6f00; }
+  #admin-link-wrapper { display: none; }
 
-  #admin-link-wrapper { display: none; } /* se muestra solo para admin via JS */
+  /* ── Álbum de fotos ── */
+  .album-section-title {
+    font-weight: 900; font-size: 1.4rem; margin-bottom: 0.4rem; color: #111;
+  }
+  .album-section-sub {
+    color: #777; font-size: 0.9rem; margin-bottom: 1.5rem;
+  }
+  .album-label {
+    font-size: 0.78rem; font-weight: 700; color: #999;
+    text-transform: uppercase; letter-spacing: .06em;
+    margin-bottom: 1rem;
+  }
+  .album-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  .album-empty {
+    text-align: center; padding: 3rem 1rem; color: #aaa;
+    background: #fafafa; border-radius: 12px; border: 2px dashed #e0e0e0;
+    font-size: 0.95rem; grid-column: 1 / -1;
+  }
+  .album-empty p:first-child { font-size: 2.5rem; margin-bottom: 0.5rem; }
+
+  /* Tarjeta de rama — versión directa */
+  .rama-card--direct { border-radius: 14px; overflow: hidden; }
+  .rama-card__direct-link {
+    display: flex; align-items: center; gap: 1rem;
+    padding: 1.25rem 1.5rem;
+    background: white; border-radius: 14px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+    text-decoration: none; color: inherit;
+    border-left: 5px solid var(--rama-color);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .rama-card__direct-link:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.12); }
+
+  /* Tarjeta de rama — versión acordeón */
+  .rama-card {
+    background: white; border-radius: 14px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+    overflow: hidden;
+    transition: box-shadow 0.2s;
+  }
+  .rama-card__header {
+    display: flex; align-items: center; gap: 1rem;
+    padding: 1.25rem 1.5rem;
+    border-left: 5px solid var(--rama-color);
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.15s;
+  }
+  .rama-card__header:hover { background: #f9f9f9; }
+  .rama-card.open .rama-card__header { background: #f5f5f5; }
+
+  .rama-card__icon { font-size: 1.6rem; flex-shrink: 0; }
+  .rama-card__info { flex: 1; }
+  .rama-card__name { font-weight: 800; font-size: 1rem; color: #111; }
+  .rama-card__sublabel { font-size: 0.78rem; color: #888; margin-top: 0.1rem; }
+  .rama-card__chevron {
+    font-size: 1.4rem; color: #bbb; font-weight: 300;
+    transition: transform 0.25s;
+    line-height: 1;
+  }
+  .rama-card.open .rama-card__chevron { transform: rotate(90deg); }
+
+  /* Cuerpo acordeón */
+  .rama-card__body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s ease, padding 0.25s;
+    padding: 0 1.5rem;
+  }
+  .rama-card.open .rama-card__body {
+    max-height: 500px;
+    padding: 1rem 1.5rem 1.25rem;
+  }
+
+  /* Botones de campamento */
+  .camp-list { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+  .camp-btn {
+    display: inline-flex; align-items: center; gap: 0.35rem;
+    padding: 0.5rem 1rem;
+    background: #f0f4f8; color: #333;
+    border-radius: 8px; text-decoration: none;
+    font-size: 0.88rem; font-weight: 600;
+    border: 1.5px solid #e0e8f0;
+    transition: background 0.15s, border-color 0.15s, color 0.15s;
+  }
+  .camp-btn:hover {
+    background: var(--color-primary); color: white; border-color: var(--color-primary);
+  }
+  .camp-empty { font-size: 0.85rem; color: #bbb; font-style: italic; margin: 0; }
 </style>
 
 <!-- ── Pantalla de carga ─────────────────────────────────── -->
@@ -177,53 +425,22 @@ description: "Espacio privado para familiares y scouters del Grupo Scout Nyeri."
       <button class="btn-logout logout-btn">Cerrar sesión</button>
     </div>
 
-    <h2 style="font-weight:900; font-size:1.75rem; margin-bottom:0.5rem;">¡Bienvenido al Área del Grupo! 🏕️</h2>
-    <p style="color:#666; margin-bottom:2.5rem;">
-      Aquí encontrarás los álbumes de fotos, documentación interna y recursos exclusivos para miembros del Grupo Scout Nyeri.
+    <!-- Título -->
+    <h2 class="album-section-title">¡Bienvenido al Área del Grupo! 🏕️</h2>
+    <p class="album-section-sub">
+      Aquí encontrarás los álbumes de fotos y la documentación interna del Grupo Scout Nyeri.
     </p>
 
-    <!-- Secciones -->
+    <!-- ── Álbum de fotos ── -->
+    <div id="album-container">
+      <div class="album-empty">
+        <p>🌀</p>
+        <p>Cargando álbumes…</p>
+      </div>
+    </div>
+
+    <!-- Secciones estáticas -->
     <div class="area-sections">
-
-      <!-- Álbum: Manada -->
-      <div class="section-card">
-        <div class="section-card__icon">🐺</div>
-        <h3 class="section-card__title">Fotos de la Manada</h3>
-        <p class="section-card__desc">
-          Álbumes de actividades, excursiones y campamentos de los más pequeños.
-        </p>
-        <a href="#" class="btn-section" target="_blank" rel="noopener">Ver álbum →</a>
-      </div>
-
-      <!-- Álbum: Tropa -->
-      <div class="section-card">
-        <div class="section-card__icon">🌲</div>
-        <h3 class="section-card__title">Fotos de la Tropa</h3>
-        <p class="section-card__desc">
-          Crónicas fotográficas de las salidas y campamentos de la Tropa.
-        </p>
-        <a href="#" class="btn-section" target="_blank" rel="noopener">Ver álbum →</a>
-      </div>
-
-      <!-- Álbum: Pioneros -->
-      <div class="section-card">
-        <div class="section-card__icon">🔥</div>
-        <h3 class="section-card__title">Fotos de Pioneros</h3>
-        <p class="section-card__desc">
-          Proyectos, rutas y actividades de la unidad Pioneros.
-        </p>
-        <a href="#" class="btn-section" target="_blank" rel="noopener">Ver álbum →</a>
-      </div>
-
-      <!-- Álbum: Rovers -->
-      <div class="section-card">
-        <div class="section-card__icon">⚜️</div>
-        <h3 class="section-card__title">Fotos de Rovers</h3>
-        <p class="section-card__desc">
-          Documentación visual de los proyectos y voluntariados de los Rovers.
-        </p>
-        <a href="#" class="btn-section" target="_blank" rel="noopener">Ver álbum →</a>
-      </div>
 
       <!-- Documentos internos -->
       <div class="section-card">
@@ -241,7 +458,7 @@ description: "Espacio privado para familiares y scouters del Grupo Scout Nyeri."
           <div class="section-card__icon">🛡️</div>
           <h3 class="section-card__title">Panel de Administración</h3>
           <p class="section-card__desc">
-            Gestiona los accesos pendientes y aprueba o revoca usuarios.
+            Gestiona los accesos pendientes, aprueba usuarios y configura los álbumes de Drive.
           </p>
           <a href="{{ '/admin/' | relative_url }}" class="btn-section">Ir al panel →</a>
         </div>
