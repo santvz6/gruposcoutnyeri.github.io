@@ -22,11 +22,11 @@ Debes implementar las siguientes secciones de forma clara y accesible:
 * Breve descripción "Quiénes somos".
 * Llamada a la acción (CTA): "¡Únete a nosotros!".
 
-### B. Secciones Educativas (Las Unidades)
+### B. Secciones Educativas (Las Ramas)
 Páginas individuales o secciones con colores distintivos:
 * **Manada:** (7-11 años)
 * **Sección Tropa:** (11-14 años)
-* **Unidad Pioneros:** (14-17 años)
+* **Rama Pioneros:** (14-17 años)
 * **Rovers:** (17-20 años)
 
 ### C. Funcionalidades Extra (Indispensables)

@@ -31,7 +31,7 @@
   --color-white: #FFFFFF;
   --color-border: #E0E0DC;
 
-  /* Colores por unidad */
+  /* Colores por rama */
   --color-manada: #F9A825;
   /* Amarillo — Manada */
   --color-manada-bg: #FFF8E1;
@@ -385,7 +385,7 @@ h6 {
   box-shadow: 0 4px 14px rgba(194, 57, 155, 0.40);
 }
 
-/* Dropdown Unidades */
+/* Dropdown Ramas */
 /* El <li> ocupa la altura completa del navbar para que no haya gap
    entre el botón y el submenú desplegable */
 .navbar__dropdown {
@@ -740,7 +740,7 @@ h6 {
 }
 
 /* ============================================================
-   7. SECCIÓN UNIDADES
+   7. SECCIÓN RAMAS
    ============================================================ */
 .units {
   padding: var(--space-24) 0;
@@ -758,7 +758,7 @@ h6 {
   gap: var(--space-6);
 }
 
-/* Tarjeta de unidad */
+/* Tarjeta de rama */
 .unit-card {
   background: var(--color-white);
   border-radius: var(--radius-xl);
@@ -795,7 +795,7 @@ h6 {
   background: rgba(255, 255, 255, 0.15);
 }
 
-/* Colores específicos por unidad */
+/* Colores específicos por rama */
 .unit-card--manada .unit-card__header {
   background: linear-gradient(135deg, var(--color-manada), #F9C342);
 }
@@ -1096,7 +1096,7 @@ h6 {
   max-width: 600px;
 }
 
-/* Variantes de color por unidad */
+/* Variantes de color por rama */
 .page-hero--manada {
   background: linear-gradient(135deg, #7A5800 0%, var(--color-manada) 100%);
 }
@@ -1120,7 +1120,7 @@ h6 {
   padding: var(--space-16) 0 var(--space-24);
 }
 
-/* Sección de presentación de unidad */
+/* Sección de presentación de rama */
 .unit-intro {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -1142,7 +1142,7 @@ h6 {
   margin-bottom: var(--space-6);
 }
 
-/* Galería placeholder de unidad */
+/* Galería placeholder de rama */
 .unit-gallery {
   margin: var(--space-16) 0;
 }
