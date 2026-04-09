@@ -87,6 +87,11 @@ description: "Espacio privado para familiares y scouters del Grupo Scout Nyeri."
     if (role === "admin") {
       document.getElementById("admin-link-wrapper").style.display = "block";
     }
+    
+    // Visibilidad de los documentos privados
+    if (role === "admin" || role === "scouter" || role === "family" || (role === "educando" && rama === "rovers")) {
+      document.getElementById("docs-card-wrapper").style.display = "block";
+    }
 
     // Cargar álbum activo y renderizar
     await renderAlbum(role, rama);
@@ -443,13 +448,15 @@ description: "Espacio privado para familiares y scouters del Grupo Scout Nyeri."
     <div class="area-sections">
 
       <!-- Documentos internos -->
-      <div class="section-card">
-        <div class="section-card__icon">📄</div>
-        <h3 class="section-card__title">Documentación interna</h3>
-        <p class="section-card__desc">
-          Formularios de autorización, reglamento interno y circulares del grupo.
-        </p>
-        <a href="{{ '/descargas/' | relative_url }}" class="btn-section">Ir a descargas →</a>
+      <div id="docs-card-wrapper" style="display:none;">
+        <div class="section-card">
+          <div class="section-card__icon">📄</div>
+          <h3 class="section-card__title">Documentación interna</h3>
+          <p class="section-card__desc">
+            Formularios de autorización, fichas médicas y listados de material.
+          </p>
+          <a href="{{ '/documentos/' | relative_url }}" class="btn-section">Ver documentos →</a>
+        </div>
       </div>
 
       <!-- Panel de Administración (solo para admin) -->

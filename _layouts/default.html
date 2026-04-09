@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <html lang="{{ site.lang | default: 'es' }}">
-  {% include head.html %}
-  <body>
-    <!-- Cabecera y navegación principal -->
-    {% include header.html %}
+{% include head.html %}
+<body>
+  <!-- Cabecera y navegación principal -->
+  {% include header.html %}
 
-    <!-- Contenido principal de la página -->
-    <main id="main-content" tabindex="-1">
-      {{ content }}
-    </main>
+  <!-- Contenido principal de la página -->
+  <main id="main-content" tabindex="-1">
+    {{ content }}
+  </main>
 
-    <!-- Pie de página -->
-    {% include footer.html %}
+  <!-- Pie de página -->
+  {% include footer.html %}
 
-    <!-- Script principal: menú hamburguesa, scroll, etc. -->
-    <script src="{{ '/assets/js/main.js' | relative_url }}?v={{ site.time | date: '%s' }}" defer></script>
-  </body>
+  <!-- Script principal: menú hamburguesa, scroll, etc. -->
+  <script src="{{ '/assets/js/main.js' | relative_url }}?v={{ site.time | date: '%s' }}" defer></script>
+</body>
 </html>

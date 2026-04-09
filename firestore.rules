@@ -66,9 +66,9 @@ service cloud.firestore {
       allow write: if isAdmin();
     }
 
-    // ── Documentos sensibles ───────────────────────────────────
+    // ── Documentación Privada Sincronizada ─────────────────────
 
-    match /documentos_privados/{docId} {
+    match /documents/{docId} {
       allow read:  if isApproved();
       allow write: if isAdmin();
     }

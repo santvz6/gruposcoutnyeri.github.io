@@ -221,12 +221,17 @@ description: "Gestión de accesos al Área del Grupo Scout Nyeri."
           <input type="text" id="dl-scouters" class="form-input-admin" placeholder="ID de la carpeta 05_Scouters en Drive"
                  value="${data?.scoutersCarpetaId || data?.scoutersLink || ""}">
         </div>
+        <div class="form-row">
+          <label class="form-label">📄 ID de carpeta — Zona de Descargas (Archivos)</label>
+          <input type="text" id="dl-descargas" class="form-input-admin" placeholder="ID de la carpeta de Descargas/Documentos"
+                 value="${data?.descargasCarpetaId || ""}">
+        </div>
         <hr style="margin:1.5rem 0; border:none; border-top:1px solid #eee;">
         <p style="font-weight:700; margin-bottom:1rem; color:#444;">Campamentos por Rama</p>
         ${ramasHtml}
         <div style="margin-top:1.5rem; display:flex; gap:0.75rem; flex-wrap:wrap; align-items: center;">
           <button id="btn-save-drive" class="btn-save">💾 Guardar álbumes</button>
-          <button id="btn-sync-drive" class="btn-save" style="background:#4285F4; border-color:#4285F4; color:white;">🔄 Sincronizar Fotos a Firestore</button>
+          <button id="btn-sync-drive" class="btn-save" style="background:#4285F4; border-color:#4285F4; color:white;">🔄 Sincronizar Drive a Firestore</button>
           ${docId ? `<button id="btn-new-ronda" class="btn-secondary">+ Nueva Ronda Solar</button>` : ""}
         </div>
         <p id="drive-save-msg" style="display:none; margin-top:0.75rem; font-size:0.88rem;"></p>
@@ -288,10 +293,12 @@ description: "Gestión de accesos al Área del Grupo Scout Nyeri."
     const label           = document.getElementById("dl-label").value.trim();
     const grupoCarpetaId   = extractDriveId(document.getElementById("dl-grupo").value);
     const scoutersCarpetaId = extractDriveId(document.getElementById("dl-scouters").value);
+    const descargasCarpetaId = extractDriveId(document.getElementById("dl-descargas").value);
 
     // Actualizar campos de UI para que muestre claramente el ID y no el chorro de URL
     document.getElementById("dl-grupo").value = grupoCarpetaId;
     document.getElementById("dl-scouters").value = scoutersCarpetaId;
+    document.getElementById("dl-descargas").value = descargasCarpetaId;
 
     if (!label) { showDriveMsg("⚠️ Indica el nombre de la Ronda Solar.", "error"); return; }
 
@@ -311,7 +318,7 @@ description: "Gestión de accesos al Área del Grupo Scout Nyeri."
     }
 
     const payload = {
-      label, grupoCarpetaId, scoutersCarpetaId,
+      label, grupoCarpetaId, scoutersCarpetaId, descargasCarpetaId,
       ramas: ramasData,
       active: true,
       updatedAt: serverTimestamp()
@@ -453,6 +460,60 @@ description: "Gestión de accesos al Área del Grupo Scout Nyeri."
     }
   }
 
+  async function syncDocsFolderToFirestore(folderId) {
+    if (!folderId) return;
+    try {
+      const q = encodeURIComponent(`'${folderId}' in parents and trashed=false`);
+      const url = `https://www.googleapis.com/drive/v3/files?q=${q}&orderBy=name&pageSize=500&fields=files(id,name,mimeType,size)&includeItemsFromAllDrives=true&supportsAllDrives=true`;
+      const data = await apiFetch(url);
+      if (data.error) throw new Error(data.error.message);
+
+      const items = data.files || [];
+      const subFolders = items.filter(f => f.mimeType === "application/vnd.google-apps.folder");
+      
+      const isDoc = (f) => f.mimeType.includes("pdf") || f.mimeType.includes("document") || f.mimeType.includes("msword") || f.mimeType.includes("excel") || f.mimeType.includes("presentation") || f.mimeType.includes("sheet") || f.mimeType.includes("text");
+
+      const rootDocs = items.filter(isDoc);
+
+      async function getAllDocsInFolder(fId) {
+        let results = [];
+        const qSub = encodeURIComponent(`'${fId}' in parents and trashed=false`);
+        const urlSub = `https://www.googleapis.com/drive/v3/files?q=${qSub}&pageSize=500&fields=files(id,name,mimeType,size)&includeItemsFromAllDrives=true&supportsAllDrives=true`;
+        const dataSub = await apiFetch(urlSub);
+        const files = dataSub.files || [];
+        
+        // Coger los documentos de esta carpeta
+        results = files.filter(isDoc);
+        
+        // Buscar subcarpetas y recursar
+        const folders = files.filter(f => f.mimeType === "application/vnd.google-apps.folder");
+        for (const subF of folders) {
+          const subResults = await getAllDocsInFolder(subF.id);
+          results = results.concat(subResults);
+        }
+        return results;
+      }
+
+      let categories = [];
+      for (const sub of subFolders) {
+        const allDocs = await getAllDocsInFolder(sub.id);
+        if (allDocs.length > 0) {
+          categories.push({ id: sub.id, name: sub.name, docs: allDocs });
+        }
+      }
+
+      const docData = {
+        updatedAt: serverTimestamp(),
+        docs: rootDocs,
+        categories: categories
+      };
+      await setDoc(doc(db, "documents", "descargas"), docData);
+    } catch (err) {
+      console.error(`Error listando documentos ${folderId}:`, err);
+      throw err;
+    }
+  }
+
   async function startSyncProcess() {
     const btn = document.getElementById("btn-sync-drive");
     btn.disabled = true;
@@ -485,6 +546,13 @@ description: "Gestión de accesos al Área del Grupo Scout Nyeri."
       for (let i = 0; i < uniqueIds.length; i++) {
         showDriveMsg(`Sincronizando carpeta ${uniqueIds[i]} (${i + 1} de ${uniqueIds.length})...`);
         await syncFolderToFirestore(uniqueIds[i]);
+      }
+
+      // Sincronizar documentos de descargas si existe
+      const vDescargas = extractDriveId(document.getElementById("dl-descargas").value);
+      if (vDescargas) {
+        showDriveMsg("Sincronizando Archivos de Descargas...");
+        await syncDocsFolderToFirestore(vDescargas);
       }
 
       showDriveMsg(`✅ Sincronización completada (${uniqueIds.length} carpetas).`);
