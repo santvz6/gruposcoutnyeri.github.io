@@ -210,7 +210,7 @@ description: "Espacio privado para familiares y scouters del Grupo Scout Nyeri."
     const campsHtml = hasCamps
       ? campamentos.map(c => {
           const url = `{{ '/galeria/' | relative_url }}?id=${c.carpetaId}&label=${encodeURIComponent(c.label)}&rama=${cfg.key}&ramaLabel=${encodeURIComponent(cfg.label)}&ramaIcon=${encodeURIComponent(cfg.icon)}`;
-          return `<a href="${url}" class="camp-btn">📦 ${c.label}</a>`;
+          return `<a href="${url}" class="camp-btn">⛺ ${c.label}</a>`;
         }).join("")
       : `<p class="camp-empty">Sin campamentos publicados todavía.</p>`;
 
