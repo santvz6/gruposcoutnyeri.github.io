@@ -32,6 +32,9 @@
 
   <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}?v={{ site.time | date: '%U%w%H%M' }}">
 
+  <!-- Script de inicialización de tema para evitar parpadeo -->
+  <script src="{{ '/assets/js/theme-init.js' | relative_url }}"></script>
+
   <!-- Plugin SEO de Jekyll -->
   {% seo %}
   {% feed_meta %}

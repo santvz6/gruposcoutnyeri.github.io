@@ -100,6 +100,34 @@
 
   /* Altura del header */
   --header-height: 70px;
+
+  /* Colores fijos (no cambian con el tema) */
+  --color-fixed-white: #FFFFFF;
+  --color-fixed-dark: #1A1A2E;
+}
+
+/* ============================================================
+   Sobrescritura de variables para MODO OSCURO
+   ============================================================ */
+[data-theme="dark"] {
+  --color-white: #1A1A2E;
+  --color-light: #252545;
+  --color-text: #F5F5F0;
+  --color-text-light: #A0A0B0;
+  --color-dark: #FFFFFF;
+  --color-border: #3A3A5A;
+
+  /* Ajuste de colores de rama para mejor contraste en fondo oscuro */
+  --color-manada-bg: #403000;
+  --color-tropa-bg: #002B5C;
+  --color-pioneros-bg: #5C0011;
+  --color-rovers-bg: #004D1A;
+
+  /* Sombras más sutiles pero profundas en modo oscuro */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, .4);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, .5);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, .6);
+  --shadow-xl: 0 16px 48px rgba(0, 0, 0, .7);
 }
 
 /* ============================================================
@@ -126,6 +154,7 @@ body {
   background-color: var(--color-white);
   line-height: 1.7;
   -webkit-font-smoothing: antialiased;
+  transition: background-color var(--transition-normal), color var(--transition-normal);
 }
 
 img,
@@ -482,6 +511,90 @@ h6 {
   border-color: var(--color-rovers);
   background: var(--color-rovers-bg);
   color: #1B5E20;
+}
+
+/* Botón de cambio de tema */
+.theme-toggle {
+  background: none;
+  border: 4px solid var(--color-light); /* Un sutil anillo decorativo */
+  cursor: pointer;
+  padding: var(--space-2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text);
+  margin-left: var(--space-4);
+  border-radius: var(--radius-full);
+  transition: all var(--transition-normal);
+  width: 42px;
+  height: 42px;
+}
+
+.theme-toggle:hover {
+  transform: rotate(15deg) scale(1.1);
+  color: var(--color-primary);
+  background: var(--color-light);
+}
+
+.theme-toggle__icon {
+  width: 22px;
+  height: 22px;
+}
+
+/* Mostrar/ocultar iconos según el tema */
+/* Si el tema es luz, mostramos la LUNA para invitar al modo oscuro */
+[data-theme="light"] .theme-toggle__icon--sun {
+  display: none;
+}
+[data-theme="light"] .theme-toggle__icon--moon {
+  display: block;
+}
+
+/* Si el tema es oscuro, mostramos el SOL para invitar al modo claro */
+[data-theme="dark"] .theme-toggle__icon--moon {
+  display: none;
+}
+[data-theme="dark"] .theme-toggle__icon--sun {
+  display: block;
+}
+
+[data-theme="dark"] .site-header {
+  background: rgba(26, 26, 46, 0.95);
+  backdrop-filter: blur(10px);
+}
+
+[data-theme="dark"] .hero {
+  background: linear-gradient(135deg, #0f0f1e 0%, #1a1a2e 100%);
+}
+
+[data-theme="dark"] .hero__title,
+[data-theme="dark"] .hero__subtitle,
+[data-theme="dark"] .hero__badge,
+[data-theme="dark"] .hero__lema {
+  color: var(--color-fixed-white);
+}
+
+[data-theme="dark"] .hero__title span {
+  color: var(--color-primary-light);
+}
+
+[data-theme="dark"] .navbar__brand {
+  color: var(--color-fixed-white);
+}
+
+/* Forzar footer siempre oscuro en modo noche */
+[data-theme="dark"] .site-footer {
+  background: var(--color-fixed-dark);
+}
+
+[data-theme="dark"] .footer__name,
+[data-theme="dark"] .footer__heading,
+[data-theme="dark"] .footer__link {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+[data-theme="dark"] .footer__link:hover {
+  color: var(--color-primary-light);
 }
 
 /* Botón hamburguesa (móvil) */
@@ -1549,9 +1662,10 @@ h6 {
    16. PIE DE PÁGINA (FOOTER)
    ============================================================ */
 .site-footer {
-  background: var(--color-dark);
-  color: rgba(255, 255, 255, 0.70);
+  background: var(--color-fixed-dark);
+  color: rgba(255, 255, 255, 0.6);
   padding-top: var(--space-16);
+  border-top: 1px solid rgba(255, 255, 255, 0.08); /* Línea gris suave */
 }
 
 .footer__grid {
@@ -1572,7 +1686,7 @@ h6 {
 .footer__name {
   font-size: var(--font-size-xl);
   font-weight: 900;
-  color: var(--color-white);
+  color: var(--color-fixed-white);
   margin-bottom: var(--space-2);
 }
 
@@ -1585,7 +1699,7 @@ h6 {
 
 .footer__asociacion {
   font-size: var(--font-size-xs);
-  color: rgba(255, 255, 255, 0.40);
+  color: rgba(255, 255, 255, 0.4);
 }
 
 .footer__heading {
@@ -1593,7 +1707,7 @@ h6 {
   font-weight: 700;
   letter-spacing: 0.10em;
   text-transform: uppercase;
-  color: var(--color-white);
+  color: var(--color-fixed-white);
   margin-bottom: var(--space-4);
 }
 
@@ -1604,7 +1718,7 @@ h6 {
 }
 
 .footer__link {
-  color: rgba(255, 255, 255, 0.60);
+  color: rgba(255, 255, 255, 0.6);
   font-size: var(--font-size-sm);
   transition: color var(--transition-fast);
 }
@@ -1626,8 +1740,8 @@ h6 {
   width: 40px;
   height: 40px;
   border-radius: var(--radius-full);
-  background: rgba(255, 255, 255, 0.08);
-  color: rgba(255, 255, 255, 0.70);
+  background: rgba(255, 255, 255, 0.08); /* Gris suave */
+  color: rgba(255, 255, 255, 0.7);
   transition: all var(--transition-fast);
 }
 
@@ -1643,7 +1757,7 @@ h6 {
 }
 
 .footer__bottom {
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid rgba(255, 255, 255, 0.08); /* Gris suave */
   padding: var(--space-6) 0;
 }
 
@@ -1846,4 +1960,80 @@ h6 {
   .about__values {
     grid-template-columns: 1fr;
   }
+}
+/* ============================================================
+   16. PÁGINAS LEGALES (Aviso Legal, Privacidad, Cookies)
+   ============================================================ */
+.legal-content {
+  max-width: 850px;
+  margin: 0 auto;
+  line-height: 1.8;
+  color: var(--color-text);
+}
+
+.legal-section {
+  margin-top: var(--space-12);
+}
+
+.legal-section h2 {
+  font-size: var(--font-size-2xl);
+  font-weight: 900;
+  color: var(--color-dark);
+  border-bottom: 2px solid var(--color-primary);
+  padding-bottom: var(--space-2);
+  margin-bottom: var(--space-6);
+}
+
+.legal-section h3 {
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+  margin-top: var(--space-8);
+  margin-bottom: var(--space-4);
+  color: var(--color-dark);
+}
+
+.legal-section p, 
+.legal-section li {
+  margin-bottom: var(--space-4);
+}
+
+.legal-section ul {
+  list-style-type: disc;
+  padding-left: var(--space-10);
+  margin-bottom: var(--space-6);
+}
+
+.legal-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: var(--space-6) 0 var(--space-10);
+  border: 1px solid var(--color-border);
+}
+
+.legal-table th, 
+.legal-table td {
+  padding: var(--space-4);
+  border: 1px solid var(--color-border);
+  text-align: left;
+}
+
+.legal-table th {
+  background-color: var(--color-light);
+  width: 35%;
+  font-weight: 800;
+  color: var(--color-dark);
+}
+
+.legal-table td {
+  background-color: var(--color-white);
+}
+
+.legal-section a {
+  font-weight: 700;
+  color: var(--color-primary);
+  text-decoration: underline;
+}
+
+.legal-section a:hover {
+  color: var(--color-primary-dark);
 }

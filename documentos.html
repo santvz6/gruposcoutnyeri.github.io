@@ -150,9 +150,9 @@ description: "Descargas y documentos privados del Grupo Scout Nyeri."
     document.getElementById("view-loading").style.display = "none";
     document.getElementById("view-docs").style.display    = "block";
     document.getElementById("docs-container").innerHTML = `
-      <div style="text-align:center; padding: 4rem 1rem; background: #fff8e1; border-radius:12px; border: 2px dashed #f9a825; margin-top:2rem;">
+      <div style="text-align:center; padding: 4rem 1rem; background: var(--color-light); border-radius:12px; border: 2px dashed var(--color-sun); margin-top:2rem;">
         <p style="font-size:3rem; margin-bottom:1rem; opacity:0.8;">⚠️</p>
-        <p style="color:#666; font-weight:600;">${msg}</p>
+        <p style="color: var(--color-text-light); font-weight:600;">${msg}</p>
       </div>`;
   }
 </script>
@@ -194,8 +194,8 @@ description: "Descargas y documentos privados del Grupo Scout Nyeri."
   .downloads__intro { margin-bottom: 3rem; text-align: center; }
   
   .download-category {
-    background: white; border-radius: var(--radius-lg); box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-    overflow: hidden; margin-bottom: 2.5rem; border: 1px solid rgba(0,0,0,0.04);
+    background: var(--color-white); border-radius: var(--radius-lg); box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    overflow: hidden; margin-bottom: 2.5rem; border: 1px solid var(--color-border);
   }
   .download-category__header {
     background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark, #1b5e20));

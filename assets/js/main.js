@@ -137,7 +137,26 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   // ============================================================
-  // 3. ANIMACIONES FADE-IN AL HACER SCROLL
+  // 3. LÓGICA DE CAMBIO DE TEMA (Modo Oscuro/Claro)
+  // ============================================================
+  const themeToggle = document.getElementById('theme-toggle');
+
+  if (themeToggle) {
+    themeToggle.addEventListener('click', function() {
+      // Obtenemos el tema actual desde el atributo de la etiqueta html
+      const currentTheme = document.documentElement.getAttribute('data-theme');
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      
+      // Aplicamos el nuevo tema
+      document.documentElement.setAttribute('data-theme', newTheme);
+      
+      // Guardamos la preferencia
+      localStorage.setItem('theme', newTheme);
+    });
+  }
+
+  // ============================================================
+  // 4. ANIMACIONES FADE-IN AL HACER SCROLL
   //    Los elementos con clase .fade-in se revelan al entrar en viewport
   // ============================================================
   const fadeElements = document.querySelectorAll('.fade-in');

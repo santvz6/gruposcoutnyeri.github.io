@@ -59,6 +59,11 @@ defaults:
 # Metadatos adicionales del grupo
 grupo:
   nombre: "Grupo Scout Nyeri"
+  entidad: "Asociación Grupo Scout Nyeri"
+  cif: "G-03951878"
+  direccion: "Calle Lo Torrent nº1, 4ºJ, 03690 Sant Vicent del Raspeig (Alicante)"
+  registro: "Registro Municipal de Entidades Ciudadanas del Ayuntamiento de San Vicente del Raspeig"
+  registro_detalles: ""
   lema: "Más cerca de Nyeri, más cerca del cielo"
   ciudad: "San Vicente del Raspeig"
   pais: "España"
