@@ -158,7 +158,9 @@ description: "Gestión de accesos al Área del Grupo Scout Nyeri."
   }
 
   async function setApproval(uid, approved) {
-    await updateDoc(doc(db, "users", uid), { approved });
+    // approved: true = aprobado, null = revocado (distinto de false = pendiente sin revisar)
+    const updateData = approved === true ? { approved: true } : { approved: null };
+    await updateDoc(doc(db, "users", uid), updateData);
     await loadUsers();
   }
 
@@ -673,6 +675,16 @@ description: "Gestión de accesos al Área del Grupo Scout Nyeri."
   @media (max-width: 600px) {
     .camp-row { grid-template-columns: 1fr; }
     .btn-remove-camp { width: 100%; }
+
+    /* Tablas del panel admin en móvil */
+    .admin-wrapper { padding: 1.5rem 1rem; }
+    .admin-header { flex-direction: column; align-items: flex-start; }
+    .stats-bar { flex-direction: column; }
+    .stat-card { min-width: unset; }
+    .table-scroll-wrapper { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .users-table { min-width: 520px; }
+    .users-table th, .users-table td { padding: 0.6rem 0.65rem; font-size: 0.8rem; }
+    .btn-approve, .btn-revoke { font-size: 0.75rem; padding: 0.35rem 0.65rem; }
   }
 </style>
 
@@ -712,12 +724,14 @@ description: "Gestión de accesos al Área del Grupo Scout Nyeri."
     <!-- Solicitudes pendientes -->
     <div class="admin-section">
       <h2>⏳ Solicitudes Pendientes</h2>
-      <table class="users-table" id="table-pending">
-        <thead><tr>
-          <th>Nombre</th><th>Email</th><th>Rol / Rama</th><th>Fecha solicitud</th><th>Acción</th>
-        </tr></thead>
-        <tbody></tbody>
-      </table>
+      <div class="table-scroll-wrapper">
+        <table class="users-table" id="table-pending">
+          <thead><tr>
+            <th>Nombre</th><th>Email</th><th>Rol / Rama</th><th>Fecha solicitud</th><th>Acción</th>
+          </tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
     </div>
 
     <!-- Usuarios con acceso -->
@@ -726,23 +740,27 @@ description: "Gestión de accesos al Área del Grupo Scout Nyeri."
       <p style="font-size:0.85rem; color: var(--color-text-light); margin-bottom:1rem;">
         Para educandos y familias, asigna su rama con el selector que aparece bajo el rol.
       </p>
-      <table class="users-table" id="table-approved">
-        <thead><tr>
-          <th>Nombre</th><th>Email</th><th>Rol / Rama</th><th>Fecha alta</th><th>Acción</th>
-        </tr></thead>
-        <tbody></tbody>
-      </table>
+      <div class="table-scroll-wrapper">
+        <table class="users-table" id="table-approved">
+          <thead><tr>
+            <th>Nombre</th><th>Email</th><th>Rol / Rama</th><th>Fecha alta</th><th>Acción</th>
+          </tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
     </div>
 
     <!-- Usuarios revocados -->
     <div class="admin-section">
       <h2>🚫 Acceso Revocado</h2>
-      <table class="users-table" id="table-revoked">
-        <thead><tr>
-          <th>Nombre</th><th>Email</th><th>Rol / Rama</th><th>Fecha</th><th>Acción</th>
-        </tr></thead>
-        <tbody></tbody>
-      </table>
+      <div class="table-scroll-wrapper">
+        <table class="users-table" id="table-revoked">
+          <thead><tr>
+            <th>Nombre</th><th>Email</th><th>Rol / Rama</th><th>Fecha</th><th>Acción</th>
+          </tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
     </div>
 
     <!-- ── Gestión de Álbumes de Google Drive ── -->
