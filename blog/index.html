@@ -4,14 +4,21 @@ layout: default
 title: "Blog de Aventuras"
 description: "Crónicas, campamentos y aventuras del Grupo Scout Nyeri de Alicante. Nuestras historias contadas desde dentro."
 permalink: /blog/
+hero_image: "/assets/img/hero-blog.jpg"
 ---
 
 <!-- Hero de la página Blog -->
-<section class="page-hero" aria-labelledby="blog-page-title">
-  <div class="container page-hero__inner">
+<section class="page-hero" aria-labelledby="blog-page-title"
+  style="{% if page.hero_image %}background-image: url('{{ page.hero_image | relative_url }}'); background-size: cover; background-position: center; position: relative; overflow: hidden;{% endif %}">
+  
+  {% if page.hero_image %}
+    <div style="position: absolute; inset: 0; background: linear-gradient(135deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.2) 100%); z-index: 1;"></div>
+  {% endif %}
+
+  <div class="container page-hero__inner" style="position: relative; z-index: 2;">
     <span class="page-hero__icon" aria-hidden="true">📰</span>
-    <h1 class="page-hero__title" id="blog-page-title">Blog de Aventuras</h1>
-    <p class="page-hero__subtitle">Crónicas, campamentos y historias del Grupo Scout Nyeri</p>
+    <h1 class="page-hero__title" id="blog-page-title" style="{% if page.hero_image %}color: white; text-shadow: 0 2px 10px rgba(0,0,0,0.3);{% endif %}">Blog de Aventuras</h1>
+    <p class="page-hero__subtitle" style="{% if page.hero_image %}color: rgba(255,255,255,0.9);{% endif %}">Crónicas, campamentos y historias del Grupo Scout Nyeri</p>
   </div>
 </section>
 

@@ -9,32 +9,28 @@ description: "Información legal, términos de uso y responsabilidad del sitio w
   <section class="legal-section">
     <p>En cumplimiento del artículo 10 de la Ley 34/2002, de 11 de julio, de Servicios de la Sociedad de la Información y Comercio Electrónico (LSSI-CE), se exponen los siguientes datos identificativos del titular de este sitio web:</p>
 
-    <div class="table-responsive">
-      <table class="legal-table">
-        <tr>
-          <th>Denominación Social:</th>
-          <td>{{ site.grupo.entidad }}</td>
-        </tr>
-        <tr>
-          <th>CIF:</th>
-          <td>{{ site.grupo.cif }}</td>
-        </tr>
-        <tr>
-          <th>Domicilio Social:</th>
-          <td>{{ site.grupo.direccion }}</td>
-        </tr>
-        <tr>
-          <th>Email de Contacto:</th>
-          <td><a href="mailto:{{ site.email }}">{{ site.email }}</a></td>
-        </tr>
-        <tr>
-          <th>Registro Municipal:</th>
-          <td>
-            <strong>{{ site.grupo.registro }}</strong><br>
-            <small>{{ site.grupo.registro_detalles }}</small>
-          </td>
-        </tr>
-      </table>
+    <div style="display: grid; gap: var(--space-4); margin-top: var(--space-6); margin-bottom: var(--space-8);">
+      <div style="background: var(--color-light); border-left: 4px solid var(--color-primary); padding: var(--space-4); border-radius: var(--radius-md);">
+        <strong style="color: var(--color-text-light); display: block; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.25rem;">Denominación Social</strong>
+        <span style="font-size: 1.1rem; font-weight: 700; color: var(--color-dark);">{{ site.grupo.entidad }}</span>
+      </div>
+      <div style="background: var(--color-light); border-left: 4px solid var(--color-primary); padding: var(--space-4); border-radius: var(--radius-md);">
+        <strong style="color: var(--color-text-light); display: block; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.25rem;">CIF</strong>
+        <span style="font-size: 1.1rem; font-weight: 700; color: var(--color-dark);">{{ site.grupo.cif }}</span>
+      </div>
+      <div style="background: var(--color-light); border-left: 4px solid var(--color-primary); padding: var(--space-4); border-radius: var(--radius-md);">
+        <strong style="color: var(--color-text-light); display: block; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.25rem;">Domicilio Social</strong>
+        <span style="font-size: 1.1rem; font-weight: 700; color: var(--color-dark);">{{ site.grupo.direccion }}</span>
+      </div>
+      <div style="background: var(--color-light); border-left: 4px solid var(--color-primary); padding: var(--space-4); border-radius: var(--radius-md);">
+        <strong style="color: var(--color-text-light); display: block; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.25rem;">Email de Contacto</strong>
+        <a href="mailto:{{ site.email }}" style="font-size: 1.1rem; font-weight: 700; color: var(--color-primary);">{{ site.email }}</a>
+      </div>
+      <div style="background: var(--color-light); border-left: 4px solid var(--color-primary); padding: var(--space-4); border-radius: var(--radius-md);">
+        <strong style="color: var(--color-text-light); display: block; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.25rem;">Registro Municipal</strong>
+        <span style="font-size: 1.1rem; font-weight: 700; color: var(--color-dark); display: block;">{{ site.grupo.registro }}</span>
+        <small style="color: var(--color-text-light); margin-top: 0.25rem; display: block;">{{ site.grupo.registro_detalles }}</small>
+      </div>
     </div>
   </section>
 
