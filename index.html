@@ -302,6 +302,66 @@ naturaleza. ¡Únete a nosotros!"
   </div>
 </section>
 
+<!-- ============================================================
+     SECCIÓN INSTAGRAM FEED
+     ============================================================ -->
+{% comment %}
+<section class="instagram-feed" style="padding: var(--space-16) 0; background: var(--color-white);">
+  <div class="container fade-in">
+    <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: var(--space-8); flex-wrap: wrap; gap: var(--space-4);">
+      <div>
+        <span class="section-label">📸 Síguenos en Redes</span>
+        <h2 class="section-title" style="margin-bottom: 0;">Vida Scout en directo</h2>
+      </div>
+      <a href="{{ site.grupo.instagram }}" target="_blank" class="btn btn--primary" style="background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); border: none;">
+        <span aria-hidden="true" style="font-size: 1.2rem;">📱</span> @gruposcoutnyeri
+      </a>
+    </div>
+
+    <!-- Grid de fotos tipo Instagram -->
+    <!-- NOTA PARA EL GRUPO: 
+         Si quieres que este feed se actualice automáticamente con tu Instagram real, 
+         puedes crear un widget gratuito en https://elfsight.com/es/instagram-feed-instashow/
+         y sustituir este bloque "Grid de fotos" por el código que te den.
+    -->
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: var(--space-4);">
+      <!-- Foto 1 -->
+      <a href="{{ site.grupo.instagram }}" target="_blank" style="display: block; position: relative; aspect-ratio: 1; overflow: hidden; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); transition: transform var(--transition-fast);" class="hover-scale">
+        <img src="{{ '/assets/img/hero-bg-2.jpg' | relative_url }}" alt="Actividad del grupo" style="width: 100%; height: 100%; object-fit: cover; transition: transform var(--transition-normal);">
+        <div style="position: absolute; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity var(--transition-fast); color: white; font-size: 2rem;">
+          ♥
+        </div>
+      </a>
+      <!-- Foto 2 -->
+      <a href="{{ site.grupo.instagram }}" target="_blank" style="display: block; position: relative; aspect-ratio: 1; overflow: hidden; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); transition: transform var(--transition-fast);" class="hover-scale">
+        <img src="{{ '/assets/img/tropa-bg-2.jpg' | relative_url }}" alt="Campamento de verano" style="width: 100%; height: 100%; object-fit: cover; transition: transform var(--transition-normal);">
+        <div style="position: absolute; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity var(--transition-fast); color: white; font-size: 2rem;">
+          ♥
+        </div>
+      </a>
+      <!-- Foto 3 -->
+      <a href="{{ site.grupo.instagram }}" target="_blank" style="display: block; position: relative; aspect-ratio: 1; overflow: hidden; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); transition: transform var(--transition-fast);" class="hover-scale">
+        <img src="{{ '/assets/img/manada-bg.jpg' | relative_url }}" alt="Juegos en la naturaleza" style="width: 100%; height: 100%; object-fit: cover; transition: transform var(--transition-normal);">
+        <div style="position: absolute; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity var(--transition-fast); color: white; font-size: 2rem;">
+          ♥
+        </div>
+      </a>
+      <!-- Foto 4 -->
+      <a href="{{ site.grupo.instagram }}" target="_blank" style="display: block; position: relative; aspect-ratio: 1; overflow: hidden; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); transition: transform var(--transition-fast);" class="hover-scale">
+        <img src="{{ '/assets/img/rovers-bg.jpg' | relative_url }}" alt="Ruta por la montaña" style="width: 100%; height: 100%; object-fit: cover; transition: transform var(--transition-normal);">
+        <div style="position: absolute; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity var(--transition-fast); color: white; font-size: 2rem;">
+          ♥
+        </div>
+      </a>
+    </div>
+    
+    <style>
+      .hover-scale:hover img { transform: scale(1.05); }
+      .hover-scale:hover div { opacity: 1 !important; }
+    </style>
+  </div>
+</section>
+{% endcomment %}
 
 <!-- ============================================================
      SECCIÓN FAMILIAS Y SCOUTERS (Área Privada)
