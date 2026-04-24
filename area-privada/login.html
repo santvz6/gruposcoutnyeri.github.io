@@ -67,6 +67,21 @@ description: "Inicio de sesión para miembros y familias del Grupo Scout Nyeri."
   });
 
   // ── REGISTRO ───────────────────────────────────────────────
+  const regRoleSelect = document.getElementById("reg-role");
+  const regRamaGroup = document.getElementById("reg-rama-group");
+  const regRamaSelect = document.getElementById("reg-rama");
+
+  regRoleSelect.addEventListener("change", (e) => {
+    if (e.target.value === "family" || e.target.value === "educando") {
+      regRamaGroup.style.display = "block";
+      regRamaSelect.required = true;
+    } else {
+      regRamaGroup.style.display = "none";
+      regRamaSelect.required = false;
+      regRamaSelect.value = "";
+    }
+  });
+
   document.getElementById("register-form").addEventListener("submit", async (e) => {
     e.preventDefault();
     clearMessages();
@@ -74,13 +89,14 @@ description: "Inicio de sesión para miembros y familias del Grupo Scout Nyeri."
     const email = document.getElementById("reg-email").value.trim();
     const password = document.getElementById("reg-password").value;
     const role = document.getElementById("reg-role").value;
+    const rama = document.getElementById("reg-rama").value || null;
     try {
       const cred = await createUserWithEmailAndPassword(auth, email, password);
       // Guardar en Firestore pendiente de aprobación
       await setDoc(doc(db, "users", cred.user.uid), {
         uid: cred.user.uid,
         name, email, role,
-        rama: null,   // El admin asigna la rama manualmente desde el panel
+        rama: rama,
         approved: false,
         createdAt: serverTimestamp()
       });
@@ -347,6 +363,16 @@ description: "Inicio de sesión para miembros y familias del Grupo Scout Nyeri."
               <option value="family">👨‍👩‍👧 Familiar de un scout</option>
               <option value="educando">🏕️ Educando (Pionero / Rover)</option>
               <option value="scouter">⚜️ Scouter / Monitor-a</option>
+            </select>
+          </div>
+          <div class="form-group" id="reg-rama-group" style="display:none;">
+            <label class="form-label" for="reg-rama">Rama a la que pertenece <span class="form-required">*</span></label>
+            <select id="reg-rama" class="form-select">
+              <option value="">-- Selecciona una rama --</option>
+              <option value="manada">🐺 Manada</option>
+              <option value="tropa">🌲 Scout / Tropa</option>
+              <option value="pioneros">🔥 Pioneros</option>
+              <option value="rovers">⚜️ Rovers</option>
             </select>
           </div>
           <button type="submit" class="btn-submit">Solicitar acceso ✉️</button>
