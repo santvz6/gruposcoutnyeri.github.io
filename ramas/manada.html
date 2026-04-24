@@ -7,17 +7,20 @@ subtitle: "El mundo de los lobatos — 7 a 11 años"
 icon: "🐺"
 unit_color: "manada"
 hero_color: "linear-gradient(135deg, #7A5800 0%, #F9A825 100%)"
-hero_image: "/assets/img/manada-bg.jpg"
+hero_image: "/assets/img/manada/manada-bg.jpg"
 description: "La Manada del Grupo Scout Nyeri: un mundo de aventura, imaginación y primeros retos para niños y niñas de 7 a 11 años en Alicante."
 ---
 
 <!-- Presentación de la rama -->
 <div class="unit-intro fade-in">
   <div>
-    <h2 class="unit-intro__title" style="color: var(--color-manada);">¿Qué es la Manada?</h2>
+    <h2 class="unit-intro__title" style="color: var(--color-text); position: relative; display: inline-block;">
+      ¿Qué es la Manada?
+      <span style="position: absolute; bottom: -5px; left: 0; width: 40%; height: 4px; background: var(--color-manada); border-radius: 2px;"></span>
+    </h2>
     <p class="unit-intro__text">
       En la Manada, los niños y niñas de 7 a 11 años empiezan su gran viaje scout a través del 
-      juego, la imaginación y el mundo de "El Libro de las Tierras Vírgenes".
+      juego, la imaginación y el mundo de <strong>"El Libro de las Tierras Vírgenes"</strong>.
     </p>
     <p class="unit-intro__text">
       A través del Marco Simbólico de la selva y acompañados de sus "viejos lobos" (los monitores o scouters), 
@@ -32,14 +35,15 @@ description: "La Manada del Grupo Scout Nyeri: un mundo de aventura, imaginació
       ¿Quieres que tu hijo/a se una? →
     </a>
   </div>
-  <div style="background: var(--color-manada-bg); border-radius: var(--radius-xl); padding: 2rem; text-align: center;">
-    <p style="font-size: 5rem; margin-bottom: 1rem;" aria-hidden="true">🐺</p>
-    <h3 style="font-size: 1.5rem; color: var(--color-manada); margin-bottom: 0.5rem;">Datos de la Rama</h3>
-    <ul style="list-style: none; color: var(--color-text-light); line-height: 2.2; font-size: 0.95rem;">
-      <li>📅 <strong>Edad:</strong> 7 — 11 años</li>
-      <li>🗓️ <strong>Reuniones:</strong> Sábados — 16:30 - 18:30</li>
-      <li>👥 <strong>Grupo:</strong> Seisenas (blanca, gris, teja, negra)</li>
-      <li>📍 <strong>Local:</strong> San Vicente del Raspeig (ver Contacto)</li>
+  <div style="background: var(--color-white); border-radius: var(--radius-xl); padding: 2.5rem 2rem; text-align: center; box-shadow: var(--shadow-md); border: 1px solid rgba(0,0,0,0.05); position: relative; overflow: hidden;">
+    <div style="position: absolute; top: 0; left: 0; width: 100%; height: 6px; background: var(--color-manada);"></div>
+    <p style="font-size: 4rem; margin-bottom: 0.5rem; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));" aria-hidden="true">🐺</p>
+    <h3 style="font-size: 1.4rem; color: var(--color-text); margin-bottom: 1.5rem; font-weight: 800;">Datos de la Rama</h3>
+    <ul style="list-style: none; color: var(--color-text); line-height: 2; font-size: 0.95rem; text-align: left; background: var(--color-light); padding: 1.5rem; border-radius: var(--radius-lg);">
+      <li style="margin-bottom: 0.5rem;">📅 <strong>Edad:</strong> 7 — 11 años</li>
+      <li style="margin-bottom: 0.5rem;">🗓️ <strong>Reuniones:</strong> Sábados — 16:30 - 18:30</li>
+      <li style="margin-bottom: 0.5rem;">👥 <strong>Grupo:</strong> Seisenas</li>
+      <li>📍 <strong>Local:</strong> San Vicente del Raspeig</li>
     </ul>
   </div>
 </div>
@@ -50,8 +54,8 @@ description: "La Manada del Grupo Scout Nyeri: un mundo de aventura, imaginació
   <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem;">
     {% assign manada_activities = "🎮 Juegos cooperativos|🌿 Exploración de la naturaleza|🎨 Manualidades y creatividad|🎵 Canciones y danzas scouts|🏕️ Primeras excursiones|🤝 Valores y trabajo en equipo" | split: "|" %}
     {% for activity in manada_activities %}
-    <div class="fade-in" style="background: var(--color-manada-bg); border-radius: var(--radius-lg); padding: 1.5rem; text-align: center; border-left: 4px solid var(--color-manada);">
-      <p style="font-size: 0.95rem; color: var(--color-manada); font-weight: 600;">{{ activity }}</p>
+    <div class="fade-in" style="background: var(--color-white); border-radius: var(--radius-lg); padding: 1.5rem; text-align: center; border-left: 4px solid var(--color-manada); box-shadow: var(--shadow-sm); transition: transform 0.3s ease, box-shadow 0.3s ease;" onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='var(--shadow-md)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='var(--shadow-sm)';">
+      <p style="font-size: 0.95rem; color: var(--color-text); font-weight: 700;">{{ activity }}</p>
     </div>
     {% endfor %}
   </div>
@@ -59,7 +63,10 @@ description: "La Manada del Grupo Scout Nyeri: un mundo de aventura, imaginació
 
 <!-- El Proyecto de Caza -->
 <section class="fade-in" style="margin-bottom: var(--space-16);">
-  <h2 class="section-title" style="margin-bottom: var(--space-8); color: var(--color-manada);">El Proyecto de Caza</h2>
+  <h2 class="section-title" style="margin-bottom: var(--space-8); color: var(--color-text); position: relative; display: inline-block;">
+    El Proyecto de Caza
+    <span style="position: absolute; bottom: -5px; left: 0; width: 40%; height: 4px; background: var(--color-manada); border-radius: 2px;"></span>
+  </h2>
   <div style="background: var(--color-white); border-radius: var(--radius-xl); padding: 2.5rem; box-shadow: var(--shadow-md); border-top: 5px solid var(--color-manada);">
     <p class="unit-intro__text">
       La <strong>Caza</strong> es un pequeño proyecto de servicio que los lobatos realizan durante la ronda solar. 
@@ -67,19 +74,19 @@ description: "La Manada del Grupo Scout Nyeri: un mundo de aventura, imaginació
       sin esperar nada a cambio.
     </p>
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin: 2rem 0;">
-      <div style="text-align: center; padding: 1.5rem; background: var(--color-manada-bg); border-radius: var(--radius-lg);">
-        <span style="font-size: 2.5rem; display: block; margin-bottom: 0.5rem;" aria-hidden="true">🌱</span>
-        <h4 style="color: var(--color-manada); margin-bottom: 0.5rem; font-size: 1.1rem;">Naturaleza</h4>
+      <div style="text-align: center; padding: 2rem 1.5rem; background: var(--color-light); border-radius: var(--radius-lg); border: 1px solid rgba(0,0,0,0.03);">
+        <span style="font-size: 3rem; display: block; margin-bottom: 1rem; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));" aria-hidden="true">🌱</span>
+        <h4 style="color: var(--color-text); margin-bottom: 0.5rem; font-size: 1.1rem; font-weight: 800;">Naturaleza</h4>
         <p style="font-size: 0.9rem; color: var(--color-text-light);">Actividades como la reforestación o el cuidado animal.</p>
       </div>
-      <div style="text-align: center; padding: 1.5rem; background: var(--color-manada-bg); border-radius: var(--radius-lg);">
-        <span style="font-size: 2.5rem; display: block; margin-bottom: 0.5rem;" aria-hidden="true">🏖️</span>
-        <h4 style="color: var(--color-manada); margin-bottom: 0.5rem; font-size: 1.1rem;">Medio Ambiente</h4>
+      <div style="text-align: center; padding: 2rem 1.5rem; background: var(--color-light); border-radius: var(--radius-lg); border: 1px solid rgba(0,0,0,0.03);">
+        <span style="font-size: 3rem; display: block; margin-bottom: 1rem; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));" aria-hidden="true">🏖️</span>
+        <h4 style="color: var(--color-text); margin-bottom: 0.5rem; font-size: 1.1rem; font-weight: 800;">Medio Ambiente</h4>
         <p style="font-size: 0.9rem; color: var(--color-text-light);">Limpiezas de playas y entornos naturales cercanos.</p>
       </div>
-      <div style="text-align: center; padding: 1.5rem; background: var(--color-manada-bg); border-radius: var(--radius-lg);">
-        <span style="font-size: 2.5rem; display: block; margin-bottom: 0.5rem;" aria-hidden="true">🎉</span>
-        <h4 style="color: var(--color-manada); margin-bottom: 0.5rem; font-size: 1.1rem;">Celebración</h4>
+      <div style="text-align: center; padding: 2rem 1.5rem; background: var(--color-light); border-radius: var(--radius-lg); border: 1px solid rgba(0,0,0,0.03);">
+        <span style="font-size: 3rem; display: block; margin-bottom: 1rem; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));" aria-hidden="true">🎉</span>
+        <h4 style="color: var(--color-text); margin-bottom: 0.5rem; font-size: 1.1rem; font-weight: 800;">Celebración</h4>
         <p style="font-size: 0.9rem; color: var(--color-text-light);">Momento festivo para compartir y celebrar el trabajo bien hecho.</p>
       </div>
     </div>
@@ -89,24 +96,21 @@ description: "La Manada del Grupo Scout Nyeri: un mundo de aventura, imaginació
   </div>
 </section>
 
-<!-- Galería de fotos (placeholder por privacidad) -->
+<!-- Galería de fotos -->
 <section class="unit-gallery fade-in">
   <h2 class="unit-gallery__title">Momentos de la Manada</h2>
   <div class="unit-gallery__grid">
-    <div class="unit-gallery__item">
-      <span class="unit-gallery__item-icon">🐺</span>
-      <span>Foto del campamento</span>
+    <div class="unit-gallery__item unit-gallery__item--photo">
+      <img src="{{ '/assets/img/manada/test-3.jpg' | relative_url }}" alt="Campamento de la Manada" loading="lazy">
+      <span class="unit-gallery__overlay">Campamento de la Manada</span>
     </div>
-    <div class="unit-gallery__item">
-      <span class="unit-gallery__item-icon">🌿</span>
-      <span>Actividad en el bosque</span>
+    <div class="unit-gallery__item unit-gallery__item--photo">
+      <img src="{{ '/assets/img/manada/test-2.jpg' | relative_url }}" alt="Actividad en el bosque" loading="lazy">
+      <span class="unit-gallery__overlay">Actividad en el bosque</span>
     </div>
-    <div class="unit-gallery__item">
-      <span class="unit-gallery__item-icon">🐾</span>
-      <span>Proyecto de Caza</span>
+    <div class="unit-gallery__item unit-gallery__item--photo">
+      <img src="{{ '/assets/img/manada/test-4.jpg' | relative_url }}" alt="Proyecto de Caza" loading="lazy">
+      <span class="unit-gallery__overlay">Proyecto de Caza</span>
     </div>
   </div>
-  <p class="unit-gallery__privacy">
-    🔒 Las fotos reales serán publicadas próximamente.
-  </p>
 </section>

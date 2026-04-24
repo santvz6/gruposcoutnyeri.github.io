@@ -7,14 +7,17 @@ subtitle: "Proyectos, autonomía y servicio — 14 a 17 años"
 icon: "🔥"
 unit_color: "pioneros"
 hero_color: "linear-gradient(135deg, #C62828 0%, #D32F2F 100%)"
-hero_image: "/assets/img/pioneros-bg.jpg"
+hero_image: "/assets/img/pioneros/pioneros-bg.jpg"
 description: "Rama de Pioneros del Grupo Scout Nyeri: autonomía, rutas y compromiso social para jóvenes de 14 a 17 años en Alicante."
 ---
 
 <!-- Presentación de la rama -->
 <div class="unit-intro fade-in">
   <div>
-    <h2 class="unit-intro__title" style="color: var(--color-pioneros);">¿Qué son los Pioneros?</h2>
+    <h2 class="unit-intro__title" style="color: var(--color-text); position: relative; display: inline-block;">
+      ¿Qué son los Pioneros?
+      <span style="position: absolute; bottom: -5px; left: 0; width: 40%; height: 4px; background: var(--color-pioneros); border-radius: 2px;"></span>
+    </h2>
     <p class="unit-intro__text">
       En Pioneros, los jóvenes de 14 a 17 años toman las riendas de su propia
       educación, diseñando y ejecutando sus propios proyectos o <strong>"Empresas"</strong>.
@@ -33,15 +36,16 @@ description: "Rama de Pioneros del Grupo Scout Nyeri: autonomía, rutas y compro
       ¿Quieres unirte a los Pioneros? →
     </a>
   </div>
-  <div style="background: var(--color-pioneros-bg); border-radius: var(--radius-xl); padding: 2rem; text-align: center;">
-    <p style="font-size: 5rem; margin-bottom: 1rem;" aria-hidden="true">🔥</p>
-    <h3 style="font-size: 1.5rem; color: var(--color-pioneros); margin-bottom: 0.5rem;">Datos de la Rama</h3>
-    <ul style="list-style: none; color: var(--color-text-light); line-height: 2.2; font-size: 0.95rem;">
-      <li>📅 <strong>Edad:</strong> 14 — 17 años</li>
-      <li>🗓️ <strong>Reuniones:</strong> Sábados — 16:30 - 18:30</li>
-      <li>🏔️ <strong>Rutas:</strong> Media y alta montaña</li>
-      <li>🌍 <strong>Servicio:</strong> Proyectos comunitarios</li>
-      <li>📍 <strong>Local:</strong> San Vicente del Raspeig (ver Contacto)</li>
+  <div style="background: var(--color-white); border-radius: var(--radius-xl); padding: 2.5rem 2rem; text-align: center; box-shadow: var(--shadow-md); border: 1px solid rgba(0,0,0,0.05); position: relative; overflow: hidden;">
+    <div style="position: absolute; top: 0; left: 0; width: 100%; height: 6px; background: var(--color-pioneros);"></div>
+    <p style="font-size: 4rem; margin-bottom: 0.5rem; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));" aria-hidden="true">🔥</p>
+    <h3 style="font-size: 1.4rem; color: var(--color-text); margin-bottom: 1.5rem; font-weight: 800;">Datos de la Rama</h3>
+    <ul style="list-style: none; color: var(--color-text); line-height: 2; font-size: 0.95rem; text-align: left; background: var(--color-light); padding: 1.5rem; border-radius: var(--radius-lg);">
+      <li style="margin-bottom: 0.5rem;">📅 <strong>Edad:</strong> 14 — 17 años</li>
+      <li style="margin-bottom: 0.5rem;">🗓️ <strong>Reuniones:</strong> Sábados — 16:30 - 18:30</li>
+      <li style="margin-bottom: 0.5rem;">🏔️ <strong>Rutas:</strong> Media y alta montaña</li>
+      <li style="margin-bottom: 0.5rem;">🌍 <strong>Servicio:</strong> Proyectos comunitarios</li>
+      <li>📍 <strong>Local:</strong> San Vicente del Raspeig</li>
     </ul>
   </div>
 </div>
@@ -52,8 +56,8 @@ description: "Rama de Pioneros del Grupo Scout Nyeri: autonomía, rutas y compro
   <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem;">
     {% assign pioneros_activities = "🏔️ Rutas de alta montaña|🌍 Proyectos de servicio|💡 Liderazgo y gestión de proyectos|🔭 Reflexión y crecimiento personal" | split: "|" %}
     {% for activity in pioneros_activities %}
-    <div class="fade-in" style="background: var(--color-pioneros-bg); border-radius: var(--radius-lg); padding: 1.5rem; text-align: center; border-left: 4px solid var(--color-pioneros);">
-      <p style="font-size: 0.95rem; color: var(--color-pioneros); font-weight: 600;">{{ activity }}</p>
+    <div class="fade-in" style="background: var(--color-white); border-radius: var(--radius-lg); padding: 1.5rem; text-align: center; border-left: 4px solid var(--color-pioneros); box-shadow: var(--shadow-sm); transition: transform 0.3s ease, box-shadow 0.3s ease;" onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='var(--shadow-md)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='var(--shadow-sm)';">
+      <p style="font-size: 0.95rem; color: var(--color-text); font-weight: 700;">{{ activity }}</p>
     </div>
     {% endfor %}
   </div>

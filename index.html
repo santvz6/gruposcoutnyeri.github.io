@@ -136,6 +136,54 @@ naturaleza. ¡Únete a nosotros!"
   </div>
 </section>
 
+<!-- ============================================================
+     SECCIÓN IMPACTO SOCIAL (ESTADÍSTICAS PREMIUM)
+     ============================================================ -->
+<section style="padding: var(--space-8) 0; margin-bottom: var(--space-16); position: relative;">
+  <div class="container fade-in">
+    <div style="background: linear-gradient(135deg, var(--color-primary-dark) 0%, var(--color-primary) 50%, var(--color-primary-light) 100%); border-radius: var(--radius-xl); box-shadow: 0 10px 30px rgba(194, 57, 155, 0.25); padding: clamp(1.5rem, 5vw, 4rem); color: white; display: flex; flex-direction: column; gap: clamp(1.5rem, 4vw, 2.5rem); position: relative; overflow: hidden;">
+      
+      <!-- Decoración de fondo -->
+      <div style="position: absolute; top: -50px; right: -50px; width: 250px; height: 250px; background: rgba(255,255,255,0.1); border-radius: 50%; filter: blur(40px); pointer-events: none;"></div>
+      <div style="position: absolute; bottom: -50px; left: -50px; width: 200px; height: 200px; background: rgba(255,255,255,0.05); border-radius: 50%; filter: blur(30px); pointer-events: none;"></div>
+
+      <div style="text-align: center; position: relative; z-index: 2;">
+        <span style="display: inline-block; background: rgba(255,255,255,0.2); padding: 0.3rem 1rem; border-radius: 999px; font-size: 0.8rem; font-weight: 800; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 1rem; backdrop-filter: blur(5px);">Nuestra Huella</span>
+        <h2 style="font-size: clamp(1.8rem, 5vw, 3rem); font-weight: 900; margin-bottom: 0.5rem; color: white; text-shadow: 0 2px 10px rgba(0,0,0,0.1); line-height: 1.2;">El impacto del grupo</h2>
+        <p style="font-size: clamp(1rem, 3vw, 1.15rem); opacity: 0.95; max-width: 650px; margin: 0 auto; line-height: 1.5;">
+          Generaciones de jóvenes creciendo a través del juego, la responsabilidad y el amor por la naturaleza en San Vicente del Raspeig.
+        </p>
+      </div>
+
+      {% assign current_year = 'now' | date: "%Y" | plus: 0 %}
+      {% assign foundation_year = site.grupo.fundacion | plus: 0 %}
+      {% assign years_active = current_year | minus: foundation_year %}
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; position: relative; z-index: 2;">
+        
+        <!-- Stat 1 -->
+        <div style="background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); border-radius: var(--radius-lg); padding: clamp(1.5rem, 3vw, 2rem) 1rem; text-align: center; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);" onmouseover="this.style.transform='translateY(-5px)'; this.style.background='rgba(255,255,255,0.2)'; this.style.boxShadow='0 10px 20px rgba(0,0,0,0.15)';" onmouseout="this.style.transform='translateY(0)'; this.style.background='rgba(255,255,255,0.15)'; this.style.boxShadow='none';">
+          <div style="font-size: clamp(2.5rem, 5vw, 3.5rem); font-weight: 900; line-height: 1; margin-bottom: 0.5rem; color: white; text-shadow: 0 2px 4px rgba(0,0,0,0.1);">{{ years_active }}<span style="color: var(--color-sun);">+</span></div>
+          <div style="font-size: 1rem; font-weight: 700; color: rgba(255,255,255,0.9);">Años de historia</div>
+        </div>
+        
+        <!-- Stat 2 -->
+        <div style="background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); border-radius: var(--radius-lg); padding: clamp(1.5rem, 3vw, 2rem) 1rem; text-align: center; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);" onmouseover="this.style.transform='translateY(-5px)'; this.style.background='rgba(255,255,255,0.2)'; this.style.boxShadow='0 10px 20px rgba(0,0,0,0.15)';" onmouseout="this.style.transform='translateY(0)'; this.style.background='rgba(255,255,255,0.15)'; this.style.boxShadow='none';">
+          <div style="font-size: clamp(2.5rem, 5vw, 3.5rem); font-weight: 900; line-height: 1; margin-bottom: 0.5rem; color: white; text-shadow: 0 2px 4px rgba(0,0,0,0.1);">100<span style="color: var(--color-sun);">+</span></div>
+          <div style="font-size: 1rem; font-weight: 700; color: rgba(255,255,255,0.9);">Scouts activos</div>
+        </div>
+
+        <!-- Stat 3 -->
+        <div style="background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); border-radius: var(--radius-lg); padding: clamp(1.5rem, 3vw, 2rem) 1rem; text-align: center; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);" onmouseover="this.style.transform='translateY(-5px)'; this.style.background='rgba(255,255,255,0.2)'; this.style.boxShadow='0 10px 20px rgba(0,0,0,0.15)';" onmouseout="this.style.transform='translateY(0)'; this.style.background='rgba(255,255,255,0.15)'; this.style.boxShadow='none';">
+          <div style="font-size: clamp(2.5rem, 5vw, 3.5rem); font-weight: 900; line-height: 1; margin-bottom: 0.5rem; color: white; text-shadow: 0 2px 4px rgba(0,0,0,0.1);">24<span style="color: var(--color-sun);">+</span></div>
+          <div style="font-size: 1rem; font-weight: 700; color: rgba(255,255,255,0.9);">Scouters voluntarios</div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
 
 <!-- ============================================================
      SECCIÓN LAS RAMAS
@@ -166,7 +214,10 @@ naturaleza. ¡Únete a nosotros!"
             El mundo de Mowgli y los lobatos. Juegos, cuentos y primeras aventuras en un entorno
             mágico lleno de imaginación y amistad.
           </p>
-          <span class="unit-card__cta">Conoce la Manada →</span>
+          <div class="unit-card__cta">
+            <span>Conoce la Manada</span>
+            <span class="unit-card__arrow">→</span>
+          </div>
         </div>
       </a>
 
@@ -183,7 +234,10 @@ naturaleza. ¡Únete a nosotros!"
             Técnicas de exploración, trabajo en barcos y campamentos. Aquí nace el verdadero
             espíritu scout: responsabilidad, compañerismo y superación.
           </p>
-          <span class="unit-card__cta">Conoce la Tropa →</span>
+          <div class="unit-card__cta">
+            <span>Conoce la Tropa</span>
+            <span class="unit-card__arrow">→</span>
+          </div>
         </div>
       </a>
 
@@ -200,7 +254,10 @@ naturaleza. ¡Únete a nosotros!"
             Proyectos de servicio, rutas de alta montaña y autonomía progresiva.
             Una etapa de grandes retos y descubrimiento de la propia identidad.
           </p>
-          <span class="unit-card__cta">Conoce los Pioneros →</span>
+          <div class="unit-card__cta">
+            <span>Conoce los Pioneros</span>
+            <span class="unit-card__arrow">→</span>
+          </div>
         </div>
       </a>
 
@@ -217,7 +274,10 @@ naturaleza. ¡Únete a nosotros!"
             Compromiso social, proyectos de voluntariado y autogestión. Los rovers conforman la
             etapa final, donde el escultismo se consolida como una forma de vida activa.
           </p>
-          <span class="unit-card__cta">Conoce los Rovers →</span>
+          <div class="unit-card__cta">
+            <span>Conoce los Rovers</span>
+            <span class="unit-card__arrow">→</span>
+          </div>
         </div>
       </a>
 
