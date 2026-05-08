@@ -739,6 +739,23 @@ h6 {
   pointer-events: none;
 }
 
+/* Wave de transición inferior del hero */
+.hero__wave {
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 100%;
+  line-height: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.hero__wave svg {
+  display: block;
+  width: 100%;
+  height: clamp(60px, 8vw, 100px);
+}
+
 /* ============================================================
    6. SECCIÓN QUIÉNES SOMOS
    ============================================================ */
@@ -1122,7 +1139,7 @@ h6 {
    9. SECCIÓN BLOG (ÚLTIMAS NOTICIAS en home)
    ============================================================ */
 .blog-preview {
-  padding: var(--space-24) 0;
+  padding: var(--space-12) 0 var(--space-24);
   background: var(--color-light);
 }
 
@@ -1752,16 +1769,24 @@ h6 {
 .post-hero__overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to bottom, rgba(155, 44, 124, 0.70) 0%, rgba(26, 26, 46, 0.85) 100%);
+  /* Degradado más oscuro para mejor contraste con texto blanco */
+  background: linear-gradient(to bottom, rgba(155, 44, 124, 0.85) 0%, rgba(26, 26, 46, 0.95) 100%);
 }
 
 .post-hero__content {
   position: relative;
   z-index: 1;
-  color: var(--color-white);
+  color: var(--color-fixed-white, #fff);
   max-width: 800px;
   margin: 0 auto;
   padding: var(--space-4) var(--space-8);
+}
+
+.post-hero__excerpt {
+  color: rgba(255, 255, 255, 0.95);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.4);
 }
 
 .post-meta {
@@ -1779,7 +1804,7 @@ h6 {
   letter-spacing: 0.10em;
   text-transform: uppercase;
   color: var(--color-primary-dark);
-  background: var(--color-white);
+  background: var(--color-fixed-white, #fff);
   padding: var(--space-1) var(--space-4);
   border-radius: var(--radius-full);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
@@ -1794,7 +1819,7 @@ h6 {
 .post-hero__title {
   font-size: clamp(2rem, 5vw, 3.5rem);
   line-height: 1.1;
-  color: var(--color-white);
+  color: var(--color-fixed-white, #fff);
   font-weight: 900;
   margin-bottom: var(--space-4);
   text-shadow: 0 2px 8px rgba(0,0,0,0.2);
@@ -2215,3 +2240,213 @@ h6 {
 .legal-section a:hover {
   color: var(--color-primary-dark);
 }
+
+/* ============================================================
+   DRIVE IMG — Imagen individual pública de Google Drive en posts
+   Uso: {% include drive_img.html id="ID" alt="..." caption="..." %}
+   ============================================================ */
+.drive-img {
+  margin: var(--space-8) 0;
+  text-align: center;
+}
+
+.drive-img__photo {
+  width: 100%;
+  max-width: 100%;
+  border-radius: var(--radius-xl);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+  display: block;
+  margin: 0 auto;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.drive-img__photo:hover {
+  transform: scale(1.01);
+  box-shadow: 0 16px 48px rgba(0,0,0,0.18);
+}
+
+.drive-img__caption {
+  margin-top: var(--space-3);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-light);
+  font-style: italic;
+}
+
+.drive-img--error .drive-img__photo { display: none; }
+.drive-img__error-msg {
+  display: none;
+  background: #fff3e0;
+  color: #e65100;
+  padding: var(--space-4) var(--space-6);
+  border-radius: var(--radius-lg);
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  border: 1px solid #ffe0b2;
+}
+.drive-img--error .drive-img__error-msg { display: block; }
+
+/* ============================================================
+   DRIVE GALLERY — Galería de fotos Drive en posts (con lightbox)
+   Uso: {% include drive_gallery.html %}
+   IDs definidos en frontmatter: drive_photos: [{id, caption}]
+   ============================================================ */
+.drive-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: var(--space-3);
+  margin: var(--space-8) 0;
+}
+
+.drive-gallery__item {
+  aspect-ratio: 1;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  cursor: pointer;
+  background: var(--color-light);
+  position: relative;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.drive-gallery__item:hover {
+  transform: scale(1.03);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.16);
+}
+
+.drive-gallery__thumb {
+  width: 100%; height: 100%;
+  object-fit: cover; display: block;
+  transition: transform 0.4s ease;
+}
+
+.drive-gallery__item:hover .drive-gallery__thumb { transform: scale(1.07); }
+
+.drive-gallery__hover {
+  position: absolute; inset: 0;
+  background: rgba(0,0,0,0.28);
+  color: white; font-size: 1.8rem;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; transition: opacity 0.25s;
+}
+.drive-gallery__item:hover .drive-gallery__hover { opacity: 1; }
+
+.drive-gallery__caption {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  background: linear-gradient(transparent, rgba(0,0,0,0.65));
+  color: white; font-size: 0.75rem; font-weight: 600;
+  padding: var(--space-4) var(--space-3) var(--space-2);
+  line-height: 1.3;
+}
+
+.drive-gallery__item--error .drive-gallery__thumb,
+.drive-gallery__item--error .drive-gallery__hover { display: none; }
+.drive-gallery__error {
+  display: none; position: absolute; inset: 0;
+  background: #ffebee; color: #c62828;
+  align-items: center; justify-content: center;
+  font-size: 0.8rem; font-weight: 700; text-align: center; padding: 1rem;
+}
+.drive-gallery__item--error .drive-gallery__error { display: flex; }
+
+/* Lightbox de drive_gallery */
+.dg-lightbox {
+  position: fixed; inset: 0; z-index: 9999;
+  background: rgba(0,0,0,0.96);
+  display: flex; flex-direction: column;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.3s; backdrop-filter: blur(6px);
+}
+.dg-lightbox.open { opacity: 1; pointer-events: auto; }
+
+.dg-lb-header {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 1rem 1.5rem;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.5), transparent);
+  color: white; position: absolute; top: 0; left: 0; right: 0; z-index: 10;
+}
+.dg-lb-caption { font-size: 0.9rem; font-weight: 600; opacity: 0.85; flex: 1; }
+.dg-lb-count { font-size: 0.8rem; opacity: 0.55; font-family: monospace; margin: 0 1rem; }
+.dg-lb-close {
+  background: none; border: none; color: white;
+  font-size: 2rem; cursor: pointer; opacity: 0.7; line-height: 1;
+  transition: opacity 0.2s;
+}
+.dg-lb-close:hover { opacity: 1; }
+
+.dg-lb-content {
+  flex: 1; position: relative;
+  display: flex; align-items: center; justify-content: center;
+}
+.dg-lb-img {
+  max-width: 90vw; max-height: 85vh;
+  object-fit: contain; border-radius: 8px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+}
+
+.dg-lb-nav {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  background: rgba(255,255,255,0.1); border: none; color: white;
+  width: 56px; height: 56px; border-radius: 50%; font-size: 2rem;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s; backdrop-filter: blur(4px); z-index: 10;
+}
+.dg-lb-nav:hover { background: rgba(255,255,255,0.28); transform: translateY(-50%) scale(1.1); }
+.dg-lb-prev { left: 2vw; }
+.dg-lb-next { right: 2vw; }
+
+@media (max-width: 768px) {
+  .drive-gallery { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: var(--space-2); }
+  .dg-lb-nav { width: 42px; height: 42px; font-size: 1.5rem; }
+}
+
+/* ============================================================
+   DRIVE VIDEO — Vídeo MP4 público de Google Drive en posts
+   Uso: {% include drive_video.html id="FILE_ID" caption="..." %}
+   ============================================================ */
+.drive-video {
+  margin: var(--space-8) 0;
+}
+
+.drive-video__wrapper {
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%; /* 16:9 */
+  border-radius: var(--radius-xl);
+  background: #111;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+}
+
+/* Recorta el output visual post-transform al tamaño del wrapper */
+.drive-video__iframe-clip {
+  position: absolute;
+  inset: 0;
+  clip-path: inset(0 round 16px);
+}
+
+/* Renderiza el iframe al 150% → Drive usa layout más grande → controles proporcionados */
+.drive-video__iframe-scale {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 150%;
+  height: 150%;
+  transform: scale(0.6667);
+  transform-origin: top left;
+}
+
+.drive-video__iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.drive-video__caption {
+  margin-top: var(--space-3);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-light);
+  font-style: italic;
+  text-align: center;
+}
+

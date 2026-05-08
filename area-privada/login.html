@@ -90,6 +90,17 @@ description: "Inicio de sesión para miembros y familias del Grupo Scout Nyeri."
     const password = document.getElementById("reg-password").value;
     const role = document.getElementById("reg-role").value;
     const rama = document.getElementById("reg-rama").value || null;
+
+    if (!name || !email || !password || !role) {
+      showError("reg-error", "Por favor, completa todos los campos obligatorios.");
+      return;
+    }
+
+    if ((role === "family" || role === "educando") && !rama) {
+      showError("reg-error", "Por favor, selecciona la rama a la que pertenece.");
+      return;
+    }
+
     try {
       const cred = await createUserWithEmailAndPassword(auth, email, password);
       // Guardar en Firestore pendiente de aprobación

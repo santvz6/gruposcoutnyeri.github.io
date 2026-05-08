@@ -31,7 +31,14 @@ hero_image: "/assets/img/hero-blog.jpg"
       {% for post in site.posts %}
       <a href="{{ post.url | relative_url }}" class="post-card fade-in" aria-label="{{ post.title }}">
         <div class="post-card__image-wrapper">
-          {% if post.image %}
+          {% if post.drive_image %}
+          <img
+            src="https://drive.google.com/thumbnail?id={{ post.drive_image }}&sz=w800"
+            alt="{{ post.image_alt | default: post.title }}"
+            class="post-card__image"
+            loading="lazy"
+          >
+          {% elsif post.image %}
           <img
             src="{{ post.image | relative_url }}"
             alt="{{ post.image_alt | default: post.title }}"

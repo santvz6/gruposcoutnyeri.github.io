@@ -57,6 +57,93 @@ naturaleza. ¡Únete a nosotros!"
   <!-- Lema del grupo en la esquina -->
   <p class="hero__lema" aria-hidden="true">"Más cerca de Nyeri, más cerca del cielo"</p>
 
+  <!-- Wave de transición hero → blog -->
+  <div class="hero__wave" aria-hidden="true">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 100" preserveAspectRatio="none">
+      <path d="M0,60 C360,120 1080,0 1440,60 L1440,100 L0,100 Z" fill="var(--color-light)"/>
+    </svg>
+  </div>
+
+</section>
+
+
+<!-- ============================================================
+     SECCIÓN BLOG — Últimas noticias
+     ============================================================ -->
+<section class="blog-preview" id="noticias" aria-labelledby="blog-title">
+  <div class="container">
+    <div class="blog-preview__header fade-in">
+      <div>
+        <span class="section-label">📰 Blog de Aventuras</span>
+        <h2 class="section-title" id="blog-title">Últimas crónicas</h2>
+      </div>
+      <a href="{{ '/blog/' | relative_url }}" class="btn btn--outline">Ver todo el blog →</a>
+    </div>
+
+    <div class="blog-preview__grid">
+      {% for post in site.posts limit:3 %}
+      <a href="{{ post.url | relative_url }}" class="post-card fade-in">
+        <div class="post-card__image-wrapper">
+          {% if post.drive_image %}
+          <img src="https://drive.google.com/thumbnail?id={{ post.drive_image }}&sz=w800"
+            alt="{{ post.image_alt | default: post.title }}" class="post-card__image" loading="lazy">
+          {% elsif post.image %}
+          <img src="{{ post.image | relative_url }}" alt="{{ post.image_alt | default: post.title }}"
+            class="post-card__image" loading="lazy">
+          {% else %}
+          <!-- Placeholder si no hay imagen -->
+          <div class="post-card__placeholder">
+            <span class="post-card__placeholder-icon">🏕️</span>
+            <span>Crónica Scout</span>
+          </div>
+          {% endif %}
+        </div>
+        <div class="post-card__body">
+          <div class="post-card__meta">
+            {% if post.categories[0] %}
+            <span class="post-card__category">{{ post.categories[0] }}</span>
+            {% endif %}
+            <time class="post-card__date" datetime="{{ post.date | date_to_xmlschema }}">
+              {{ post.date | date: "%d %b %Y" }}
+            </time>
+          </div>
+          <h3 class="post-card__title">{{ post.title }}</h3>
+          <p class="post-card__excerpt">{{ post.excerpt | strip_html | truncate: 120 }}</p>
+        </div>
+      </a>
+      {% else %}
+      <!-- Mensaje si no hay posts aún -->
+      <div class="post-card" style="grid-column: 1 / -1; text-align: center; padding: 3rem;">
+        <div class="post-card__placeholder-icon" style="font-size: 4rem; margin-bottom: 1rem;">🏕️</div>
+        <h3 style="color: var(--color-text-light);">¡Las crónicas llegan pronto!</h3>
+        <p style="color: var(--color-text-light);">Aquí encontrarás las aventuras y campamentos del grupo.</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SECCIÓN CALENDARIO DE ACTIVIDADES
+     ============================================================ -->
+<section class="calendar-section" id="calendario" aria-labelledby="calendar-title">
+  <div class="container">
+    <div class="calendar-section__header fade-in">
+      <span class="section-label">📅 Próximas actividades</span>
+      <h2 class="section-title" id="calendar-title">Calendario del grupo</h2>
+      <p class="section-subtitle mx-auto">
+        Consulta las salidas, reuniones y campamentos programados.
+      </p>
+    </div>
+
+    <!-- Embed Google Calendar — sustituir src por la URL real del calendario -->
+    <div class="calendar-embed-wrapper fade-in">
+      <iframe
+        src="https://calendar.google.com/calendar/embed?src=ea4fa9c1de14c45cfa1c4689dd80acf350a8043a27c4d233f5387af4b5a7695d%40group.calendar.google.com&ctz=Europe%2FMadrid&wkst=2&hl=es"
+        title="Calendario de actividades Grupo Scout Nyeri" style="border: 0" width="100%" height="600" frameborder="0"
+        scrolling="no" loading="lazy" allowfullscreen></iframe>
+    </div>
+  </div>
 </section>
 
 
@@ -141,17 +228,28 @@ naturaleza. ¡Únete a nosotros!"
      ============================================================ -->
 <section style="padding: var(--space-8) 0; margin-bottom: var(--space-16); position: relative;">
   <div class="container fade-in">
-    <div style="background: linear-gradient(135deg, var(--color-primary-dark) 0%, var(--color-primary) 50%, var(--color-primary-light) 100%); border-radius: var(--radius-xl); box-shadow: 0 10px 30px rgba(194, 57, 155, 0.25); padding: clamp(1.5rem, 5vw, 4rem); color: white; display: flex; flex-direction: column; gap: clamp(1.5rem, 4vw, 2.5rem); position: relative; overflow: hidden;">
-      
+    <div
+      style="background: linear-gradient(135deg, var(--color-primary-dark) 0%, var(--color-primary) 50%, var(--color-primary-light) 100%); border-radius: var(--radius-xl); box-shadow: 0 10px 30px rgba(194, 57, 155, 0.25); padding: clamp(1.5rem, 5vw, 4rem); color: white; display: flex; flex-direction: column; gap: clamp(1.5rem, 4vw, 2.5rem); position: relative; overflow: hidden;">
+
       <!-- Decoración de fondo -->
-      <div style="position: absolute; top: -50px; right: -50px; width: 250px; height: 250px; background: rgba(255,255,255,0.1); border-radius: 50%; filter: blur(40px); pointer-events: none;"></div>
-      <div style="position: absolute; bottom: -50px; left: -50px; width: 200px; height: 200px; background: rgba(255,255,255,0.05); border-radius: 50%; filter: blur(30px); pointer-events: none;"></div>
+      <div
+        style="position: absolute; top: -50px; right: -50px; width: 250px; height: 250px; background: rgba(255,255,255,0.1); border-radius: 50%; filter: blur(40px); pointer-events: none;">
+      </div>
+      <div
+        style="position: absolute; bottom: -50px; left: -50px; width: 200px; height: 200px; background: rgba(255,255,255,0.05); border-radius: 50%; filter: blur(30px); pointer-events: none;">
+      </div>
 
       <div style="text-align: center; position: relative; z-index: 2;">
-        <span style="display: inline-block; background: rgba(255,255,255,0.2); padding: 0.3rem 1rem; border-radius: 999px; font-size: 0.8rem; font-weight: 800; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 1rem; backdrop-filter: blur(5px);">Nuestra Huella</span>
-        <h2 style="font-size: clamp(1.8rem, 5vw, 3rem); font-weight: 900; margin-bottom: 0.5rem; color: white; text-shadow: 0 2px 10px rgba(0,0,0,0.1); line-height: 1.2;">El impacto del grupo</h2>
-        <p style="font-size: clamp(1rem, 3vw, 1.15rem); opacity: 0.95; max-width: 650px; margin: 0 auto; line-height: 1.5;">
-          Generaciones de jóvenes creciendo a través del juego, la responsabilidad y el amor por la naturaleza en San Vicente del Raspeig.
+        <span
+          style="display: inline-block; background: rgba(255,255,255,0.2); padding: 0.3rem 1rem; border-radius: 999px; font-size: 0.8rem; font-weight: 800; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 1rem; backdrop-filter: blur(5px);">Nuestra
+          Huella</span>
+        <h2
+          style="font-size: clamp(1.8rem, 5vw, 3rem); font-weight: 900; margin-bottom: 0.5rem; color: white; text-shadow: 0 2px 10px rgba(0,0,0,0.1); line-height: 1.2;">
+          El impacto del grupo</h2>
+        <p
+          style="font-size: clamp(1rem, 3vw, 1.15rem); opacity: 0.95; max-width: 650px; margin: 0 auto; line-height: 1.5;">
+          Generaciones de jóvenes creciendo a través del juego, la responsabilidad y el amor por la naturaleza en San
+          Vicente del Raspeig.
         </p>
       </div>
 
@@ -159,23 +257,39 @@ naturaleza. ¡Únete a nosotros!"
       {% assign foundation_year = site.grupo.fundacion | plus: 0 %}
       {% assign years_active = current_year | minus: foundation_year %}
 
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; position: relative; z-index: 2;">
-        
+      <div
+        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; position: relative; z-index: 2;">
+
         <!-- Stat 1 -->
-        <div style="background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); border-radius: var(--radius-lg); padding: clamp(1.5rem, 3vw, 2rem) 1rem; text-align: center; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);" onmouseover="this.style.transform='translateY(-5px)'; this.style.background='rgba(255,255,255,0.2)'; this.style.boxShadow='0 10px 20px rgba(0,0,0,0.15)';" onmouseout="this.style.transform='translateY(0)'; this.style.background='rgba(255,255,255,0.15)'; this.style.boxShadow='none';">
-          <div style="font-size: clamp(2.5rem, 5vw, 3.5rem); font-weight: 900; line-height: 1; margin-bottom: 0.5rem; color: white; text-shadow: 0 2px 4px rgba(0,0,0,0.1);">{{ years_active }}<span style="color: var(--color-sun);">+</span></div>
+        <div
+          style="background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); border-radius: var(--radius-lg); padding: clamp(1.5rem, 3vw, 2rem) 1rem; text-align: center; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);"
+          onmouseover="this.style.transform='translateY(-5px)'; this.style.background='rgba(255,255,255,0.2)'; this.style.boxShadow='0 10px 20px rgba(0,0,0,0.15)';"
+          onmouseout="this.style.transform='translateY(0)'; this.style.background='rgba(255,255,255,0.15)'; this.style.boxShadow='none';">
+          <div
+            style="font-size: clamp(2.5rem, 5vw, 3.5rem); font-weight: 900; line-height: 1; margin-bottom: 0.5rem; color: white; text-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+            {{ years_active }}<span style="color: var(--color-sun);">+</span></div>
           <div style="font-size: 1rem; font-weight: 700; color: rgba(255,255,255,0.9);">Años de historia</div>
         </div>
-        
+
         <!-- Stat 2 -->
-        <div style="background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); border-radius: var(--radius-lg); padding: clamp(1.5rem, 3vw, 2rem) 1rem; text-align: center; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);" onmouseover="this.style.transform='translateY(-5px)'; this.style.background='rgba(255,255,255,0.2)'; this.style.boxShadow='0 10px 20px rgba(0,0,0,0.15)';" onmouseout="this.style.transform='translateY(0)'; this.style.background='rgba(255,255,255,0.15)'; this.style.boxShadow='none';">
-          <div style="font-size: clamp(2.5rem, 5vw, 3.5rem); font-weight: 900; line-height: 1; margin-bottom: 0.5rem; color: white; text-shadow: 0 2px 4px rgba(0,0,0,0.1);">100<span style="color: var(--color-sun);">+</span></div>
+        <div
+          style="background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); border-radius: var(--radius-lg); padding: clamp(1.5rem, 3vw, 2rem) 1rem; text-align: center; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);"
+          onmouseover="this.style.transform='translateY(-5px)'; this.style.background='rgba(255,255,255,0.2)'; this.style.boxShadow='0 10px 20px rgba(0,0,0,0.15)';"
+          onmouseout="this.style.transform='translateY(0)'; this.style.background='rgba(255,255,255,0.15)'; this.style.boxShadow='none';">
+          <div
+            style="font-size: clamp(2.5rem, 5vw, 3.5rem); font-weight: 900; line-height: 1; margin-bottom: 0.5rem; color: white; text-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+            100<span style="color: var(--color-sun);">+</span></div>
           <div style="font-size: 1rem; font-weight: 700; color: rgba(255,255,255,0.9);">Scouts activos</div>
         </div>
 
         <!-- Stat 3 -->
-        <div style="background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); border-radius: var(--radius-lg); padding: clamp(1.5rem, 3vw, 2rem) 1rem; text-align: center; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);" onmouseover="this.style.transform='translateY(-5px)'; this.style.background='rgba(255,255,255,0.2)'; this.style.boxShadow='0 10px 20px rgba(0,0,0,0.15)';" onmouseout="this.style.transform='translateY(0)'; this.style.background='rgba(255,255,255,0.15)'; this.style.boxShadow='none';">
-          <div style="font-size: clamp(2.5rem, 5vw, 3.5rem); font-weight: 900; line-height: 1; margin-bottom: 0.5rem; color: white; text-shadow: 0 2px 4px rgba(0,0,0,0.1);">24<span style="color: var(--color-sun);">+</span></div>
+        <div
+          style="background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); border-radius: var(--radius-lg); padding: clamp(1.5rem, 3vw, 2rem) 1rem; text-align: center; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);"
+          onmouseover="this.style.transform='translateY(-5px)'; this.style.background='rgba(255,255,255,0.2)'; this.style.boxShadow='0 10px 20px rgba(0,0,0,0.15)';"
+          onmouseout="this.style.transform='translateY(0)'; this.style.background='rgba(255,255,255,0.15)'; this.style.boxShadow='none';">
+          <div
+            style="font-size: clamp(2.5rem, 5vw, 3.5rem); font-weight: 900; line-height: 1; margin-bottom: 0.5rem; color: white; text-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+            24<span style="color: var(--color-sun);">+</span></div>
           <div style="font-size: 1rem; font-weight: 700; color: rgba(255,255,255,0.9);">Scouters voluntarios</div>
         </div>
 
@@ -287,93 +401,19 @@ naturaleza. ¡Únete a nosotros!"
 
 
 <!-- ============================================================
-     SECCIÓN CALENDARIO DE ACTIVIDADES
-     ============================================================ -->
-<section class="calendar-section" id="calendario" aria-labelledby="calendar-title">
-  <div class="container">
-    <div class="calendar-section__header fade-in">
-      <span class="section-label">📅 Próximas actividades</span>
-      <h2 class="section-title" id="calendar-title">Calendario del grupo</h2>
-      <p class="section-subtitle mx-auto">
-        Consulta las salidas, reuniones y campamentos programados.
-      </p>
-    </div>
-
-    <!-- Embed Google Calendar — sustituir src por la URL real del calendario -->
-    <div class="calendar-embed-wrapper fade-in">
-      <iframe
-        src="https://calendar.google.com/calendar/embed?src=ea4fa9c1de14c45cfa1c4689dd80acf350a8043a27c4d233f5387af4b5a7695d%40group.calendar.google.com&ctz=Europe%2FMadrid&wkst=2&hl=es"
-        title="Calendario de actividades Grupo Scout Nyeri" style="border: 0" width="100%" height="600" frameborder="0"
-        scrolling="no" loading="lazy" allowfullscreen></iframe>
-    </div>
-  </div>
-</section>
-
-<!-- ============================================================
-     SECCIÓN BLOG — Últimas noticias
-     ============================================================ -->
-<section class="blog-preview" id="noticias" aria-labelledby="blog-title">
-  <div class="container">
-    <div class="blog-preview__header fade-in">
-      <div>
-        <span class="section-label">📰 Blog de Aventuras</span>
-        <h2 class="section-title" id="blog-title">Últimas crónicas</h2>
-      </div>
-      <a href="{{ '/blog/' | relative_url }}" class="btn btn--outline">Ver todo el blog →</a>
-    </div>
-
-    <div class="blog-preview__grid">
-      {% for post in site.posts limit:3 %}
-      <a href="{{ post.url | relative_url }}" class="post-card fade-in">
-        <div class="post-card__image-wrapper">
-          {% if post.image %}
-          <img src="{{ post.image | relative_url }}" alt="{{ post.image_alt | default: post.title }}"
-            class="post-card__image" loading="lazy">
-          {% else %}
-          <!-- Placeholder si no hay imagen -->
-          <div class="post-card__placeholder">
-            <span class="post-card__placeholder-icon">🏕️</span>
-            <span>Crónica Scout</span>
-          </div>
-          {% endif %}
-        </div>
-        <div class="post-card__body">
-          <div class="post-card__meta">
-            {% if post.categories[0] %}
-            <span class="post-card__category">{{ post.categories[0] }}</span>
-            {% endif %}
-            <time class="post-card__date" datetime="{{ post.date | date_to_xmlschema }}">
-              {{ post.date | date: "%d %b %Y" }}
-            </time>
-          </div>
-          <h3 class="post-card__title">{{ post.title }}</h3>
-          <p class="post-card__excerpt">{{ post.excerpt | strip_html | truncate: 120 }}</p>
-        </div>
-      </a>
-      {% else %}
-      <!-- Mensaje si no hay posts aún -->
-      <div class="post-card" style="grid-column: 1 / -1; text-align: center; padding: 3rem;">
-        <div class="post-card__placeholder-icon" style="font-size: 4rem; margin-bottom: 1rem;">🏕️</div>
-        <h3 style="color: var(--color-text-light);">¡Las crónicas llegan pronto!</h3>
-        <p style="color: var(--color-text-light);">Aquí encontrarás las aventuras y campamentos del grupo.</p>
-      </div>
-      {% endfor %}
-    </div>
-  </div>
-</section>
-
-<!-- ============================================================
      SECCIÓN INSTAGRAM FEED
      ============================================================ -->
 {% comment %}
 <section class="instagram-feed" style="padding: var(--space-16) 0; background: var(--color-white);">
   <div class="container fade-in">
-    <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: var(--space-8); flex-wrap: wrap; gap: var(--space-4);">
+    <div
+      style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: var(--space-8); flex-wrap: wrap; gap: var(--space-4);">
       <div>
         <span class="section-label">📸 Síguenos en Redes</span>
         <h2 class="section-title" style="margin-bottom: 0;">Vida Scout en directo</h2>
       </div>
-      <a href="{{ site.grupo.instagram }}" target="_blank" class="btn btn--primary" style="background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); border: none;">
+      <a href="{{ site.grupo.instagram }}" target="_blank" class="btn btn--primary"
+        style="background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); border: none;">
         <span aria-hidden="true" style="font-size: 1.2rem;">📱</span> @gruposcoutnyeri
       </a>
     </div>
@@ -386,38 +426,59 @@ naturaleza. ¡Únete a nosotros!"
     -->
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: var(--space-4);">
       <!-- Foto 1 -->
-      <a href="{{ site.grupo.instagram }}" target="_blank" style="display: block; position: relative; aspect-ratio: 1; overflow: hidden; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); transition: transform var(--transition-fast);" class="hover-scale">
-        <img src="{{ '/assets/img/hero-bg-2.jpg' | relative_url }}" alt="Actividad del grupo" style="width: 100%; height: 100%; object-fit: cover; transition: transform var(--transition-normal);">
-        <div style="position: absolute; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity var(--transition-fast); color: white; font-size: 2rem;">
+      <a href="{{ site.grupo.instagram }}" target="_blank"
+        style="display: block; position: relative; aspect-ratio: 1; overflow: hidden; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); transition: transform var(--transition-fast);"
+        class="hover-scale">
+        <img src="{{ '/assets/img/hero-bg-2.jpg' | relative_url }}" alt="Actividad del grupo"
+          style="width: 100%; height: 100%; object-fit: cover; transition: transform var(--transition-normal);">
+        <div
+          style="position: absolute; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity var(--transition-fast); color: white; font-size: 2rem;">
           ♥
         </div>
       </a>
       <!-- Foto 2 -->
-      <a href="{{ site.grupo.instagram }}" target="_blank" style="display: block; position: relative; aspect-ratio: 1; overflow: hidden; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); transition: transform var(--transition-fast);" class="hover-scale">
-        <img src="{{ '/assets/img/tropa-bg-2.jpg' | relative_url }}" alt="Campamento de verano" style="width: 100%; height: 100%; object-fit: cover; transition: transform var(--transition-normal);">
-        <div style="position: absolute; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity var(--transition-fast); color: white; font-size: 2rem;">
+      <a href="{{ site.grupo.instagram }}" target="_blank"
+        style="display: block; position: relative; aspect-ratio: 1; overflow: hidden; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); transition: transform var(--transition-fast);"
+        class="hover-scale">
+        <img src="{{ '/assets/img/tropa-bg-2.jpg' | relative_url }}" alt="Campamento de verano"
+          style="width: 100%; height: 100%; object-fit: cover; transition: transform var(--transition-normal);">
+        <div
+          style="position: absolute; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity var(--transition-fast); color: white; font-size: 2rem;">
           ♥
         </div>
       </a>
       <!-- Foto 3 -->
-      <a href="{{ site.grupo.instagram }}" target="_blank" style="display: block; position: relative; aspect-ratio: 1; overflow: hidden; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); transition: transform var(--transition-fast);" class="hover-scale">
-        <img src="{{ '/assets/img/manada-bg.jpg' | relative_url }}" alt="Juegos en la naturaleza" style="width: 100%; height: 100%; object-fit: cover; transition: transform var(--transition-normal);">
-        <div style="position: absolute; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity var(--transition-fast); color: white; font-size: 2rem;">
+      <a href="{{ site.grupo.instagram }}" target="_blank"
+        style="display: block; position: relative; aspect-ratio: 1; overflow: hidden; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); transition: transform var(--transition-fast);"
+        class="hover-scale">
+        <img src="{{ '/assets/img/manada-bg.jpg' | relative_url }}" alt="Juegos en la naturaleza"
+          style="width: 100%; height: 100%; object-fit: cover; transition: transform var(--transition-normal);">
+        <div
+          style="position: absolute; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity var(--transition-fast); color: white; font-size: 2rem;">
           ♥
         </div>
       </a>
       <!-- Foto 4 -->
-      <a href="{{ site.grupo.instagram }}" target="_blank" style="display: block; position: relative; aspect-ratio: 1; overflow: hidden; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); transition: transform var(--transition-fast);" class="hover-scale">
-        <img src="{{ '/assets/img/rovers-bg.jpg' | relative_url }}" alt="Ruta por la montaña" style="width: 100%; height: 100%; object-fit: cover; transition: transform var(--transition-normal);">
-        <div style="position: absolute; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity var(--transition-fast); color: white; font-size: 2rem;">
+      <a href="{{ site.grupo.instagram }}" target="_blank"
+        style="display: block; position: relative; aspect-ratio: 1; overflow: hidden; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); transition: transform var(--transition-fast);"
+        class="hover-scale">
+        <img src="{{ '/assets/img/rovers-bg.jpg' | relative_url }}" alt="Ruta por la montaña"
+          style="width: 100%; height: 100%; object-fit: cover; transition: transform var(--transition-normal);">
+        <div
+          style="position: absolute; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity var(--transition-fast); color: white; font-size: 2rem;">
           ♥
         </div>
       </a>
     </div>
-    
+
     <style>
-      .hover-scale:hover img { transform: scale(1.05); }
-      .hover-scale:hover div { opacity: 1 !important; }
+      .hover-scale:hover img {
+        transform: scale(1.05);
+      }
+
+      .hover-scale:hover div {
+        opacity: 1 !important;
+      }
     </style>
   </div>
 </section>
