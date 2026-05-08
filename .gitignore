@@ -26,5 +26,4 @@ Thumbs.db
 # Gemfile.lock
 
 # Desasrrollo
-CLAUDE.md
-GUIA_DESARROLLO.md
+docs/guides/

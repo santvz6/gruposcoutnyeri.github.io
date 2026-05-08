@@ -7,6 +7,7 @@ categories: [Noticias, Grupo]
 author: "Grupo Scout Nyeri"
 description: "Abrimos nuestro blog para compartir con vosotros las aventuras, campamentos y crónicas del Grupo Scout Nyeri de Alicante."
 image_alt: "Blog de aventuras del Grupo Scout Nyeri"
+drive_image: "1gBOj_qPKowMx9j5S2vlWyyvPKD4sdmiX"
 ---
 
 ¡Arrancamos una nueva etapa en la vida del **Grupo Scout Nyeri**! Con esta entrada inauguramos
@@ -21,7 +22,7 @@ para siempre.
 
 Aquí publicaremos:
 
-* **Crónicas de campamentos** — Los mejores momentos del verano y los fines de semana en el monte.
+* **Crónicas de campamentos** — Los mejores momentos del verano y los fines de semana.
 * **Noticias del grupo** — Novedades sobre actividades, eventos y convocatorias.
 * **Reflexiones y valores** — Artículos sobre nuestro programa educativo, la naturaleza y la educación en valores.
 * **Fotos y recuerdos** — Siempre respetando la privacidad de nuestros educandos.
