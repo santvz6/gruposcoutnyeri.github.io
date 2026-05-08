@@ -1,0 +1,105 @@
+{% comment %}
+  drive_gallery.html — Galería de fotos públicas de Google Drive para posts
+  Lee los IDs desde el frontmatter del post. Sin login. Sin assets/.
+
+  Uso en frontmatter del post:
+    drive_photos:
+      - id: "ID1"
+        caption: "Descripción opcional"
+      - id: "ID2"
+
+  Luego en el cuerpo del post:
+    {% include drive_gallery.html %}
+
+  O pasando una variable distinta:
+    {% include drive_gallery.html photos=page.drive_photos %}
+{% endcomment %}
+
+{% assign _photos = include.photos | default: page.drive_photos %}
+
+{% if _photos and _photos.size > 0 %}
+<div class="drive-gallery">
+  {% for photo in _photos %}
+  <figure
+    class="drive-gallery__item"
+    onclick="window._driveGalleryOpen({{ forloop.index0 }})"
+    role="button"
+    tabindex="0"
+    onkeydown="if(event.key==='Enter')window._driveGalleryOpen({{ forloop.index0 }})"
+    aria-label="Ver foto {{ forloop.index }}"
+  >
+    <img
+      src="https://drive.google.com/thumbnail?id={{ photo.id }}&sz=w600"
+      alt="{{ photo.caption | default: 'Foto del evento' }}"
+      loading="lazy"
+      class="drive-gallery__thumb"
+      onerror="this.closest('figure').classList.add('drive-gallery__item--error')"
+    >
+    <div class="drive-gallery__hover">⬚</div>
+    <div class="drive-gallery__error">⚠️ No pública</div>
+    {% if photo.caption %}
+    <figcaption class="drive-gallery__caption">{{ photo.caption }}</figcaption>
+    {% endif %}
+  </figure>
+  {% endfor %}
+</div>
+
+<!-- Lightbox -->
+<div id="dg-lightbox" class="dg-lightbox" onclick="window._driveGalleryClose()">
+  <div class="dg-lb-header" onclick="event.stopPropagation()">
+    <span id="dg-lb-caption" class="dg-lb-caption"></span>
+    <span id="dg-lb-count"   class="dg-lb-count"></span>
+    <button class="dg-lb-close" onclick="window._driveGalleryClose()" aria-label="Cerrar">×</button>
+  </div>
+  <div class="dg-lb-content" onclick="event.stopPropagation()">
+    <button class="dg-lb-nav dg-lb-prev" id="dg-lb-prev" onclick="window._driveGalleryPrev(event)" aria-label="Anterior">‹</button>
+    <img id="dg-lb-img" class="dg-lb-img" src="" alt="Vista previa">
+    <button class="dg-lb-nav dg-lb-next" id="dg-lb-next" onclick="window._driveGalleryNext(event)" aria-label="Siguiente">›</button>
+  </div>
+</div>
+
+<script>
+(function() {
+  var photos = {{ _photos | jsonify }};
+  var idx = 0;
+
+  window._driveGalleryOpen = function(i) {
+    idx = i;
+    document.getElementById('dg-lightbox').classList.add('open');
+    document.body.style.overflow = 'hidden';
+    _update();
+  };
+  window._driveGalleryClose = function() {
+    document.getElementById('dg-lightbox').classList.remove('open');
+    document.body.style.overflow = '';
+    document.getElementById('dg-lb-img').src = '';
+  };
+  window._driveGalleryNext = function(e) {
+    e && e.stopPropagation();
+    if (idx < photos.length - 1) { idx++; _update(); }
+  };
+  window._driveGalleryPrev = function(e) {
+    e && e.stopPropagation();
+    if (idx > 0) { idx--; _update(); }
+  };
+
+  function _update() {
+    var p = photos[idx];
+    document.getElementById('dg-lb-img').src = 'https://drive.google.com/thumbnail?id=' + p.id + '&sz=w1920';
+    document.getElementById('dg-lb-caption').textContent = p.caption || '';
+    document.getElementById('dg-lb-count').textContent   = (idx + 1) + ' / ' + photos.length;
+    document.getElementById('dg-lb-prev').style.opacity  = idx === 0 ? '0.3' : '1';
+    document.getElementById('dg-lb-next').style.opacity  = idx === photos.length - 1 ? '0.3' : '1';
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (!document.getElementById('dg-lightbox').classList.contains('open')) return;
+    if (e.key === 'Escape')     window._driveGalleryClose();
+    if (e.key === 'ArrowRight') window._driveGalleryNext();
+    if (e.key === 'ArrowLeft')  window._driveGalleryPrev();
+  });
+})();
+</script>
+{% else %}
+<!-- drive_gallery: no hay fotos definidas en drive_photos -->
+{% endif %}

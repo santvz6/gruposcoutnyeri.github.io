@@ -1,0 +1,22 @@
+{% assign _caption = include.caption | default: "" %}
+{% assign _preview_url = "https://drive.google.com/file/d/" | append: include.id | append: "/preview" %}
+
+<figure class="drive-video">
+  <div class="drive-video__wrapper">
+    <div class="drive-video__iframe-clip">
+      <div class="drive-video__iframe-scale">
+        <iframe
+          class="drive-video__iframe"
+          src="{{ _preview_url }}"
+          allow="autoplay"
+          allowfullscreen
+          loading="lazy"
+          title="{{ _caption | default: 'Vídeo del Grupo Scout Nyeri' }}"
+        ></iframe>
+      </div>
+    </div>
+  </div>
+  {% if _caption != "" %}
+  <figcaption class="drive-video__caption">{{ _caption }}</figcaption>
+  {% endif %}
+</figure>

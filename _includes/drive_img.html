@@ -1,0 +1,29 @@
+{% comment %}
+  drive_img.html — Imagen individual desde Google Drive (pública, sin login)
+  Uso en posts:
+    {% include drive_img.html id="GOOGLE_DRIVE_FILE_ID" alt="Descripción" caption="Leyenda opcional" %}
+
+  Parámetros:
+    id      (requerido) — ID del archivo en Google Drive (debe ser público)
+    alt     (opcional)  — Texto alternativo accesible
+    caption (opcional)  — Leyenda que aparece debajo de la imagen
+    size    (opcional)  — Ancho de la miniatura en píxeles. Default: 1200
+{% endcomment %}
+
+{% assign _size    = include.size    | default: 1200 %}
+{% assign _alt     = include.alt     | default: "" %}
+{% assign _caption = include.caption | default: "" %}
+
+<figure class="drive-img">
+  <img
+    src="https://drive.google.com/thumbnail?id={{ include.id }}&sz=w{{ _size }}"
+    alt="{{ _alt }}"
+    loading="lazy"
+    class="drive-img__photo"
+    onerror="this.closest('figure').classList.add('drive-img--error')"
+  >
+  <div class="drive-img__error-msg">⚠️ Imagen no disponible. Comprueba que la foto es pública en Drive.</div>
+  {% if _caption != "" %}
+  <figcaption class="drive-img__caption">{{ _caption }}</figcaption>
+  {% endif %}
+</figure>

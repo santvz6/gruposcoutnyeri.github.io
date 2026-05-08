@@ -8,7 +8,18 @@ layout: default
 
   <!-- Hero del post con imagen destacada -->
   <header class="post-hero">
-    {% if page.image %}
+    {% if page.drive_image %}
+    <div class="post-hero__image-wrapper">
+      <img
+        src="https://drive.google.com/thumbnail?id={{ page.drive_image }}&sz=w1200"
+        alt="{{ page.image_alt | default: page.title }}"
+        class="post-hero__image"
+        loading="lazy"
+        itemprop="image"
+      >
+      <div class="post-hero__overlay"></div>
+    </div>
+    {% elsif page.image %}
     <div class="post-hero__image-wrapper">
       <img
         src="{{ page.image | relative_url }}"
