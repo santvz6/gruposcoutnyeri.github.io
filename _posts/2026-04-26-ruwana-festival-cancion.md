@@ -23,9 +23,9 @@ De ese camino compartido nació nuestra canción. **Ruwana significa "acción" e
 
 ## El escenario: De Pioneras a Rovers
 
-El tiempo ha pasado, pero el vínculo es más fuerte. A día de hoy, todas ellas como rovers, se subieron al escenario para dar a conocer lo que realmente esta melodía representa. Quisieron transmitir a todos los scouts de Alicante que, para ellas, **más que una simple acción, es familia, es amor, es comprensión y, sobre todo, es unión**. 
+A día de hoy, todas ellas como rovers, se subieron al escenario para dar a conocer lo que realmente esta melodía representa. Quisieron transmitir a todos los scouts de Alicante que, para ellas, **más que una simple acción, es familia, es amor, es comprensión y, sobre todo, es unión**. 
 
-Ver a estas mismas jóvenes cantando juntas fue la viva imagen de la evolución scout, del crecimiento personal y de una hermandad inquebrantable. Además, el esfuerzo y la pasión puestos en cada acorde resonaron con fuerza: **el jurado reconoció la magia de nuestra melodía otorgándonos el premio a la mejor instrumentación**, un galardón que nos llena de orgullo y refleja el trabajo en equipo detrás de la canción.
+El esfuerzo y la pasión puestos en cada acorde resonaron con fuerza: **el jurado reconoció la magia de nuestra melodía otorgándonos el premio a la mejor instrumentación**, un galardón que nos llena de orgullo y refleja el trabajo en equipo detrás de la canción.
 
 
 
